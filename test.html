@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SES Equipment Check — Cessnock City Unit</title>
+<script src="https://res.cdn.office.net/teams-js/2.22.0/js/MicrosoftTeams.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#FF5A00;--navy:#0B1F3A;--navy2:#132c52;--blue2:#1E88E5;--steel:#37474F;--steel2:#546E7A;--bg:#0D1B2A;--card:#132035;--card2:#1A2B42;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#E8EDF2;--muted:#7A93AB;--green:#00C853;--red:#FF1744;--yellow:#FFD600;--cyan:#00BCD4;--r:10px;--rs:6px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;height:-webkit-fill-available}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;position:fixed;width:100%;}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .3s,transform .3s}
+.screen.hidden{opacity:0;pointer-events:none;transform:translateY(16px)}
+#loginScreen{background:linear-gradient(145deg,#0B1F3A,#0D2744,#0A1929);align-items:center;justify-content:center;padding:20px}
+.login-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:32px 24px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.login-logo{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.logo-badge{width:50px;height:50px;border-radius:12px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 4px 20px rgba(255,90,0,.4)}
+.login-logo h1{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:.5px}
+.login-logo p{font-size:11px;color:var(--muted);margin-top:2px}
+.divider{height:1px;background:var(--border);margin:0 0 22px}
+.flabel{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.fwrap{margin-bottom:14px}
+.finput{width:100%;padding:13px 15px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--rs);color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.finput:focus{border-color:var(--orange);background:rgba(255,90,0,.06)}
+.finput::placeholder{color:var(--muted);font-size:14px}
+.fselect{width:100%;padding:11px 13px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--rs);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;-webkit-appearance:none}
+.fselect:focus{border-color:var(--orange)}
+.login-hint{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;background:rgba(255,255,255,.04);border-radius:6px;padding:10px 12px}
+.login-hint b{color:var(--text)}
+.btn-primary{width:100%;padding:14px;border:none;border-radius:var(--rs);background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .15s;box-shadow:0 4px 20px rgba(255,90,0,.35)}
+.btn-primary:active{transform:scale(.98)}
+.login-err{color:#FF6B6B;font-size:13px;margin-top:10px;text-align:center;min-height:18px}
+.topbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--navy);border-bottom:1px solid var(--border);flex-shrink:0;min-height:52px}
+.topbar-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-back{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;display:none;flex-shrink:0}
+.btn-logout{background:transparent;border:1px solid rgba(255,90,0,.4);color:var(--orange);padding:6px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.btn-topicon{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;display:none}
+.btn-topicon.show{display:flex;align-items:center;gap:4px}
+.btn-topicon.orange{border-color:rgba(255,90,0,.4);color:var(--orange)}
+.vh-banner{background:linear-gradient(135deg,var(--navy2),var(--card2));border:1px solid var(--border2);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.vh-banner h2{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800}
+.vh-banner p{font-size:12px;color:var(--muted);margin-top:4px}
+.audit-chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--muted)}
+.chip b{color:var(--text)}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.vehicle-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.vcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s;display:flex;gap:14px;align-items:center;position:relative;overflow:hidden}
+.vcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:2px 0 0 2px}
+.vcard.lsv::before{background:var(--orange)}
+.vcard.gpv::before{background:var(--blue2)}
+.vcard.trailer::before{background:var(--green)}
+.vcard.floodboat::before{background:var(--cyan)}
+.vcard:active{transform:scale(.98);background:var(--card2)}
+.vcard-icon{font-size:32px;flex-shrink:0}
+.vcard-info{flex:1;min-width:0}
+.vcard-name{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800}
+.vcard-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.vcard-stats{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.vstat{background:rgba(255,255,255,.06);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
+.vstat.ok{color:var(--green)}.vstat.bad{color:var(--red)}.vstat.pend{color:var(--muted)}
+.vcard-arrow{font-size:18px;color:var(--muted);flex-shrink:0}
+.vbar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:8px}
+.vbar-fill{height:100%;border-radius:2px;transition:width .4s}
+.vcard.lsv .vbar-fill{background:var(--orange)}
+.vcard.gpv .vbar-fill{background:var(--blue2)}
+.vcard.trailer .vbar-fill{background:var(--green)}
+.vcard.floodboat .vbar-fill{background:var(--cyan)}
+.vchk-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.vchk-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.vchk-title span{color:var(--text)}
+.vchk-odo-row{display:flex;gap:10px;align-items:flex-end;margin-bottom:10px}
+.vchk-odo-wrap{flex:1}
+.vchk-odo-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.vchk-odo-input{width:100%;padding:11px 13px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--rs);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;outline:none;-webkit-appearance:none;letter-spacing:1px}
+.vchk-odo-input:focus{border-color:var(--orange);background:rgba(255,90,0,.06)}
+.vchk-odo-input::placeholder{color:var(--muted);font-size:14px;font-weight:400;letter-spacing:0}
+.vchk-odo-unit{font-size:12px;color:var(--muted);padding-bottom:14px;white-space:nowrap}
+.vchk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:2px}
+.vchk-item{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--rs);padding:10px 12px;cursor:pointer;transition:all .15s;position:relative;user-select:none;-webkit-user-select:none}
+.vchk-item-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.vchk-item-emoji{font-size:18px;margin-bottom:4px;display:block}
+.vchk-btns{display:flex;gap:5px}
+.vchk-btn{flex:1;padding:7px 4px;border:1.5px solid rgba(255,255,255,.1);border-radius:4px;background:transparent;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.3px}
+.vchk-btn.ok{color:rgba(0,200,83,.4);border-color:rgba(0,200,83,.15)}
+.vchk-btn.low{color:rgba(255,214,0,.4);border-color:rgba(255,214,0,.15)}
+.vchk-btn.bad{color:rgba(255,23,68,.4);border-color:rgba(255,23,68,.15)}
+.vchk-btn.ok.active{background:var(--green);border-color:var(--green);color:#000;box-shadow:0 0 10px rgba(0,200,83,.4)}
+.vchk-btn.low.active{background:var(--yellow);border-color:var(--yellow);color:#000;box-shadow:0 0 10px rgba(255,214,0,.4)}
+.vchk-btn.bad.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 10px rgba(255,23,68,.4)}
+.vchk-status-bar{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.vchk-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid}
+.vchk-chip.ok{color:var(--green);border-color:rgba(0,200,83,.3);background:rgba(0,200,83,.08)}
+.vchk-chip.warn{color:var(--yellow);border-color:rgba(255,214,0,.3);background:rgba(255,214,0,.08)}
+.vchk-chip.bad{color:var(--red);border-color:rgba(255,23,68,.3);background:rgba(255,23,68,.08)}
+.vchk-chip.pend{color:var(--muted);border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.vchk-notes-wrap{margin-top:10px}
+.vchk-signoff-btn{width:100%;margin-top:12px;padding:12px;border-radius:var(--rs);background:rgba(0,200,83,.12);border:1.5px solid rgba(0,200,83,.3);color:var(--green);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s}
+.vchk-signoff-btn:active{transform:scale(.98)}
+.vchk-signed-badge{display:flex;align-items:center;gap:10px;background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:var(--rs);padding:10px 14px;margin-top:10px}
+.vchk-signed-badge .icon{font-size:20px}
+.vchk-signed-badge .info{font-size:12px;color:var(--muted);line-height:1.6}
+.vchk-signed-badge .info b{color:var(--green);display:block;font-size:13px;margin-bottom:1px}
+.vchk-group-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;padding-left:2px}
+.overall-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:18px}
+.overall-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.ov-stats{display:flex;gap:8px}
+.ov-stat{flex:1;background:rgba(255,255,255,.04);border-radius:var(--rs);padding:10px 6px;text-align:center}
+.ov-stat .n{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800}
+.ov-stat .l{font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+.ov-stat.ok .n{color:var(--green)}.ov-stat.bad .n{color:var(--red)}.ov-stat.na .n{color:var(--yellow)}.ov-stat.pend .n{color:var(--muted)}
+.dash-hdr{background:linear-gradient(135deg,var(--navy2),var(--card2));border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin-bottom:14px;display:flex;gap:12px;align-items:center}
+.dash-hdr-icon{font-size:30px;flex-shrink:0}
+.dash-hdr h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800}
+.dash-hdr p{font-size:12px;color:var(--muted);margin-top:2px}
+.dash-prog{height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:6px}
+.dash-prog-fill{height:100%;border-radius:2px;transition:width .4s}
+.dash-stats{display:flex;gap:8px;margin-bottom:14px}
+.ds{flex:1;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:10px 6px;text-align:center}
+.ds .n{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800}
+.ds .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.ds.ok .n{color:var(--green)}.ds.bad .n{color:var(--red)}.ds.na .n{color:var(--yellow)}.ds.pend .n{color:var(--muted)}
+.locker-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lbtn{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 12px;cursor:pointer;text-align:left;transition:all .2s;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden}
+.lbtn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange)}
+.lbtn.gpv-theme::before{background:var(--blue2)}
+.lbtn.trailer-theme::before{background:var(--green)}
+.lbtn.floodboat-theme::before{background:var(--cyan)}
+.lbtn.done::before{background:var(--green)!important}
+.lbtn:active{transform:scale(.97);background:var(--card2)}
+.lbtn-icon{font-size:18px}
+.lbtn-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700}
+.lbtn-count{font-size:10px;color:var(--muted)}
+.lprog{height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:3px}
+.lprog-fill{height:100%;border-radius:2px;transition:width .4s}
+.lbtn .lprog-fill{background:var(--orange)}
+.lbtn.gpv-theme .lprog-fill{background:var(--blue2)}
+.lbtn.trailer-theme .lprog-fill{background:var(--green)}
+.lbtn.floodboat-theme .lprog-fill{background:var(--cyan)}
+.lbtn.done .lprog-fill{background:var(--green)!important}
+.lk-hdr{background:linear-gradient(135deg,var(--navy2),var(--card2));border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin-bottom:12px;display:flex;gap:12px;align-items:center}
+.lk-hdr-icon{font-size:28px;flex-shrink:0}
+.lk-hdr h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800}
+.lk-hdr p{font-size:12px;color:var(--muted);margin-top:2px}
+.lk-prog{height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:8px}
+.lk-prog-fill{height:100%;border-radius:2px;transition:width .4s}
+.sec-hdr{background:var(--steel);border-radius:var(--rs);padding:7px 14px;margin:10px 0 5px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.icard{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:5px;overflow:hidden;transition:border-color .2s}
+.icard.cyes{border-color:rgba(0,200,83,.3);background:rgba(0,200,83,.04)}
+.icard.cno{border-color:rgba(255,23,68,.3);background:rgba(255,23,68,.04)}
+.icard.cna{border-color:rgba(255,214,0,.3);background:rgba(255,214,0,.04)}
+.itop{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.idot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);flex-shrink:0;transition:all .2s}
+.icard.cyes .idot{background:var(--green);box-shadow:0 0 7px rgba(0,200,83,.5)}
+.icard.cno .idot{background:var(--red);box-shadow:0 0 7px rgba(255,23,68,.5)}
+.icard.cna .idot{background:var(--yellow);box-shadow:0 0 7px rgba(255,214,0,.5)}
+.iinfo{flex:1;min-width:0}
+.iname{font-size:13px;font-weight:600;line-height:1.3}
+.imeta{font-size:10px;color:var(--muted);margin-top:2px}
+.iqty{background:rgba(255,255,255,.08);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.ictrls{display:flex;gap:5px;padding:0 12px 10px}
+.cbtn{flex:1;padding:9px 4px;border:1.5px solid rgba(255,255,255,.1);border-radius:var(--rs);background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:3px}
+.cbtn:active{transform:scale(.94)}
+.cbtn.yes{border-color:var(--green);color:var(--green)}
+.cbtn.yes.active{background:var(--green);color:#0B1F3A}
+.cbtn.no{border-color:var(--red);color:var(--red)}
+.cbtn.no.active{background:var(--red);color:#fff}
+.cbtn.na{border-color:var(--yellow);color:var(--yellow)}
+.cbtn.na.active{background:var(--yellow);color:#0B1F3A}
+.mandatory-badge{background:rgba(255,23,68,.12);border:1px solid rgba(255,23,68,.3);color:#ff6b8a;border-radius:8px;padding:1px 6px;font-size:9px;font-weight:700;letter-spacing:.5px;white-space:nowrap;flex-shrink:0}
+.notes-wrap{margin:12px 0}
+.nlabel{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.ninput{width:100%;padding:11px 13px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;resize:none;outline:none;min-height:72px;transition:border-color .2s}
+.ninput:focus{border-color:var(--orange)}
+.signoff-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-top:12px}
+.signoff-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#64B5F6;margin-bottom:10px}
+.signoff-info{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.signoff-info b{color:var(--text)}
+.btn-signoff{width:100%;padding:13px;border:none;border-radius:var(--rs);background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 16px rgba(255,90,0,.35);transition:all .15s}
+.btn-signoff:active{transform:scale(.98)}
+.signed-ok{color:var(--green);font-weight:700;text-align:center;padding:12px;font-size:15px}
+.admin-banner{background:linear-gradient(135deg,#001529,#003087);border:1px solid rgba(0,80,160,.6);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.admin-banner h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.admin-banner p{font-size:12px;color:var(--muted);margin-top:3px}
+.admin-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.atab{flex-shrink:0;padding:8px 14px;border:1.5px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s}
+.atab.active{border-color:#1565C0;color:#64B5F6;background:rgba(21,101,192,.15)}
+.admin-panel{display:none}
+.admin-panel.active{display:block}
+.admin-section{background:#002244;border:1px solid rgba(0,80,160,.4);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.admin-section-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#64B5F6;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(0,80,160,.4)}
+.reset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.btn-reset-v{padding:11px 8px;border:1.5px solid rgba(0,80,160,.5);border-radius:var(--rs);background:#002244;color:#64B5F6;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.btn-reset-all{width:100%;padding:13px;border:1.5px solid var(--red);border-radius:var(--rs);background:rgba(255,23,68,.1);color:var(--red);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;margin-top:6px}
+.admin-stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,80,160,.3);font-size:13px}
+.admin-stat-row:last-child{border-bottom:none}
+.admin-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#64B5F6}
+.member-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;max-height:320px;overflow-y:auto;background:#001529;border-radius:var(--rs);padding:6px}
+.member-row{display:flex;align-items:center;gap:10px;background:#002d5c;border:1px solid rgba(0,80,160,.4);border-radius:var(--rs);padding:9px 12px}
+.member-row-info{flex:1;min-width:0}
+.member-row-name{font-size:13px;font-weight:600}
+.member-row-meta{font-size:10px;color:var(--muted);margin-top:1px}
+.member-admin-badge{background:rgba(0,80,160,.25);border:1px solid rgba(0,120,200,.5);color:#64B5F6;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;flex-shrink:0}
+.btn-del{background:rgba(255,23,68,.12);border:1px solid rgba(255,23,68,.3);color:var(--red);border-radius:var(--rs);padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.btn-del:active{background:rgba(255,23,68,.25)}
+.btn-sm{padding:9px 14px;border:1.5px solid #1565C0;border-radius:var(--rs);background:rgba(21,101,192,.12);color:#64B5F6;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.add-form{background:#001d40;border:1px solid rgba(0,80,160,.5);border-radius:var(--rs);padding:12px;margin-bottom:12px}
+.add-form-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:#64B5F6;margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.form-full{margin-bottom:8px}
+.btn-row{display:flex;gap:8px;margin-top:10px}
+.eq-vehicle-tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
+.eq-vtab{flex-shrink:0;padding:6px 12px;border:1.5px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.eq-vtab.active{border-color:#1565C0;color:#64B5F6;background:rgba(21,101,192,.12)}
+.eq-locker-sel{margin-bottom:10px}
+.eq-item-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;max-height:300px;overflow-y:auto;background:#001529;border-radius:var(--rs);padding:6px}
+.eq-item-row{display:flex;align-items:flex-start;gap:10px;background:#002244;border:1px solid rgba(0,80,160,.35);border-radius:var(--rs);padding:9px 12px}
+.eq-item-info{flex:1;min-width:0}
+.eq-item-name{font-size:12px;font-weight:600;line-height:1.3}
+.eq-item-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:flex-end;justify-content:center}
+.modal-backdrop.hidden{display:none}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;margin-bottom:14px;color:var(--orange)}
+.modal-btns{display:flex;gap:8px;margin-top:14px}
+.modal-btn{flex:1;padding:12px;border:none;border-radius:var(--rs);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s}
+.modal-btn.cancel{background:rgba(255,255,255,.08);color:var(--muted)}
+.modal-btn.confirm{background:var(--orange);color:#fff}
+.modal-btn.danger{background:var(--red);color:#fff}
+.orc-banner{background:linear-gradient(135deg,#001529,#003087);border:1px solid rgba(0,80,160,.5);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.orc-banner-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:1px;color:var(--cyan)}
+.orc-banner-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.orc-sum{flex:1;background:#002244;border:1px solid rgba(0,80,160,.4);border-radius:var(--rs);padding:8px 5px;text-align:center;min-width:60px}
+.orc-sum-n{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800}
+.orc-sum-l{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+.orc-sum.ok .orc-sum-n{color:var(--green)}
+.orc-sum.fail .orc-sum-n{color:var(--red)}
+.orc-sum.na .orc-sum-n{color:var(--yellow)}
+.orc-sum.pend .orc-sum-n{color:var(--muted)}
+.orc-year-btn{background:#002244;border:1px solid rgba(0,80,160,.5);color:#64B5F6;padding:5px 12px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer}
+.orc-cat-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px}
+.orc-cat-tab{flex-shrink:0;padding:6px 12px;border:1.5px solid rgba(0,80,160,.35);border-radius:20px;background:#001d40;color:#64B5F6;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.orc-cat-tab.active{border-color:#1E88E5;color:#fff;background:#003087}
+.orc-add-btn{width:100%;padding:11px;border:1.5px solid rgba(0,80,160,.6);border-radius:var(--rs);background:#002244;color:#64B5F6;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:14px;transition:all .15s}
+.orc-cat-section{margin-bottom:18px}
+.orc-cat-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#002d5c;border-radius:var(--rs);margin-bottom:8px;border-left:4px solid var(--cyan)}
+.orc-cat-icon{font-size:18px}
+.orc-cat-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.5px;flex:1}
+.orc-cat-count{font-size:11px;color:var(--muted);font-weight:600}
+.orc-empty{font-size:12px;color:var(--muted);padding:10px 14px;font-style:italic}
+.orc-item-card{background:#002244;border:1px solid rgba(0,80,160,.4);border-radius:var(--rs);margin-bottom:8px;overflow:hidden}
+.orc-item-card.orc-item-fail{border-color:rgba(255,23,68,.4);background:rgba(40,0,20,.6)}
+.orc-item-card.orc-item-pass{border-color:rgba(0,200,83,.35);background:#001d3a}
+.orc-item-header{padding:10px 12px 8px}
+.orc-item-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:5px}
+.orc-item-meta{display:flex;flex-wrap:wrap;gap:4px}
+.orc-meta-chip{background:#001d40;border:1px solid rgba(0,80,160,.4);border-radius:8px;padding:2px 7px;font-size:10px;color:#90CAF9}
+.orc-month-grid{display:flex;overflow-x:auto;padding:0 8px 8px;gap:4px;-webkit-overflow-scrolling:touch}
+.orc-month-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:40px}
+.orc-month-label{font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;text-align:center}
+.orc-month-label.orc-current-month{color:var(--cyan)}
+.orc-cell{min-height:52px;display:flex;align-items:center;justify-content:center;width:40px}
+.orc-cell-future{opacity:.25}
+.orc-future-dash{font-size:14px;color:var(--border)}
+.orc-cell-wrap{display:flex;flex-direction:column;gap:2px;align-items:center}
+.orc-mini-btn{width:36px;padding:4px 2px;border-radius:4px;border:1.5px solid rgba(255,255,255,.1);background:transparent;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;color:rgba(255,255,255,.25)}
+.orc-mini-btn.orc-pass{border-color:rgba(0,200,83,.2);color:rgba(0,200,83,.4)}
+.orc-mini-btn.orc-pass.active{background:var(--green);border-color:var(--green);color:#000}
+.orc-mini-btn.orc-fail{border-color:rgba(255,23,68,.2);color:rgba(255,23,68,.4)}
+.orc-mini-btn.orc-fail.active{background:var(--red);border-color:var(--red);color:#fff}
+.orc-mini-btn.orc-na{border-color:rgba(255,214,0,.2);color:rgba(255,214,0,.4);font-size:8px}
+.orc-mini-btn.orc-na.active{background:var(--yellow);border-color:var(--yellow);color:#000}
+.orc-notes-row{display:flex;gap:6px;padding:0 8px 10px;align-items:center}
+.orc-note-input{flex:1;padding:7px 10px;background:#001529;border:1px solid rgba(0,80,160,.35);border-radius:var(--rs);color:#64B5F6;font-family:'Barlow',sans-serif;font-size:11px;outline:none}
+.orc-note-input:focus{border-color:#1E88E5;color:#fff}
+.orc-del-btn{padding:5px 10px;border:1px solid rgba(255,23,68,.3);background:rgba(255,23,68,.08);color:var(--red);border-radius:var(--rs);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--steel);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;transition:transform .3s;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── Teams setup overlay ── */
+#teamsOverlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#teamsOverlay.hidden{display:none}
+.t-spinner{width:36px;height:36px;border:3px solid rgba(255,90,0,.2);border-top-color:#FF5A00;border-radius:50%;animation:tspin .8s linear infinite}
+@keyframes tspin{to{transform:rotate(360deg)}}
+.t-msg{font-family:'Barlow Condensed',sans-serif;font-size:15px;color:var(--muted);letter-spacing:1px}
+#setupScreen{position:fixed;inset:0;background:var(--bg);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px}
+#setupScreen.show{display:flex}
+.setup-card{width:100%;max-width:440px;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:28px 24px}
+.setup-card h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;margin:0 0 8px}
+.setup-card p{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.6}
+.setup-err{color:#FF6B6B;font-size:12px;margin-top:10px;min-height:16px}
+.sync-badge{position:fixed;top:52px;right:10px;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;z-index:800;opacity:0;transition:opacity .3s;background:rgba(0,200,83,.15);border:1px solid rgba(0,200,83,.4);color:var(--green)}
+.sync-badge.show{opacity:1}
+.sync-badge.err{background:rgba(255,23,68,.1);border-color:rgba(255,23,68,.4);color:var(--red)}
+</style>
+</head>
+<body>
+
+<div class="screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-badge">&#128658;</div>
+      <div><h1>CESSNOCK CITY UNIT</h1><p>NSW SES &mdash; EQUIPMENT CHECK SYSTEM</p></div>
+    </div>
+    <div class="divider"></div>
+    <div class="fwrap"><div class="flabel">MID</div><input class="finput" id="loginName" type="tel" placeholder="Your member number" inputmode="numeric"></div>
+    <div class="fwrap"><div class="flabel">PIN</div><input class="finput" id="loginPin" type="tel" placeholder="Your 4-digit PIN" inputmode="numeric" maxlength="4"></div>
+    <div class="login-hint"><b>Login:</b> Enter your MID and 4-digit PIN. Contact admin if you need a PIN set.</div>
+    <button class="btn-primary" onclick="doLogin()">SIGN IN</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<div id="pinChangeScreen" style="display:none;position:fixed;inset:0;z-index:500;background:linear-gradient(145deg,#0B1F3A,#0D2744,#0A1929);overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:center;padding:20px">
+  <div style="width:100%;max-width:400px;background:var(--card);border:1px solid rgba(255,90,0,.4);border-radius:16px;padding:32px 24px;box-shadow:0 24px 60px rgba(0,0,0,.5);margin:auto">
+    <div style="width:44px;height:44px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">&#128274;</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px">SET YOUR PIN</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">Your PIN is still the default <b style="color:var(--orange)">0000</b>.<br>Set a new 4-digit PIN to continue.</div>
+    <div class="fwrap"><div class="flabel">New PIN</div><input class="finput" id="pcNewPin" type="number" inputmode="numeric" pattern="[0-9]*" maxlength="4" min="0" max="9999" placeholder="Enter 4 digits" autocomplete="new-password"></div>
+    <div class="fwrap"><div class="flabel">Confirm PIN</div><input class="finput" id="pcConfPin" type="number" inputmode="numeric" pattern="[0-9]*" maxlength="4" min="0" max="9999" placeholder="Confirm 4 digits" autocomplete="new-password"></div>
+    <div class="login-err" id="pcErr" style="min-height:18px;margin-bottom:10px"></div>
+    <button class="btn-primary" onclick="doChangePinOnLogin()">SET PIN &amp; CONTINUE</button>
+  </div>
+</div>
+
+<div class="screen hidden" id="appScreen">
+  <div class="topbar">
+    <button class="btn-back" id="backBtn" onclick="goBack()">&#9664; Back</button>
+    <div class="topbar-title" id="topTitle">CESSNOCK CITY UNIT</div>
+    <button class="btn-topicon orange" id="adminBtn" onclick="showAdmin()">&#9881; Admin</button>
+    <button class="btn-topicon" id="invBtn" onclick="showInventory()" style="border-color:rgba(0,200,83,.4);color:var(--green)">&#9989; Readiness</button>
+    <button class="btn-topicon" id="printBtn" onclick="doPrint()">&#128424; Print</button>
+    <button class="btn-logout" onclick="doLogout()">Logout</button>
+  </div>
+  <div class="content">
+    <div id="vehicleView" style="padding:16px"></div>
+    <div id="dashView" style="padding:14px;display:none"></div>
+    <div id="lockerView" style="padding:14px;display:none"></div>
+    <div id="adminView" style="padding:14px;display:none;background:#001529"></div>
+    <div id="inventoryView" style="padding:14px;display:none;background:#001529"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modalBackdrop">
+  <div class="modal" id="modalBox">
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalBody"></div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="syncBadge" class="sync-badge"></div>
+<div id="teamsOverlay" class="hidden">
+  <div class="t-spinner"></div>
+  <div class="t-msg" id="tMsg">LOADING DATA…</div>
+</div>
+<div id="setupScreen">
+  <div class="setup-card">
+    <h2>Optional SharePoint Sync</h2>
+    <p>This build can run locally now. SharePoint List sync is optional and can be configured later.</p>
+    <div class="form-full"><div class="flabel">SharePoint Site URL</div><input class="finput" id="setupUrl" placeholder="https://membersesnswgov.sharepoint.com/sites/CessnockCityUnitT"></div>
+    <button class="btn-primary" onclick="doSetupSave()">CONNECT SHAREPOINT</button>
+    <button class="btn-sm" style="width:100%;margin-top:10px" onclick="doSetupSkip()">RUN LOCAL ONLY</button>
+    <div class="setup-err" id="setupErr"></div>
+  </div>
+</div>
+
+
+<script>
+// ─── GLOBAL ERROR HANDLER ────────────────────────────────────────────────────
+window.onerror=function(msg,src,line,col,err){
+  var t=document.getElementById('toast');
+  if(t){t.textContent='JS Error: '+(msg||'unknown')+' (L'+line+')';t.classList.add('show');setTimeout(function(){t.classList.remove('show');},6000);}
+  return false;
+};
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function escHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function jsStr(s){return String(s==null?'':s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'');}
+
+// ─── DEFAULT MEMBERS ─────────────────────────────────────────────────────────
+var DEFAULT_MEMBERS=[
+{first:"Adam",last:"Bergan",id:"40060000",pin:"0000"},{first:"Alessandro",last:"Cigola",id:"40062197",pin:"0000"},
+{first:"Alisha",last:"Moore",id:"40042285",pin:"0000"},{first:"Alyssa",last:"Mccullum",id:"40061836",pin:"0000"},
+{first:"Amber",last:"Deakin",id:"40061155",pin:"0000"},{first:"Beata",last:"Emig",id:"40061741",pin:"0000",admin:true},
+{first:"Beau",last:"Jarman",id:"40049705",pin:"0000"},{first:"Belinda",last:"Lewis",id:"40051888",pin:"0000"},
+{first:"Brad",last:"Aldis",id:"40064160",pin:"0000"},{first:"Brenton",last:"Tumbers",id:"40054526",pin:"0000"},
+{first:"Brian",last:"Martin",id:"40061561",pin:"0000"},{first:"Brie",last:"Adams",id:"40032547",pin:"0000"},
+{first:"Brittney",last:"Adam",id:"40062194",pin:"0000"},{first:"Brodie",last:"Cowling",id:"40049803",pin:"0000"},
+{first:"Casie",last:"Metz",id:"40057003",pin:"0000",admin:true},{first:"Christopher",last:"Farrell",id:"40024170",pin:"0000"},
+{first:"Daniel",last:"Whittemore",id:"40062220",pin:"0000"},{first:"Daniel",last:"Liebig",id:"40051729",pin:"0000"},
+{first:"David",last:"Soden",id:"40062835",pin:"0000"},{first:"Elijah",last:"Field",id:"40063701",pin:"0000"},
+{first:"Ellen",last:"Hide",id:"40059402",pin:"0000"},{first:"Evan",last:"Lawson",id:"40049708",pin:"0000"},
+{first:"Geoffery",last:"Miller",id:"40051709",pin:"0000"},{first:"Gerard",last:"Healey",id:"40055122",pin:"0000"},
+{first:"Helen",last:"Wieckhorst",id:"40062681",pin:"0000"},{first:"Jade",last:"Griffiths",id:"40051976",pin:"0000"},
+{first:"James",last:"Norris",id:"40052202",pin:"0000"},{first:"Jamie",last:"Phillips",id:"40061817",pin:"0000"},
+{first:"Jason",last:"Trew",id:"40052207",pin:"0000"},{first:"Jay",last:"Delerentes",id:"40061995",pin:"0000"},
+{first:"Jayden",last:"Brown",id:"40062072",pin:"0000"},{first:"Jeffrey",last:"Irwin",id:"40024716",pin:"0000"},
+{first:"Jennifer",last:"Ehmsen",id:"40044693",pin:"0000",admin:true,commander:true},{first:"Jody",last:"Whitson",id:"40056064",pin:"0000"},
+{first:"John",last:"Parsons",id:"40061610",pin:"0000"},{first:"John",last:"Ward",id:"40017426",pin:"0000"},
+{first:"John",last:"Schroeder",id:"40054994",pin:"0000"},{first:"Jonathan",last:"Childs",id:"40033005",pin:"0000"},
+{first:"Jonathon",last:"Hart",id:"40061774",pin:"0000",admin:true},{first:"Joshua",last:"Walton",id:"40062081",pin:"0000"},
+{first:"Kailan",last:"O'connor",id:"40055048",pin:"0000"},{first:"Kanak",last:"Datar",id:"40063230",pin:"0000"},
+{first:"Katie",last:"Wright",id:"40050898",pin:"0000"},{first:"Katie",last:"Nelson",id:"40037467",pin:"0000"},
+{first:"Kile",last:"Nicholas",id:"40007032",pin:"0000"},{first:"Larna",last:"Smith",id:"40062207",pin:"0000"},
+{first:"Liam",last:"Mears",id:"40049706",pin:"0000"},{first:"Liam",last:"Emig",id:"40064593",pin:"0000"},
+{first:"Lindsay",last:"Bawden",id:"40055691",pin:"0000",admin:true},{first:"Luke",last:"Pitkin",id:"40059525",pin:"0000"},
+{first:"Maigan",last:"Ward",id:"40023951",pin:"0000"},{first:"Mark",last:"Peters",id:"40018439",pin:"0000"},
+{first:"Mark",last:"Bradbury",id:"40061796",pin:"0000"},{first:"Mark",last:"Mcdonald Sloan",id:"40047413",pin:"0000"},
+{first:"Matilda",last:"Grant (Matt)",id:"40063226",pin:"0000"},{first:"Jennifer",last:"Medema",id:"40064947",pin:"0000"},
+{first:"Megan",last:"Cameron",id:"40059503",pin:"0000"},{first:"Michael",last:"Metz",id:"40061199",pin:"0000"},
+{first:"Michael",last:"Pitkin",id:"40007654",pin:"0000"},{first:"Mitchell",last:"Grant",id:"40057742",pin:"0000"},
+{first:"Natasha",last:"Norris",id:"40052203",pin:"0000"},{first:"Paul",last:"Hampton",id:"40054171",pin:"0000"},
+{first:"Paul",last:"Auriac",id:"40058959",pin:"0000"},{first:"Renai",last:"Mcgauley",id:"40058251",pin:"0000"},
+{first:"Renea",last:"Morrow",id:"40062581",pin:"0000"},{first:"Renn",last:"Ralphs",id:"40056952",pin:"0000"},
+{first:"Ryan",last:"Flissinger",id:"40062812",pin:"0000"},{first:"Sarah",last:"Butler (Sally)",id:"40025907",pin:"0000"},
+{first:"Seth",last:"Atkinson",id:"40063338",pin:"0000"},{first:"Shaun",last:"Thorley",id:"40035234",pin:"0000"},
+{first:"Stephen",last:"Hicks",id:"40061835",pin:"0000"},{first:"Stuart",last:"Stoker",id:"40058184",pin:"0000"},
+{first:"Tara",last:"Wood-Bradley",id:"40061925",pin:"0000"},{first:"Tarun",last:"Mitchell",id:"40051992",pin:"0000"},
+{first:"Toby",last:"Turpin",id:"40059401",pin:"0000"},{first:"Tracey",last:"Miles",id:"40062087",pin:"0000"},
+{first:"Xander",last:"Spurway",id:"40062299",pin:"0000"},{first:"Zoe",last:"Capararo",id:"40061906",pin:"0000"}
+];
+
+// ─── DEFAULT VEHICLES ─────────────────────────────────────────────────────────
+var DEFAULT_VEHICLES=[
+{id:"lsv",name:"CES31",sub:"Gen 4 \u00b7 Light Storm Vehicle",icon:"\uD83D\uDE92",theme:"lsv",lockers:[
+{id:"crew-cabin",name:"Crew Cabin",icon:"\uD83D\uDE92",items:[{s:"Fire Protection"},{n:"EXTINGUISHER - DRY CHEMICAL, ABE 1.0KG",m:"300171",sn:"66975",q:1},{s:"Light and Power"},{n:"7600 PELICAN LED TORCH AND WAND",m:"305315",sn:"134531900004511",q:2},{s:"Hand Tools"},{n:"RES-Q-ME CUTTER & GLASS BREAKER",m:"302292",sn:"ON KEYS",q:1}]},
+{id:"roof",name:"Roof",icon:"\uD83D\uDD27",items:[{s:"Ladders"},{n:"LADDER - FIBERGLASS EXTENSION, MEDIUM 4.5-7.6M 160KG",m:"304086",sn:"",q:1},{s:"Power Tools"},{n:"SAW POLESAW 12 INCH STIHL HT103",m:"304065",sn:"523600110",q:1}]},
+{id:"locker1",name:"Locker 1",icon:"\uD83D\uDD26",items:[{s:"Power and Light"},{n:"LIGHT LED M18 SEARCH 1250 LUMENS SKIN",m:"304519",sn:"10457468/10443919",q:2},{n:"MILWAUKEE BATTERY CHARGING STATION (6 BATTERIES)",m:"304541",sn:"4000440553001935D2020",q:2},{n:"MILWAUKEE M18 BATTERIES 6AH",m:"304540",sn:"",q:12},{s:"Safety / Protective Equipment"},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - LARGE",m:"301066",sn:"",q:1},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - MEDIUM",m:"301065",sn:"",q:1},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - SMALL",m:"301064",sn:"",q:1},{n:"EFLARE KIT 4X AT730 DUAL FLASH RED/BLUE LED, CARRY BAG",m:"303853",sn:"10437760",q:1},{n:"EAR PLUGS - DISPOSABLE, 23DB BOX/100",m:"301563",sn:"",q:1},{n:"EAR MUFFS - HEAD BANDED, 27DB (CLASS 5)",m:"300465",sn:"",q:2},{n:"GLOVES - LEATHER RIGGERS, LARGE (PAIR)",m:"300476",sn:"",q:2},{n:"GLOVES - LEATHER RIGGERS, MEDIUM (PAIR)",m:"300477",sn:"",q:1},{n:"GLOVES - LEATHER RIGGERS, SMALL (PAIR)",m:"300478",sn:"",q:1},{n:"GLOVES, NITRILE, LARGE (BOX OF 100)",m:"301118",sn:"",q:1},{n:"GLOVES, NITRILE, MEDIUM (BOX OF 100)",m:"301117",sn:"",q:1},{n:"GLOVES, NITRILE, SMALL (BOX OF 100)",m:"301116",sn:"",q:1},{n:"HELMET - SAFETY (SES) ADJUSTABLE RATCHET",m:"303809",sn:"",q:2},{n:"SAFETY GLASSES - CLEAR LENS (PAIR)",m:"301679",sn:"",q:4},{n:"VEST - COMMAND, SAFETY REFLECTIVE (SES) X LARGE",m:"303814",sn:"",q:1},{n:"VEST - SAFETY, REFLECTIVE (SES) 2X LARGE",m:"301142",sn:"",q:1}]},
+{id:"locker2",name:"Locker 2",icon:"\uD83D\uDEE0\uFE0F",items:[{s:"Consumables"},{n:"BLADE - HACKSAW, 300MM, 24 TPI",m:"300981",sn:"",q:2},{n:"CABLE TIES - NYLON, LARGE, 300MM (PKT 100)",m:"301199",sn:"",q:1},{n:"CABLE TIES - NYLON, MEDIUM, 200MM (PKT 100)",m:"301200",sn:"",q:1},{n:"OIL - PENETRATING, 150G (WD40)",m:"301653",sn:"",q:1},{n:"NAILS - ROOFING, ASSORTED (0.5KG)",m:"300837",sn:"",q:1},{n:"SPRAYPAINT (LINE MARKING) FLURO ORANGE",m:"304810",sn:"",q:1},{n:"PLASTIC SHEETING 200X200X2000 (ROLL) CLEAR",m:"304508",sn:"",q:1},{n:"ROPE, NYLON, 6MM X 250M (PER COIL)",m:"301204",sn:"",q:1},{n:"SCREW HEX TORANDO 12G-11/14x50MM (100pk)",m:"305036",sn:"",q:1},{n:"SILICONE CARTRIDGE, ROOF & GUTTER (400G)",m:"300847",sn:"",q:2},{n:"TAPE - BARRIER, SES (ROLL) (300M)",m:"303914",sn:"",q:2},{n:"TAPE - DUCT, FIBRE BACKED (ROLL)",m:"301165",sn:"",q:2},{n:"TAPE, ELECTRICAL, ROLL",m:"301164",sn:"",q:2},{n:"FLASHTAC, ROOFING TAPE",m:"300816",sn:"",q:2},{n:"DISC - CUTTING MASONRY 125MM (ANGLE GRINDER)",m:"300979",sn:"",q:2},{n:"DISC - CUTTING STEEL 125MM (ANGLE GRINDER)",m:"300980",sn:"",q:2},{n:"BLADE - SAWZALL WRECKER 150MM PK5",m:"303870",sn:"",q:2},{n:"NAILS FOR NAIL GUN - IMPULSE 75X3.06 (PKT 1000)",m:"304704",sn:"",q:1},{s:"Hand Tools"},{n:"AXE - FELLING, LONG HANDLE (820MM)",m:"301453",sn:"",q:1},{n:"BROOM - STABLE, HARD BRISTLE (450MM)",m:"301480",sn:"",q:1},{n:"BRUSH - WIRE, HAND, STEEL HANDLE",m:"301496",sn:"",q:1},{n:"CHISEL - BOLSTER, MASONRY 38MM X 180MM",m:"300398",sn:"",q:1},{n:"CROWBAR - FLAT, STEEL (1.2M)",m:"300403",sn:"",q:1},{n:"HACKSAW - BOW",m:"300430",sn:"",q:1},{n:"HAMMER - CLAW, FIBREGLASS HANDLE (450G)",m:"300432",sn:"",q:1},{n:"HAMMER - SLEDGE, FIBREGLASS HANDLE (3.6KG)",m:"300431",sn:"",q:1},{n:"KNIFE - UTILITY, SNAP LOCK WITH BLADES",m:"300485",sn:"",q:2},{n:"LADDER - FIBREGLASS STEP, 1.8M (6FT)",m:"302038",sn:"",q:1},{n:"PLIERS - MULTI GRIP (250MM)",m:"300490",sn:"",q:1},{n:"SCREWDRIVER - FLAT, LARGE",m:"300492",sn:"",q:1},{n:"SCREWDRIVER - PHILLIP HEAD, LARGE",m:"300494",sn:"",q:1},{n:"SHIFTING SPANNER (300MM) ADJUSTABLE",m:"300493",sn:"",q:1},{s:"Power Tools"},{n:"DRILL - M18 FUEL 13MM HAMMER DRILL/DRIVER KIT",m:"303851",sn:"",q:1},{n:"ANGLE GRINDER - M18 FUEL 125MM PADDLE SWITCH",m:"302607",sn:"",q:1},{n:"RECIPROCATING SAW - M18 FUEL",m:"303850",sn:"",q:1},{n:"NAIL GUN - M18 FUEL 90MM FRAMING",m:"304706",sn:"",q:1},{n:"STAPLE GUN - ELECTRIC 6-8MM STAPLE",m:"302248",sn:"",q:1}]},
+{id:"locker3",name:"Locker 3",icon:"\uD83D\uDCE6",items:[{s:"Empty / Future Use"},{n:"No items currently assigned",m:"\u2014",sn:"\u2014",q:0}]},
+{id:"locker4",name:"Locker 4",icon:"\u26FD",items:[{s:"Consumables"},{n:"CHAINSAW BAR ONLY - STIHL MS193/HT101-12in",m:"303129",sn:"",q:1},{n:"CHAINSAW BAR ONLY - STIHL MS362 - 18in",m:"303135",sn:"",q:1},{n:"CHAINSAW CHAIN ONLY - STIHL MS193/HT101-12in",m:"303128",sn:"",q:2},{n:"CHAINSAW CHAIN ONLY - STIHL MS362-18in",m:"303134",sn:"",q:2},{n:"FUNNEL - PLASTIC, FLEXIBLE (FUEL / OIL)",m:"301577",sn:"",q:1},{n:"CHAINSAW FILE KIT - STIHL MS193/HT101",m:"303130",sn:"",q:1},{n:"CHAINSAW FILE KIT - STIHL MS362",m:"303136",sn:"",q:1},{n:"CONTAINER - FUEL / OIL COMBO (5 LITRE)",m:"300824",sn:"",q:2},{n:"FUEL CONTAINER - FUEL ONLY (10L)",m:"301544",sn:"",q:1},{n:"OIL - 1LT STIHL HP ULTRA 2 STROKE OIL",m:"304612",sn:"",q:1},{n:"PREMIUM BAR & CHAIN OIL - 1 LITRE",m:"304791",sn:"",q:1},{n:"PICKET CAP - FENCE POST TRIANGLE - YELLOW",m:"303149",sn:"",q:20},{s:"Power Tools"},{n:"SAW - CHAINSAW, 12in LIMBING (STIHL MS194T)",m:"304987",sn:"520483624",q:1},{n:"SAW - CHAINSAW, 18in FELLING (STIHL MS362)",m:"302656",sn:"188113058",q:1},{s:"Hand Tools"},{n:"AXE - FELLING, LONG HANDLE (820MM)",m:"301453",sn:"",q:1},{n:"MATTOCK - SHORT HANDLED (PICK/HOE)",m:"300836",sn:"",q:2},{n:"SHOVEL - SPADE PATTERN, SHORT HANDLE",m:"300845",sn:"",q:2},{s:"Lifting and Stabilisation"},{n:"PICKET - STEEL STAR, 800MM",m:"302040",sn:"",q:10},{n:"PICKET - STEEL STAR, 1200MM",m:"303151",sn:"",q:10},{n:"PICKET DRIVER - HAND, STEEL 20KG",m:"302043",sn:"",q:1}]},
+{id:"locker5",name:"Locker 5",icon:"\uD83D\uDEA7",items:[{s:"Traffic Control"},{n:"TRAFFIC CONE WITH REFLECTIVE 700MM PVC",m:"303656",sn:"",q:6}]},
+{id:"locker6",name:"Locker 6",icon:"\uD83C\uDF0A",items:[{s:"General"},{n:"TARPAULIN - SMALL",m:"301161",sn:"",q:2},{n:"TARPAULIN - MEDIUM",m:"301162",sn:"",q:2},{n:"BAG - SANDBAGS",m:"300110",sn:"",q:10},{n:"MILWAUKEE TOOL BAG",m:"304539",sn:"",q:1},{s:"Power and Light"},{n:"7600 PELICAN LED TORCH AND WAND",m:"305315",sn:"",q:2},{n:"POWER - EXTENSION LEAD INDUSTRIAL 25M",m:"301054",sn:"",q:1},{n:"POWER-LEAD SAFETY SWITCH RCD INLINE",m:"301062",sn:"",q:1},{n:"GENERATOR PORTABLE BRIGGS & STRATTON P2400",m:"305094",sn:"680224",q:1},{n:"SUBMERSIBLE PUMP WATER ELECTRIC + 1X25M HOSE",m:"302832",sn:"800918",q:1},{n:"MILWAUKEE M18 ROCKET DUAL PK TOWER LIGHT",m:"304519",sn:"10457439",q:2},{s:"Flood Rescue"},{n:"FLOOD RESCUE KIT - PFD TYPE 2 LEVEL 2 MEDIUM",m:"301275",sn:"",q:1},{n:"FLOOD RESCUE KIT - PFD TYPE 2 LEVEL 2 LARGE",m:"303038",sn:"",q:1},{n:"TUBE - RESCUE, WATER TORPEDO",m:"301229",sn:"",q:1},{n:"THROWBAG RAPID RELEASE 20M L3 FL.RESCUE",m:"304340",sn:"",q:2},{n:"LIGHT - CYALUME STICK (GREEN)",m:"303109",sn:"IN LOCKER 1 EFLARE BAG",q:4},{n:"LIGHT - CYALUME STICK (RED)",m:"303111",sn:"IN LOCKER 1 EFLARE BAG",q:4},{n:"RES-Q-ME CUTTER & GLASS BREAKER",m:"302292",sn:"KEYS",q:1},{n:"PFD, RESCUE - KIT BAG, CHILD",m:"302151",sn:"",q:1},{n:"FLOOD RESCUE CARRY BAG",m:"303805",sn:"",q:1}]},
+{id:"locker7",name:"Locker 7",icon:"\u26A0\uFE0F",items:[{s:"Consumables"},{n:"BAG - SANDBAGS",m:"300110",sn:"",q:10},{n:"TARPAULIN - MEDIUM",m:"301162",sn:"",q:2},{n:"TARPAULIN - SMALL",m:"301161",sn:"",q:2},{s:"Height Safety Kit"},{n:"HSK COMPLETE KIT",m:"\u2014",sn:"HSK-S-1310",q:1}]},
+{id:"locker8",name:"Locker 8",icon:"\uD83C\uDFD7\uFE0F",items:[{s:"Lifting and Stabilisation"},{n:"SHACKLE - DEE TYPE, 16MM (WLL3200KG)",m:"304698",sn:"",q:2},{n:"SLING - FLAT SYNTHETIC, 75MM X 3M (WLL 3000KG)",m:"300229",sn:"",q:2},{n:"STRAP-RATCHET TIE DOWN 25MMX5M (350KG)",m:"300934",sn:"",q:2},{n:"TIRFOR - WINCH, SNATCH BLOCK, 11MM (T516D)",m:"300251",sn:"",q:1},{n:"WHEEL CHOCK RUBBER 140 X 100 X 55 MM",m:"304473",sn:"",q:2},{n:"CRIBBING - WEDGE, OREGON, 15 DEG (40X100X300)",m:"301499",sn:"",q:4}]}
+]},
+{id:"gpv",name:"CES56",sub:"Gen 2 \u00b7 General Purpose Vehicle",icon:"\uD83D\uDE90",theme:"gpv",lockers:[
+{id:"gpv-main",name:"Vehicle Equipment",icon:"\uD83D\uDE90",items:[{s:"Fire Protection"},{n:"EXTINGUISHER - DRY CHEMICAL, 1.0KG",m:"300171",sn:"",q:1},{s:"First Aid"},{n:"KIT - FIRST AID, ROLL-OUT (SOFT PACK)",m:"300048",sn:"",q:1},{n:"DEFIBRILLATOR - ZOLL AED PLUS SEMI AUTO",m:"304843",sn:"",q:1},{s:"Lifting and Stabilisation"},{n:"WHEEL CHOCK - RUBBER - 140 X 100 X 55 MM",m:"304473",sn:"",q:2},{s:"Power and Light"},{n:"7600 PELICAN LED TORCH AND WAND",m:"305315",sn:"",q:2},{n:"MILWAUKEE M18 LIGHT LED SEARCH 1250 LUMENS SKIN",m:"304519",sn:"",q:2},{n:"MILWAUKEE M12-18AC LI-ION AUTOMOTIVE CAR BATTERY CHARGER",m:"304824",sn:"",q:1},{n:"MILWAUKEE M18 BATTERIES 6AH",m:"304540",sn:"",q:2},{s:"Safety / Protective Equipment"},{n:"EFLARE KIT 4X AT730 DUAL FLASH RED/BLUE LED WITH BASES",m:"303853",sn:"",q:1},{n:"COMMAND VEST - SAFETY, REFLECTIVE (SES) X LARGE",m:"303814",sn:"",q:1},{n:"VEST - SAFETY, REFLECTIVE (SES) 2X LARGE",m:"301142",sn:"",q:1},{s:"Flood Rescue"},{n:"RESCUE PFD, TYPE 2, LEVEL 2, OPERATOR MEDIUM",m:"301275",sn:"",q:1},{n:"RESCUE PFD, TYPE 2, LEVEL 2, OPERATOR LARGE",m:"303038",sn:"",q:1},{n:"TUBE - RESCUE, WATER TORPEDO",m:"301229",sn:"",q:1},{n:"TAPE - BARRIER, SES (ROLL) (300M)",m:"303914",sn:"",q:2},{n:"RAPID RELEASE THROWBAG 20M",m:"304340",sn:"",q:2},{n:"FLOOD RESCUE CARRY BAG",m:"303805",sn:"",q:1},{n:"LIGHT - CYALUME STICK (GREEN)",m:"303109",sn:"",q:4},{n:"LIGHT - CYALUME STICK (RED)",m:"303111",sn:"",q:4},{n:"RES-Q-ME CUTTER AND GLASS BREAKER",m:"302292",sn:"",q:1},{n:"PFD, RESCUE - KIT BAG, CHILD",m:"302151",sn:"",q:1}]}
+]},
+{id:"trailer",name:"CES656",sub:"Gen 1 \u00b7 Light Storm Trailer",icon:"\uD83D\uDE9B",theme:"trailer",lockers:[
+{id:"tr-locker2",name:"Locker 2",icon:"\uD83E\uDDF0",items:[{s:"Consumables"},{n:"BLADE - HACKSAW, 300MM, 24 TPI",m:"300981",sn:"",q:2},{n:"CABLE TIES - NYLON, LARGE, 300MM (PKT 100)",m:"301199",sn:"",q:1},{n:"CABLE TIES - NYLON, MEDIUM, 200MM (PKT 100)",m:"301200",sn:"",q:1},{n:"FA - SHARPS COLLECTOR CONTAINER 1.58LTR",m:"300894",sn:"",q:1},{n:"SPRAYPAINT (LINE MARKING) FLURO ORANGE 300G",m:"304810",sn:"",q:1},{n:"SILICONE - CARTRIDGE, ROOF & GUTTER (400G)",m:"300847",sn:"",q:2},{n:"TAPE, BARRIER, SES 300M ROLL",m:"303914",sn:"",q:2},{n:"TAPE, DUCT / JOINTING",m:"301165",sn:"",q:2},{n:"TAPE, ELECTRICAL, ROLL",m:"301164",sn:"",q:2},{n:"FLASHTAC, ROOFING TAPE",m:"300816",sn:"",q:2},{n:"SUNSCREEN 30+ CANCER COUNCIL 1LT",m:"304852",sn:"",q:1},{n:"HAND SANITISER, GEL - PUMP TOP 500ml",m:"305012",sn:"",q:1},{n:"STAPLES FOR STAPLE GUN",m:"304789",sn:"",q:1},{n:"PICKET CAP - FENCE POST TRIANGLE - YELLOW",m:"303149",sn:"",q:20},{s:"Hand Tools"},{n:"BOLT CUTTERS, SMALL (350MM)",m:"301479",sn:"",q:1},{n:"CHISEL - COLD (22MM)",m:"301805",sn:"",q:1},{n:"GUN CAULKING, SKELETON TYPE",m:"301606",sn:"",q:2},{n:"GUN - STAPLE (8MM)",m:"300849",sn:"",q:1},{n:"GUTTER CLEANER - SHORT",m:"303107",sn:"",q:2},{n:"HAMMER - CLAW, CARPENTERS (560G)",m:"301608",sn:"",q:2},{n:"KNIFE - UTILITY, STANLEY (SOLID BLADE)",m:"301643",sn:"",q:4},{n:"PLIERS - COMBINATION, INSULATED (200MM)",m:"301662",sn:"",q:1},{n:"PLIERS - DIAGONAL CUT, 125MM",m:"301663",sn:"",q:1},{n:"PLIERS - NEEDLE NOSE, 150MM",m:"301666",sn:"",q:1},{n:"PLIERS - MULTI GRIPS, INSULATED (250MM)",m:"301665",sn:"",q:1},{n:"PLIERS - VISE GRIPS (250MM)",m:"301667",sn:"",q:1},{n:"SPANNER - ADJUSTABLE, LARGE (375MM)",m:"300848",sn:"",q:1},{n:"SPANNER - ADJUSTABLE, SMALL (200MM)",m:"302143",sn:"",q:1},{n:"TAPE, MEASURE, METAL, 30M",m:"302145",sn:"",q:1},{n:"TINSNIPS - STRAIGHT CUT (200MM)",m:"301729",sn:"",q:1},{n:"TOOL BOX PLASTIC - 480x260x240mm",m:"305397",sn:"",q:2},{n:"WRENCH, STILLSON, PIPE, SMALL (350MM)",m:"301744",sn:"",q:1},{s:"Patient / Casualty Handling"},{n:"BLANKET, RESCUE, 100% COTTON",m:"303195",sn:"",q:2},{n:"KIT - FIRST AID, ROLL-OUT (SOFT PACK)",m:"300048",sn:"",q:1},{s:"Power and Light"},{n:"7600 PELICAN LED TORCH AND WAND",m:"305315",sn:"",q:2},{n:"MILWAUKEE M18 CHARGER 6 BAY PACK M1418C6",m:"304541",sn:"",q:2},{n:"MILWAUKEE M18 BATTERY 6.0AH HIGH OUTPUT",m:"304540",sn:"",q:12},{s:"Safety and Protective Equipment"},{n:"EAR PLUGS - DISPOSABLE, 23DB (BOX 200)",m:"301563",sn:"",q:1},{n:"EAR MUFFS, BANDED",m:"300465",sn:"",q:2},{n:"GLOVES RIGGERS LARGE",m:"300476",sn:"",q:2},{n:"GLOVES RIGGERS MEDIUM",m:"300477",sn:"",q:1},{n:"GLOVES RIGGERS SMALL",m:"300478",sn:"",q:1},{n:"GLOVES, NITRILE, LARGE (BOX OF 100)",m:"301118",sn:"",q:1},{n:"GLOVES, NITRILE, MEDIUM (BOX OF 100)",m:"301117",sn:"",q:1},{n:"GLOVES, NITRILE, SMALL (BOX OF 100)",m:"301116",sn:"",q:1},{n:"GOGGLES, SMOKE PROTECTION",m:"300482",sn:"",q:2},{n:"GLASSES, SAFETY, CLEAR",m:"301120",sn:"",q:2},{n:"HELMET, RESCUE, MESH VISOR",m:"300505",sn:"",q:1},{n:"KNEE PAD - PROTECTION, SOFT SHELL (PAIR)",m:"300519",sn:"",q:2},{n:"RESPIRATOR - DISPOSABLE P2 MASK BOX 10",m:"301674",sn:"",q:1},{n:"VEST - NSW SES COMMAND 3 PANEL SIZE XL",m:"303814",sn:"",q:1},{n:"VEST, SAFETY, SES, 2XLARGE",m:"301142",sn:"",q:1},{s:"Cases"},{n:"MILWAUKEE PACKOUT TOOL BOX LARGE",m:"304834",sn:"",q:1},{n:"MILWAUKEE PACKOUT TOOL BOX SLIM",m:"304835",sn:"",q:2},{n:"MILWAUKEE PACKOUT COMPACT ORGANISER",m:"304839",sn:"",q:1}]},
+{id:"tr-locker3",name:"Locker 3",icon:"\uD83D\uDD29",items:[{s:"Consumables"},{n:"NAILS - ROOFING, ASSORTED (0.5KG)",m:"300837",sn:"",q:1},{n:"PLASTIC - SHEETING, 200X200X2000 (ROLL) CLEAR",m:"304508",sn:"",q:1},{n:"ROPE, NYLON, 6MM X 250M (PER COIL)",m:"301204",sn:"",q:1},{n:"SCREW HEX TORANDO 12G-11/14x50MM (100pk)",m:"305036",sn:"",q:1},{n:"DISC CUTTING MASONRY 125MM ANGLE GRINDER",m:"300979",sn:"",q:2},{n:"DISC CUTTING STEEL 125MM ANGLE GRINDER",m:"300980",sn:"",q:2},{n:"BLADE - SAWZALL WRECKER 150MM PK5",m:"303870",sn:"",q:2},{n:"FRAMING NAILS 75x3.05mm 34deg BOX3000",m:"305020",sn:"",q:1},{s:"Hand Tools"},{n:"DRILL-SET, 12PCE HSS METRIC 1-6.5MM",m:"301562",sn:"",q:1},{n:"SCREWDRIVER SET, FLAT BLADE/PHILLIPS HEAD (14 PIECE)",m:"301699",sn:"",q:1},{n:"SOCKET SET, METRIC/IMPERIAL (INCL SPEED BRACE)",m:"301702",sn:"",q:1},{n:"SPANNER SET, OPEN END/RING, METRIC & IMPERIAL (24 PIECE)",m:"301706",sn:"",q:1},{s:"Power Tools"},{n:"ANGLE GRINDER 125MM M18 FSAG125XPDB",m:"\u2014",sn:"469721000319K2020",q:1},{n:"RECIPROCATING SAW M18 CSX",m:"\u2014",sn:"4522675000321J2020",q:1},{n:"DRILL DRIVER M18 ONEPD2",m:"\u2014",sn:"452715006257K2018",q:1},{n:"IMPACT DRIVER M18 CBLID",m:"10403944",sn:"4691780129J2018",q:1},{n:"BLOWER M18BBL",m:"\u2014",sn:"446217001598J2020",q:1},{n:"FRAME NAILER PASLODE B20543P",m:"\u2014",sn:"",q:1},{n:"TORCH M18 SLED",m:"\u2014",sn:"458237000872K2020",q:1},{n:"CIRCULAR SAW M18 BLCS66",m:"\u2014",sn:"467920000384K2018",q:1},{n:"BATTERY STATION M1418C6",m:"\u2014",sn:"4000440553001029G2020",q:1},{s:"Cases"},{n:"MILWAUKEE PACKOUT TOOL BOX LARGE",m:"304834",sn:"",q:1},{n:"MILWAUKEE PACKOUT TOOL BOX SLIM",m:"304835",sn:"",q:2},{n:"MILWAUKEE PACKOUT COMPACT ORGANISER",m:"304839",sn:"",q:1}]},
+{id:"tr-locker4",name:"Locker 4",icon:"\uD83D\uDCA1",items:[{s:"Power and Light"},{n:"MILWAUKEE M18DSAL-0 18V TOWER LIGHT",m:"304521",sn:"",q:2}]},
+{id:"tr-locker5",name:"Locker 5",icon:"\u2692\uFE0F",items:[{s:"Hand Tools"},{n:"AXE - FELLING, LONG HANDLE (820MM)",m:"301453",sn:"",q:1},{n:"BAR - CROW BAR (25MM X 1800MM)",m:"301469",sn:"",q:1},{n:"BAR - WRECKING BAR (420MM)",m:"300823",sn:"",q:1},{n:"BROOM - STABLE, HARD BRISTLE (450MM)",m:"301480",sn:"",q:1},{n:"HANDLE - BROOM WOOD PLAIN 1800MM X 25MM",m:"303666",sn:"",q:1},{n:"HAMMER - SLEDGE, SMALL, F/GLASS HANDLE (8LB)",m:"301612",sn:"",q:1},{n:"MATTOCK CUTTER END & FIBREGLASS HANDLE",m:"304339",sn:"",q:1},{n:"PICKET DRIVER - FENCE POST - MUMME",m:"303150",sn:"",q:1},{n:"SAW - BOWSAW SMALL (600MM)",m:"301682",sn:"",q:1},{n:"SAW - HACKSAW (300MM)",m:"301687",sn:"",q:1},{n:"SHOVEL - SHORT, FIBREGLASS HANDLE",m:"303106",sn:"",q:1},{n:"SPADE - SHORT, FIBREGLASS HANDLE (MEDIUM SQUARE MOUTH)",m:"300846",sn:"",q:1},{s:"Power Tools"},{n:"SAW POLESAW 12 INCH STIHL HT103",m:"304065",sn:"",q:1},{s:"Lifting and Stabilisation"},{n:"ACRO PROP SIZE 0",m:"300127",sn:"",q:2},{n:"PICKET - HEX 25.4 X 1200",m:"304228",sn:"",q:6},{s:"Safety and Protective Equipment"},{n:"SIGN - STOP/SLOW BATON 450MM + HANDLE",m:"301169",sn:"",q:2},{n:"SIGN - KIT ROLL, REFLECTIVE 3 SIGNS",m:"301170",sn:"",q:1},{n:"TRAFFIC CONE WITH REFLECTIVE 700MM PVC",m:"303656",sn:"",q:6}]},
+{id:"tr-locker6",name:"Locker 6",icon:"\u26FD",items:[{s:"Consumables"},{n:"RESCUE - BAG, SANDBAGS, HESSIAN",m:"300110",sn:"",q:10},{n:"CHAINSAW BAR ONLY - STIHL MS193/HT101-12in",m:"303129",sn:"",q:1},{n:"CHAINSAW BAR ONLY - STIHL MS362",m:"303135",sn:"",q:1},{n:"CHAINSAW CHAIN ONLY - STIHL MS193/HT101-12in",m:"303128",sn:"",q:2},{n:"CHAINSAW CHAIN ONLY - STIHL MS362",m:"303134",sn:"",q:2},{n:"FUNNEL - PLASTIC, FLEXIBLE (FUEL/OIL)",m:"301577",sn:"",q:1},{n:"CHAINSAW FILE KIT - STIHL MS193/HT101",m:"303130",sn:"",q:1},{n:"CHAINSAW FILE KIT - STIHL MS362",m:"303136",sn:"",q:1},{n:"OIL - 1LT STIHL HP ULTRA 2 STROKE OIL",m:"304612",sn:"",q:1},{n:"PREMIUM BAR & CHAIN OIL - 1 LITRE",m:"304791",sn:"",q:1},{n:"OIL - PENETRATING, 150G (WD40)",m:"301653",sn:"",q:1},{n:"TARPAULIN 3.6M X 6M",m:"301162",sn:"",q:2},{n:"TARPAULIN 2.4M X 3M",m:"301161",sn:"",q:2},{n:"CHAINSAW WEDGE - LARGE 10in ORANGE",m:"303154",sn:"",q:2},{n:"CHAINSAW WEDGE - SMALL 6in ORANGE",m:"303155",sn:"",q:2},{n:"MILWAUKEE TOOL BAG",m:"304539",sn:"",q:1},{s:"Power Tools"},{n:"FUEL CONTAINER - FUEL/OIL COMBO",m:"300824",sn:"",q:2},{n:"FUEL CONTAINER - FUEL ONLY (10L)",m:"301544",sn:"",q:1},{n:"CHAINSAW 12 INCH STIHL MS194T",m:"304987",sn:"",q:1},{n:"CHAINSAW 18 INCH STIHL MS362",m:"302656",sn:"",q:1},{s:"Safety and Protective Equipment"},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - LARGE",m:"301066",sn:"",q:1},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - MEDIUM",m:"301065",sn:"",q:1},{n:"CHAPS - PROTECTIVE TROUSERS, CHAINSAW - SMALL",m:"301064",sn:"",q:1},{n:"HELMET, RESCUE",m:"300499",sn:"",q:1},{s:"Lifting and Stabilisation"},{n:"CRIBBING - WEDGE, AUS HARD 15DEG (40X100X300)",m:"301499",sn:"",q:4}]},
+{id:"tr-locker7",name:"Locker 7",icon:"\u26A1",items:[{s:"Fire Protection"},{n:"EXTINGUISHER, FIRE, DRY CHEMICAL ABE 4.5KG",m:"304509",sn:"",q:1},{s:"Height Safety"},{n:"HEIGHT SAFETY SYSTEM",m:"302805",sn:"",q:1},{s:"Power and Light"},{n:"PUMP WATER ELECTRIC SUBMERSIBLE 240V",m:"304941",sn:"",q:1},{n:"PUMP WATER OUTPUT HOSE 25M 2in M-F",m:"303104",sn:"",q:1},{s:"Patient / Casualty Handling"},{n:"FIRST AID TRAUMA KIT (FAT)",m:"304951",sn:"",q:1},{n:"POINT OF USE TRAUMA KIT (POUT)",m:"304971",sn:"",q:2}]},
+{id:"tr-locker8",name:"Locker 8",icon:"\uD83D\uDD0C",items:[{s:"Power and Light"},{n:"POWER - EXTENSION LEAD, INDUSTRIAL LONG 25M",m:"301054",sn:"",q:1},{n:"GENERATOR PORTABLE BRIGGS & STRATTON P2400",m:"305094",sn:"",q:1}]},
+{id:"tr-roof",name:"Roof / Towing Vehicle",icon:"\uD83D\uDE97",items:[{s:"Ladders (Roof)"},{n:"LADDER - BAILEY PRO STEP EXTENSION 2.1M",m:"304794",sn:"",q:1},{s:"Ladders (Towing Vehicle Only)"},{n:"POWERMASTER F/G LADDER EXT 7.6M",m:"304086",sn:"On towing vehicle",q:1}]},
+{id:"tr-locker3b",name:"Wheel Chocks / Misc",icon:"\uD83D\uDD12",items:[{s:"Lifting and Stabilisation"},{n:"WHEEL CHOCK RUBBER 140 X 100 X 55 MM",m:"304473",sn:"",q:2}]}
+]},
+{id:"floodboat",name:"CES711",sub:"Flood Boat \u00b7 Water Rescue Asset",icon:"\u26F5",theme:"floodboat",lockers:[
+{id:"fb-safety",name:"Safety & Vessel",icon:"\u26F5",items:[
+  {s:"Safety & Vessel \u2014 Mandatory"},
+  {n:"FUEL TANK (SECURED, ADEQUATE FUEL)",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"FIRE EXTINGUISHER (IN DATE)",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"WHISTLE",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"BAIL BUCKET (SECURED)",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"WATERPROOF TORCH",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"TOW BRIDLE",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"NAVIGATION LIGHTS",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"PADDLES",m:"\u2014",sn:"",q:2,mandatory:true},
+  {n:"ANCHOR WITH CHAIN & ROPE",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"PAINTER LINE (~7M)",m:"\u2014",sn:"",q:1,mandatory:true}
+]},
+{id:"fb-distress",name:"Distress Signals",icon:"\uD83D\uDEA8",items:[
+  {s:"Flares \u2014 Mandatory"},
+  {n:"RED PARACHUTE ROCKETS (IN DATE)",m:"\u2014",sn:"",q:3,mandatory:true},
+  {n:"RED HAND FLARES (IN DATE)",m:"\u2014",sn:"",q:2,mandatory:true},
+  {n:"ORANGE SMOKE SIGNAL (IN DATE)",m:"\u2014",sn:"",q:1,mandatory:true}
+]},
+{id:"fb-rescue",name:"Rescue & Medical",icon:"\u2695\uFE0F",items:[
+  {s:"Rescue Equipment \u2014 Mandatory"},
+  {n:"THROW BAG",m:"\u2014",sn:"",q:1,mandatory:true},
+  {n:"THROW TORPEDO / RESCUE AID",m:"\u2014",sn:"",q:1,mandatory:true},
+  {s:"Medical \u2014 Mandatory"},
+  {n:"FIRST AID KIT (WATERPROOF)",m:"\u2014",sn:"",q:1,mandatory:true}
+]},
+{id:"fb-enhancements",name:"Safety Enhancements",icon:"\uD83D\uDEE1\uFE0F",items:[
+  {s:"Supplementary"},
+  {n:"WINDOW PUNCH & KNIFE",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"EMERGENCY V SHEET",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"DOCKING HOOK",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"ADDITIONAL TORCH",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"GLOW STICKS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {s:"Advanced Rescue"},
+  {n:"BLANKETS",m:"\u2014",sn:"",q:2,mandatory:false},
+  {n:"SPARE ROPE",m:"\u2014",sn:"",q:1,mandatory:false}
+]},
+{id:"fb-tools",name:"Tools",icon:"\uD83D\uDD27",items:[
+  {s:"Supplementary Tools"},
+  {n:"SPANNER (19MM)",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"NEEDLE NOSE PLIERS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"FLAT HEAD SCREWDRIVER",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"LARGE PLIERS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"BOLT CUTTERS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"PROPELLER NUT KIT",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"SPARE BUNG & MOUNT",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"SPARE PROPELLER (9.5 PITCH)",m:"\u2014",sn:"",q:1,mandatory:false}
+]},
+{id:"fb-gobox",name:"Go Box",icon:"\uD83C\uDF92",items:[
+  {s:"Go Box Contents"},
+  {n:"HAND PUMP (NRS WONDER)",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"AIR PRESSURE GAUGE",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"AIR ADAPTORS & FITTINGS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"PATCH KIT & SPARE VALVES",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"SPARE DRY BAGS",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"VESSEL & MOTOR DOCUMENTS (DRY BAG)",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"SPARE BATTERIES",m:"\u2014",sn:"",q:1,mandatory:false},
+  {n:"SUNSCREEN (SPF 50)",m:"\u2014",sn:"",q:1,mandatory:false}
+]}
+]}
+];
+
+// ─── UNIT & ROLE SYSTEM ──────────────────────────────────────────────────────
+var UNIT_NAME='Cessnock City Unit';
+var LOCKED_OWNER_ID='40055691';
+var COMMANDER_ID='40044693';
+var ADMIN1_ID='40061774';
+var ADMIN2_ID='40061741';
+var ADMIN3_ID='40057003';
+
+function roleOf(m){
+  if(!m)return'member';
+  if(m.id===LOCKED_OWNER_ID)return'owner';
+  if(m.id===COMMANDER_ID||m.commander)return'commander';
+  if(m.id===ADMIN1_ID||m.role==='admin_ops')return'admin_ops';
+  if(m.id===ADMIN2_ID||m.role==='admin_membership')return'admin_membership';
+  if(m.id===ADMIN3_ID||m.role==='admin_inventory')return'admin_inventory';
+  return'member';
+}
+var ALL_ADMINS=['owner','commander','admin_ops','admin_membership','admin_inventory'];
+function hasRole(m,roles){var r=roleOf(m);for(var i=0;i<roles.length;i++){if(roles[i]===r)return true;}return false;}
+function canAccessAdminPanel(){return hasRole(user,ALL_ADMINS);}
+function canManageAdmins(){return hasRole(user,['owner','commander']);}
+function canManageMembers(){return hasRole(user,['owner','commander','admin_membership']);}
+function canManageVehicles(){return hasRole(user,['owner','commander','admin_ops']);}
+function canReset(){return hasRole(user,['owner','commander','admin_ops']);}
+function canManageInventory(){return hasRole(user,['owner','commander','admin_inventory']);}
+function canPrint(){return hasRole(user,ALL_ADMINS);}
+function canDeleteMember(m){return hasRole(user,['owner','commander'])&&roleOf(m)!=='owner';}
+function printScope(){
+  var r=roleOf(user);
+  if(r==='owner'||r==='commander')return'all';
+  if(r==='admin_ops')return'vehicles';
+  if(r==='admin_membership')return'members';
+  if(r==='admin_inventory')return'inventory';
+  return'none';
+}
+function roleLabel(m){
+  var r=roleOf(m);
+  if(r==='owner')return'Owner';
+  if(r==='commander')return'Commander';
+  if(r==='admin_ops')return'Admin \u2014 Ops';
+  if(r==='admin_membership')return'Admin \u2014 Membership';
+  if(r==='admin_inventory')return'Admin \u2014 Inventory';
+  return'Member';
+}
+function enforceInvariants(){
+  var owner=MEMBERS.find(function(m){return m.id===LOCKED_OWNER_ID;});
+  if(!owner){MEMBERS.push({first:'Lindsay',last:'Bawden',id:'40055691',pin:'0000'});}
+  var jen=MEMBERS.find(function(m){return m.id===COMMANDER_ID;});
+  if(jen){jen.commander=true;}
+  var seeds=[{id:ADMIN1_ID,role:'admin_ops'},{id:ADMIN2_ID,role:'admin_membership'},{id:ADMIN3_ID,role:'admin_inventory'}];
+  for(var i=0;i<seeds.length;i++){var s=seeds[i];var found=MEMBERS.find(function(m){return m.id===s.id;});if(found&&!found.role)found.role=s.role;}
+}
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+var user=null,checks={},notes={},signoffs={},vchecks={},currentVehicle=null,currentLocker=null,navStack=[];
+var MEMBERS=[],VEHICLES=[];
+
+// ─── LOAD / SAVE ─────────────────────────────────────────────────────────────
+// ─── SHAREPOINT CONFIG ───────────────────────────────────────────────────────
+var SP_SITE_URL='';
+var USE_SHAREPOINT=false;
+var _saveTimer=null;
+var _pendingSave={};
+var _digestCache=null,_digestExpiry=0;
+
+function showSyncBadge(msg,err){
+  var b=document.getElementById('syncBadge');if(!b)return;
+  b.textContent=msg;b.className='sync-badge show'+(err?' err':'');
+  clearTimeout(b._t);b._t=setTimeout(function(){b.classList.remove('show');},2500);
+}
+
+async function getFormDigest(){
+  if(_digestCache&&Date.now()<_digestExpiry)return _digestCache;
+  try{
+    var r=await fetch(SP_SITE_URL+'/_api/contextinfo',{method:'POST',headers:{'Accept':'application/json;odata=verbose'},credentials:'include'});
+    if(!r.ok)return null;
+    var d=await r.json();
+    _digestCache=d.d.GetContextWebInformation.FormDigestValue;
+    _digestExpiry=Date.now()+25*60*1000;
+    return _digestCache;
+  }catch(e){return null;}
+}
+
+async function spRequest(method,url,body){
+  var headers={'Accept':'application/json;odata=verbose','Content-Type':'application/json;odata=verbose'};
+  if(method==='MERGE'||method==='DELETE'){
+    var digest=await getFormDigest();if(digest)headers['X-RequestDigest']=digest;
+    headers['X-HTTP-Method']=method;headers['IF-MATCH']='*';method='POST';
+  }else if(method==='POST'){
+    var digest=await getFormDigest();if(digest)headers['X-RequestDigest']=digest;
+  }
+  var opts={method:method,headers:headers,credentials:'include'};
+  if(body)opts.body=JSON.stringify(body);
+  var r=await fetch(url,opts);
+  if(!r.ok){var t=await r.text().catch(function(){return'';});throw new Error('SP '+r.status+': '+t.substr(0,100));}
+  if(r.status===204)return null;
+  return r.json();
+}
+
+async function spEnsureList(name){
+  try{await spRequest('GET',SP_SITE_URL+"/_api/web/lists/getbytitle('"+name+"')?$select=Id",null);return;}catch(e){}
+  try{
+    await spRequest('POST',SP_SITE_URL+'/_api/web/lists',{__metadata:{type:'SP.List'},Title:name,BaseTemplate:100});
+    await spRequest('POST',SP_SITE_URL+"/_api/web/lists/getbytitle('"+name+"')/fields",{__metadata:{type:'SP.FieldMultiLineText'},Title:'SESValue',FieldTypeKind:3,NumberOfLines:100,UnlimitedLengthInDocumentLibrary:true});
+  }catch(e){console.warn('List create:',e);}
+}
+
+async function spGetItem(list,key){
+  try{
+    var r=await spRequest('GET',SP_SITE_URL+"/_api/web/lists/getbytitle('"+list+"')/items?$filter=Title eq '"+key+"'&$top=1",null);
+    if(r&&r.d&&r.d.results&&r.d.results.length)return r.d.results[0];
+  }catch(e){}
+  return null;
+}
+
+async function spSetItem(list,key,val){
+  try{
+    var existing=await spGetItem(list,key);
+    var body={__metadata:{type:'SP.Data.'+list+'ListItem'},Title:key,SESValue:JSON.stringify(val)};
+    if(existing)await spRequest('MERGE',SP_SITE_URL+"/_api/web/lists/getbytitle('"+list+"')/items("+existing.Id+")",body);
+    else await spRequest('POST',SP_SITE_URL+"/_api/web/lists/getbytitle('"+list+"')/items",body);
+    return true;
+  }catch(e){console.error('spSetItem:',e);return false;}
+}
+
+async function dataLoad(key,fallback){
+  var lsVal;try{lsVal=JSON.parse(localStorage.getItem('ses_'+key));}catch(e){}
+  if(!USE_SHAREPOINT)return lsVal||fallback;
+  var item=await spGetItem('SESEquip_'+key,'data');
+  if(!item){return lsVal||fallback;}
+  try{return JSON.parse(item.SESValue)||fallback;}catch(e){return fallback;}
+}
+
+function dataSave(key,val){
+  try{localStorage.setItem('ses_'+key,JSON.stringify(val));}catch(e){}
+  if(!USE_SHAREPOINT)return;
+  _pendingSave[key]=val;
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(async function(){
+    var keys=Object.keys(_pendingSave);
+    var snap={};keys.forEach(function(k){snap[k]=_pendingSave[k];});
+    _pendingSave={};
+    showSyncBadge('⟳ Saving…');
+    var ok=true;
+    for(var i=0;i<keys.length;i++){
+      var r=await spSetItem('SESEquip_'+keys[i],'data',snap[keys[i]]);
+      if(!r)ok=false;
+    }
+    showSyncBadge(ok?'✓ Saved':'⚠ Sync error',!ok);
+  },1200);
+}
+
+async function loadAll(){
+  MEMBERS=await dataLoad('members',DEFAULT_MEMBERS.map(function(m){var c={};for(var k in m){if(m.hasOwnProperty(k))c[k]=m[k];}return c;}));
+  VEHICLES=await dataLoad('vehicles',JSON.parse(JSON.stringify(DEFAULT_VEHICLES)));
+  checks=await dataLoad('checks',{});
+  notes=await dataLoad('notes',{});
+  signoffs=await dataLoad('signoffs',{});
+  vchecks=await dataLoad('vchecks',{});
+  await loadORC();
+  repairMembers();
+  repairVehicles();
+  enforceInvariants();
+}
+function saveAll(){
+  dataSave('members',MEMBERS);
+  dataSave('vehicles',VEHICLES);
+  dataSave('checks',checks);
+  dataSave('notes',notes);
+  dataSave('signoffs',signoffs);
+  dataSave('vchecks',vchecks);
+  saveORC();
+}
+function repairMembers(){
+  var byId={};
+  MEMBERS.forEach(function(m){if(m&&m.id)byId[m.id]=m;});
+  DEFAULT_MEMBERS.forEach(function(d){
+    if(!byId[d.id]){
+      var c={};for(var k in d){if(d.hasOwnProperty(k))c[k]=d[k];}
+      MEMBERS.push(c);byId[d.id]=c;
+    }else{
+      if(!byId[d.id].first)byId[d.id].first=d.first;
+      if(!byId[d.id].last)byId[d.id].last=d.last;
+      if(!byId[d.id].pin)byId[d.id].pin='0000';
+      if(d.admin&&!byId[d.id].role&&!byId[d.id].commander)byId[d.id].admin=true;
+      if(d.commander)byId[d.id].commander=true;
+    }
+  });
+  MEMBERS.forEach(function(m){
+    if(!m.pin)m.pin='0000';
+    if(m.pin==='0000'&&typeof m.pinChanged==='undefined')m.pinChanged=false;
+  });
+}
+function repairVehicles(){
+  var existing={};
+  VEHICLES.forEach(function(v){existing[v.id]=v;});
+  DEFAULT_VEHICLES.forEach(function(defV){
+    if(!existing[defV.id]){VEHICLES.push(JSON.parse(JSON.stringify(defV)));return;}
+    var v=existing[defV.id],lockers={};
+    (v.lockers||[]).forEach(function(l){lockers[l.id]=l;});
+    defV.lockers.forEach(function(defL){if(!lockers[defL.id])v.lockers.push(JSON.parse(JSON.stringify(defL)));});
+  });
+}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+function doLogin(){
+  var mid=(document.getElementById('loginName').value||'').trim();
+  var pin=(document.getElementById('loginPin').value||'').trim();
+  var err=document.getElementById('loginErr');
+  err.textContent='';
+  ['adminBtn','invBtn','printBtn'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('show');});
+  if(!mid||!pin){err.textContent='Please enter your MID and PIN.';return;}
+  var m=MEMBERS.find(function(x){return String(x.id)===mid&&String(x.pin||'0000')===pin;});
+  if(!m){err.textContent='MID or PIN not recognised.';document.getElementById('loginPin').value='';return;}
+  user=m;
+  document.getElementById('loginScreen').classList.add('hidden');
+  if(m.pin==='0000'&&!m.pinChanged){
+    document.getElementById('appScreen').classList.add('hidden');
+    document.getElementById('pinChangeScreen').style.display='flex';
+    return;
+  }
+  document.getElementById('pinChangeScreen').style.display='none';
+  document.getElementById('appScreen').classList.remove('hidden');
+  if(canAccessAdminPanel())document.getElementById('adminBtn').classList.add('show');
+  document.getElementById('invBtn').classList.add('show');
+  if(canPrint())document.getElementById('printBtn').classList.add('show');
+  showVehicles();
+}
+function doChangePinOnLogin(){
+  var a=(document.getElementById('pcNewPin').value||'').trim();
+  var b=(document.getElementById('pcConfPin').value||'').trim();
+  var err=document.getElementById('pcErr');
+  err.textContent='';
+  if(!a||a.length<4){err.textContent='PIN must be 4 digits.';return;}
+  if(!/^\d{4}$/.test(a)){err.textContent='PIN must be numbers only.';return;}
+  if(a==='0000'){err.textContent='Please choose a different PIN.';return;}
+  if(a!==b){err.textContent='PINs do not match.';return;}
+  user.pin=a;user.pinChanged=true;
+  var m=MEMBERS.find(function(x){return x.id===user.id;});
+  if(m){m.pin=a;m.pinChanged=true;}
+  saveAll();
+  document.getElementById('pinChangeScreen').style.display='none';
+  document.getElementById('appScreen').classList.remove('hidden');
+  if(canAccessAdminPanel())document.getElementById('adminBtn').classList.add('show');
+  document.getElementById('invBtn').classList.add('show');
+  if(canPrint())document.getElementById('printBtn').classList.add('show');
+  showVehicles();
+  showToast('\u2713 PIN updated successfully');
+}
+function doLogout(){
+  user=null;currentVehicle=null;currentLocker=null;navStack=[];
+  ['loginName','loginPin'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('loginErr').textContent='';
+  ['adminBtn','invBtn','printBtn'].forEach(function(id){document.getElementById(id).classList.remove('show');});
+  document.getElementById('appScreen').classList.add('hidden');
+  document.getElementById('pinChangeScreen').style.display='none';
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter')return;
+  if(document.getElementById('pinChangeScreen').style.display==='flex')doChangePinOnLogin();
+  else if(!document.getElementById('loginScreen').classList.contains('hidden'))doLogin();
+});
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function show(view){
+  ['vehicleView','dashView','lockerView','adminView','inventoryView'].forEach(function(id){document.getElementById(id).style.display=id===view?'block':'none';});
+  document.querySelector('.content').scrollTop=0;
+}
+function goBack(){
+  navStack.pop();var top=navStack[navStack.length-1];
+  if(top==='vehicle'||!top){navStack=['vehicle'];showVehicles();}
+  else if(top==='dash')showDash(currentVehicle,false);
+  else if(top==='admin')showAdmin(false);
+  else if(top==='inventory')showInventory(false);
+  else showVehicles();
+}
+function showVehicles(){
+  navStack=['vehicle'];currentVehicle=null;currentLocker=null;
+  document.getElementById('backBtn').style.display='none';
+  document.getElementById('topTitle').textContent=UNIT_NAME;
+  renderVehicles();show('vehicleView');
+}
+function showDash(vehicle,push){
+  if(push===undefined)push=true;
+  currentVehicle=vehicle;currentLocker=null;
+  if(push)navStack.push('dash');
+  document.getElementById('backBtn').style.display='flex';
+  document.getElementById('topTitle').textContent=vehicle.name;
+  renderDash(vehicle);show('dashView');
+}
+function showLocker(vehicle,locker,push){
+  if(push===undefined)push=true;
+  currentVehicle=vehicle;currentLocker=locker;
+  if(push)navStack.push('locker');
+  document.getElementById('backBtn').style.display='flex';
+  document.getElementById('topTitle').textContent=vehicle.sub+' \u00b7 '+locker.name;
+  renderLocker(vehicle,locker);show('lockerView');
+}
+function showAdmin(push){
+  if(push===undefined)push=true;
+  if(!canAccessAdminPanel()){showToast('Access restricted');return;}
+  currentVehicle=null;currentLocker=null;
+  if(push)navStack.push('admin');
+  document.getElementById('backBtn').style.display='flex';
+  document.getElementById('topTitle').textContent='Admin Panel';
+  renderAdmin();show('adminView');
+}
+function showInventory(push){
+  if(push===undefined)push=true;
+  currentVehicle=null;currentLocker=null;
+  if(push)navStack.push('inventory');
+  document.getElementById('backBtn').style.display='flex';
+  document.getElementById('topTitle').textContent='OP READINESS';
+  renderInventory();show('inventoryView');
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+function lockerStats(vehicle,locker){
+  var items=locker.items.filter(function(i){return !i.s;}),yes=0,no=0,na=0;
+  items.forEach(function(item){
+    var idx=locker.items.indexOf(item),k=vehicle.id+':'+locker.id+':'+idx,v=checks[k];
+    if(v==='yes')yes++;else if(v==='no')no++;else if(v==='na')na++;
+  });
+  return{yes:yes,no:no,na:na,total:items.length,pending:items.length-yes-no-na};
+}
+function vehicleStats(vehicle){
+  var yes=0,no=0,na=0,pending=0;
+  vehicle.lockers.forEach(function(l){var s=lockerStats(vehicle,l);yes+=s.yes;no+=s.no;na+=s.na;pending+=s.pending;});
+  return{yes:yes,no:no,na:na,pending:pending};
+}
+function allStats(){
+  var yes=0,no=0,na=0,pending=0;
+  VEHICLES.forEach(function(v){var s=vehicleStats(v);yes+=s.yes;no+=s.no;na+=s.na;pending+=s.pending;});
+  return{yes:yes,no:no,na:na,pending:pending};
+}
+
+// ─── RENDER VEHICLES ─────────────────────────────────────────────────────────
+function renderVehicles(){
+  var ov=allStats(),today=new Date().toLocaleDateString('en-AU');
+  var cards=VEHICLES.map(function(v,i){
+    var s=vehicleStats(v),pct=((s.yes+s.na+s.no)>0)?Math.round(((s.yes+s.na)/(s.yes+s.na+s.no+s.pending))*100):0;
+    return '<div class="vcard '+v.theme+'" onclick="showDash(VEHICLES['+i+'])">'+
+      '<div class="vcard-icon">'+v.icon+'</div><div class="vcard-info">'+
+      '<div class="vcard-name">'+v.name+'</div><div class="vcard-sub">'+v.sub+'</div>'+
+      '<div class="vcard-stats"><span class="vstat ok">\u2713 '+s.yes+'</span>'+(s.no>0?'<span class="vstat bad">\u2717 '+s.no+'</span>':'')+
+      '<span class="vstat pend">'+s.pending+' pending</span></div>'+
+      '<div class="vbar"><div class="vbar-fill" style="width:'+pct+'%"></div></div></div>'+
+      '<div class="vcard-arrow">\u203a</div></div>';
+  }).join('');
+  document.getElementById('vehicleView').innerHTML=
+    '<div class="vh-banner"><h2>\uD83D\uDE92 '+UNIT_NAME+'</h2><p>NSW SES \u00b7 Equipment Check System \u00b7 Select a vehicle to begin</p>'+
+    '<div class="audit-chips"><div class="chip">Date: <b>'+today+'</b></div></div></div>'+
+    '<div class="overall-box"><div class="overall-title">All Vehicles \u2014 Today\'s Progress</div><div class="ov-stats">'+
+    '<div class="ov-stat ok"><div class="n">'+ov.yes+'</div><div class="l">Present</div></div>'+
+    '<div class="ov-stat bad"><div class="n">'+ov.no+'</div><div class="l">Missing</div></div>'+
+    '<div class="ov-stat na"><div class="n">'+ov.na+'</div><div class="l">N/A</div></div>'+
+    '<div class="ov-stat pend"><div class="n">'+ov.pending+'</div><div class="l">Pending</div></div></div></div>'+
+    '<div class="sec-label">Select Vehicle</div><div class="vehicle-cards">'+cards+'</div>';
+}
+
+// ─── VEHICLE PRE-CHECK GROUPS ────────────────────────────────────────────────
+var VCHK_GROUPS_VEHICLE=[
+  {id:'fluids',label:'Fluids',emoji:'\uD83E\uDEE7',fields:[
+    {id:'engine_oil',label:'Engine Oil',emoji:'\uD83D\uDEE2\uFE0F',opts:['OK','Low','Bad']},
+    {id:'coolant',label:'Coolant',emoji:'\uD83C\uDF21\uFE0F',opts:['OK','Low','Bad']},
+    {id:'brake_fluid',label:'Brake Fluid',emoji:'\uD83D\uDD34',opts:['OK','Low','Bad']},
+    {id:'washer_fluid',label:'Washer Fluid',emoji:'\uD83D\uDCA7',opts:['OK','Low','Bad']},
+    {id:'fuel',label:'Fuel Level',emoji:'\u26FD',opts:['Full','Low','Empty']}
+  ]},
+  {id:'visual',label:'Vehicle Visual',emoji:'\uD83D\uDE9A',fields:[
+    {id:'tyres',label:'Tyres',emoji:'\u26AB',opts:['OK','Low','Flat']},
+    {id:'body_damage',label:'Body / Damage',emoji:'\uD83D\uDE9A',opts:['OK','\u2014','Damage']},
+    {id:'windscreen',label:'Windscreen',emoji:'\uD83E\uDE9F',opts:['OK','\u2014','Damage']},
+    {id:'mirrors',label:'Mirrors',emoji:'\uD83D\uDD35',opts:['OK','\u2014','Fault']},
+    {id:'wipers',label:'Wipers',emoji:'\uD83C\uDF27\uFE0F',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'warning',label:'Warning Systems',emoji:'\uD83D\uDEA8',fields:[
+    {id:'beacon_front',label:'Beacon Front',emoji:'\uD83D\uDEA8',opts:['OK','\u2014','Fault']},
+    {id:'beacon_rear',label:'Beacon Rear',emoji:'\uD83D\uDEA8',opts:['OK','\u2014','Fault']},
+    {id:'siren',label:'Siren',emoji:'\uD83D\uDD0A',opts:['OK','\u2014','Fault']},
+    {id:'airhorn',label:'Air Horn',emoji:'\uD83C\uDFBA',opts:['OK','\u2014','Fault']},
+    {id:'headlights',label:'Headlights',emoji:'\uD83D\uDCA1',opts:['OK','\u2014','Fault']},
+    {id:'spotlights',label:'Spotlights',emoji:'\uD83D\uDD26',opts:['OK','\u2014','Fault']},
+    {id:'indicator_l',label:'Indicators L',emoji:'\u2190',opts:['OK','\u2014','Fault']},
+    {id:'indicator_r',label:'Indicators R',emoji:'\u2192',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'comms',label:'Communications',emoji:'\uD83D\uDCF6',fields:[
+    {id:'radio_rego',label:'Radio (Rego)',emoji:'\uD83D\uDCF2',opts:['OK','\u2014','Fault']},
+    {id:'radio_port',label:'Radio (Portable)',emoji:'\uD83D\uDCF1',opts:['OK','\u2014','Fault']},
+    {id:'radio_charge',label:'Portable Charge',emoji:'\uD83D\uDD0B',opts:['Full','Low','Flat']},
+    {id:'intercom',label:'Intercom',emoji:'\uD83C\uDFA4',opts:['OK','\u2014','Fault']},
+    {id:'mobile_sig',label:'Mobile Signal',emoji:'\uD83D\uDCF6',opts:['Good','Low','None']}
+  ]}
+];
+var VCHK_GROUPS_TRAILER=[
+  {id:'towing',label:'Towing & Coupling',emoji:'\uD83D\uDD17',fields:[
+    {id:'coupling',label:'Coupling / Hitch',emoji:'\uD83D\uDD17',opts:['OK','\u2014','Fault']},
+    {id:'safety_chains',label:'Safety Chains',emoji:'\u26D3\uFE0F',opts:['OK','\u2014','Fault']},
+    {id:'breakaway',label:'Breakaway Cable',emoji:'\u26A1',opts:['OK','\u2014','Fault']},
+    {id:'tow_plug',label:'Tow Plug (7/12 Pin)',emoji:'\uD83D\uDD0C',opts:['OK','\u2014','Fault']},
+    {id:'jockey_wheel',label:'Jockey Wheel',emoji:'\u2B55',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'trailer_visual',label:'Trailer Visual',emoji:'\uD83D\uDE9A',fields:[
+    {id:'tyres',label:'Tyres',emoji:'\u26AB',opts:['OK','Low','Flat']},
+    {id:'body_damage',label:'Body / Damage',emoji:'\uD83D\uDE9A',opts:['OK','\u2014','Damage']},
+    {id:'doors_latches',label:'Doors & Latches',emoji:'\uD83D\uDD12',opts:['OK','\u2014','Fault']},
+    {id:'stabiliser',label:'Corner Stabilisers',emoji:'\u2696\uFE0F',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'warning',label:'Warning Systems',emoji:'\uD83D\uDEA8',fields:[
+    {id:'beacon_front',label:'Beacon Front',emoji:'\uD83D\uDEA8',opts:['OK','\u2014','Fault']},
+    {id:'beacon_rear',label:'Beacon Rear',emoji:'\uD83D\uDEA8',opts:['OK','\u2014','Fault']},
+    {id:'tail_lights',label:'Tail Lights',emoji:'\uD83D\uDD34',opts:['OK','\u2014','Fault']},
+    {id:'brake_lights',label:'Brake Lights',emoji:'\uD83D\uDD34',opts:['OK','\u2014','Fault']},
+    {id:'indicator_l',label:'Indicators L',emoji:'\u2190',opts:['OK','\u2014','Fault']},
+    {id:'indicator_r',label:'Indicators R',emoji:'\u2192',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'comms',label:'Communications',emoji:'\uD83D\uDCF6',fields:[
+    {id:'radio_port',label:'Radio (Portable)',emoji:'\uD83D\uDCF1',opts:['OK','\u2014','Fault']},
+    {id:'radio_charge',label:'Portable Charge',emoji:'\uD83D\uDD0B',opts:['Full','Low','Flat']},
+    {id:'mobile_sig',label:'Mobile Signal',emoji:'\uD83D\uDCF6',opts:['Good','Low','None']}
+  ]}
+];
+var VCHK_GROUPS_FLOODBOAT=[
+  {id:'vessel',label:'Vessel & Trailer',emoji:'\u26F5',fields:[
+    {id:'hull',label:'Hull Condition',emoji:'\u26F5',opts:['OK','\u2014','Damage']},
+    {id:'bungs',label:'Bungs In & Secure',emoji:'\uD83D\uDD0C',opts:['OK','\u2014','Fault']},
+    {id:'trailer_coupling',label:'Trailer Coupling',emoji:'\uD83D\uDD17',opts:['OK','\u2014','Fault']},
+    {id:'trailer_lights',label:'Trailer Lights',emoji:'\uD83D\uDD34',opts:['OK','\u2014','Fault']},
+    {id:'trailer_tyres',label:'Trailer Tyres',emoji:'\u26AB',opts:['OK','Low','Flat']}
+  ]},
+  {id:'motor',label:'Motor & Fuel',emoji:'\u26FD',fields:[
+    {id:'motor_condition',label:'Motor Condition',emoji:'\u2699\uFE0F',opts:['OK','\u2014','Fault']},
+    {id:'fuel_level',label:'Fuel Level',emoji:'\u26FD',opts:['Full','Low','Empty']},
+    {id:'fuel_secured',label:'Fuel Tank Secured',emoji:'\uD83D\uDD12',opts:['OK','\u2014','Fault']},
+    {id:'kill_switch',label:'Kill Switch / Lanyard',emoji:'\uD83D\uDED1',opts:['OK','\u2014','Fault']},
+    {id:'steering',label:'Steering / Tiller',emoji:'\uD83D\uDCCD',opts:['OK','\u2014','Fault']}
+  ]},
+  {id:'safety_eq',label:'Safety Equipment',emoji:'\uD83D\uDEA8',fields:[
+    {id:'pfds',label:'PFDs (All Crew)',emoji:'\uD83E\uDDBA',opts:['OK','\u2014','Fault']},
+    {id:'throwbag',label:'Throw Bag',emoji:'\uD83E\uDDF5',opts:['OK','\u2014','Missing']},
+    {id:'firstaid',label:'First Aid Kit',emoji:'\u2695\uFE0F',opts:['OK','\u2014','Missing']},
+    {id:'fire_ext',label:'Fire Extinguisher',emoji:'\uD83E\uDDF1',opts:['OK','\u2014','Missing']},
+    {id:'flares',label:'Flares (In Date)',emoji:'\uD83D\uDEA8',opts:['OK','\u2014','Expired']},
+    {id:'nav_lights',label:'Navigation Lights',emoji:'\uD83D\uDCA1',opts:['OK','\u2014','Fault']},
+    {id:'anchor',label:'Anchor & Chain',emoji:'\u2693',opts:['OK','\u2014','Missing']}
+  ]},
+  {id:'comms',label:'Communications',emoji:'\uD83D\uDCF6',fields:[
+    {id:'radio_port',label:'Radio (Portable)',emoji:'\uD83D\uDCF1',opts:['OK','\u2014','Fault']},
+    {id:'radio_charge',label:'Portable Charge',emoji:'\uD83D\uDD0B',opts:['Full','Low','Flat']},
+    {id:'mobile_sig',label:'Mobile Signal',emoji:'\uD83D\uDCF6',opts:['Good','Low','None']}
+  ]}
+];
+function getVchkGroups(vid){
+  if(vid==='trailer')return VCHK_GROUPS_TRAILER;
+  if(vid==='floodboat')return VCHK_GROUPS_FLOODBOAT;
+  return VCHK_GROUPS_VEHICLE;
+}
+function vchkVal(vid,fid){return(vchecks[vid]&&vchecks[vid][fid])?vchecks[vid][fid]:'';}
+function vchkBtnClass(opt,idx){if(idx===0)return'ok';if(idx===1)return'low';return'bad';}
+function setVcheck(vid,fid,val){
+  if(!vchecks[vid])vchecks[vid]={};
+  if(vchecks[vid][fid]===val)delete vchecks[vid][fid];
+  else vchecks[vid][fid]=val;
+  saveAll();
+  var cur=vchkVal(vid,fid);
+  var btnEls=document.querySelectorAll('.vchkb-'+vid+'-'+fid);
+  for(var bi=0;bi<btnEls.length;bi++){
+    var b=btnEls[bi],bv=b.getAttribute('data-val'),bidx=parseInt(b.getAttribute('data-idx'),10);
+    var cls='vchk-btn '+vchkBtnClass(bv,bidx);
+    if(bv===cur)cls+=' active';
+    b.className=cls;
+  }
+  updateVchkSummary(vid);
+}
+function vchkSummary(vid){
+  var groups=getVchkGroups(vid),total=0,done=0,faults=0,warnings=0;
+  for(var gi=0;gi<groups.length;gi++){var g=groups[gi];for(var fi=0;fi<g.fields.length;fi++){total++;var v=vchkVal(vid,g.fields[fi].id);if(v){done++;if(v==='Bad'||v==='Fault'||v==='Flat'||v==='Damage'||v==='Empty'||v==='None'||v==='Missing'||v==='Expired')faults++;else if(v==='Low')warnings++;}}}
+  return{total:total,done:done,faults:faults,warnings:warnings,pending:total-done};
+}
+function updateVchkSummary(vid){
+  var el=document.getElementById('vchk-summary-'+vid);if(!el)return;
+  var s=vchkSummary(vid),html='';
+  if(s.faults>0)html+='<span class="vchk-chip bad">\u26A0 '+s.faults+' fault'+(s.faults===1?'':'s')+'</span>';
+  if(s.warnings>0)html+='<span class="vchk-chip warn">\u26A0 '+s.warnings+' warning'+(s.warnings===1?'':'s')+'</span>';
+  if(s.pending>0)html+='<span class="vchk-chip pend">'+s.pending+' pending</span>';
+  if(s.done===s.total&&s.faults===0)html+='<span class="vchk-chip ok">\u2713 All checks clear</span>';
+  el.innerHTML=html;
+}
+function saveVchkOdo(vid){
+  var el=document.getElementById('vchk-odo-'+vid);if(!el)return;
+  if(!vchecks[vid])vchecks[vid]={};
+  vchecks[vid].odometer=el.value.trim();
+  saveAll();
+}
+function signOffVcheck(vi){
+  var v=VEHICLES[vi],vid=v.id,s=vchkSummary(vid);
+  if(s.faults>0){
+    openModal('Vehicle Check \u2014 Faults Recorded',
+      '<p style="font-size:14px;color:var(--muted);line-height:1.7"><b style="color:var(--red)">\u26A0 '+s.faults+' fault'+(s.faults===1?'':'s')+'</b> recorded in this pre-check.<br>Sign off anyway and proceed to equipment checks?</p>',
+      [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Sign Off With Faults',cls:'confirm',fn:'doSignOffVcheck('+vi+')'}]);
+  }else{doSignOffVcheck(vi);}
+}
+function doSignOffVcheck(vi){
+  var v=VEHICLES[vi],vid=v.id;
+  if(!vchecks[vid])vchecks[vid]={};
+  vchecks[vid].signoff={by:(user?user.first+' '+user.last:'Unknown'),at:new Date().toISOString()};
+  saveAll();closeModal();showToast('\u2713 Pre-check signed off');renderDash(v);
+}
+function renderVchkGroup(vid,g){
+  var html='<div class="vchk-group-label">'+g.emoji+' '+g.label+'</div><div class="vchk-grid">';
+  for(var fi=0;fi<g.fields.length;fi++){
+    var f=g.fields[fi],cur=vchkVal(vid,f.id),btnHtml='';
+    for(var oi=0;oi<f.opts.length;oi++){
+      var opt=f.opts[oi],cls='vchk-btn '+vchkBtnClass(opt,oi);
+      if(opt===cur)cls+=' active';
+      btnHtml+='<button class="'+cls+' vchkb-'+vid+'-'+f.id+'" data-val="'+opt+'" data-idx="'+oi+'" onclick="setVcheck(\''+vid+'\',\''+f.id+'\',\''+opt+'\')">'+opt+'</button>';
+    }
+    html+='<div class="vchk-item"><div class="vchk-item-label"><span class="vchk-item-emoji">'+f.emoji+'</span>'+f.label+'</div><div class="vchk-btns">'+btnHtml+'</div></div>';
+  }
+  html+='</div>';return html;
+}
+
+// ─── RENDER DASH ─────────────────────────────────────────────────────────────
+function renderDash(vehicle){
+  var vs=vehicleStats(vehicle),total=vs.yes+vs.no+vs.na+vs.pending,pct=total>0?Math.round(((vs.yes+vs.na)/total)*100):0;
+  var tc={lsv:'var(--orange)',gpv:'var(--blue2)',trailer:'var(--green)',floodboat:'var(--cyan)'}[vehicle.theme]||'var(--orange)';
+  var vi=VEHICLES.indexOf(vehicle),vid=vehicle.id,vc=vchecks[vid]||{},vcs=vchkSummary(vid),vcSigned=vc.signoff,odoVal=vc.odometer||'';
+  var vcChip='';
+  if(vcSigned)vcChip='<span class="vchk-chip ok" style="font-size:10px">\u2713 Pre-check signed</span>';
+  else if(vcs.faults>0)vcChip='<span class="vchk-chip bad" style="font-size:10px">\u26A0 '+vcs.faults+' fault'+(vcs.faults===1?'':'s')+'</span>';
+  else if(vcs.done>0)vcChip='<span class="vchk-chip pend" style="font-size:10px">'+vcs.done+'/'+vcs.total+' checks done</span>';
+  else vcChip='<span class="vchk-chip pend" style="font-size:10px">Pre-check pending</span>';
+  var grid=vehicle.lockers.map(function(locker,li){
+    var s=lockerStats(vehicle,locker),lpct=s.total>0?Math.round(((s.yes+s.na)/s.total)*100):0,done=s.pending===0&&s.total>0;
+    return '<div class="lbtn '+vehicle.theme+'-theme '+(done?'done':'')+'" onclick="showLocker(VEHICLES['+vi+'],VEHICLES['+vi+'].lockers['+li+'])">'+
+      '<div class="lbtn-icon">'+locker.icon+'</div><div class="lbtn-name">'+locker.name+'</div>'+
+      '<div class="lbtn-count">'+s.yes+'/'+s.total+' checked'+(s.no>0?' \u00b7 '+s.no+' missing':'')+'</div>'+
+      '<div class="lprog"><div class="lprog-fill" style="width:'+lpct+'%"></div></div></div>';
+  }).join('');
+  var vcSignoffHtml='';
+  if(vcSigned){
+    vcSignoffHtml='<div class="vchk-signed-badge"><div class="icon">\u2705</div><div class="info"><b>Pre-Check Signed Off</b>By '+vcSigned.by+' &nbsp;&bull;&nbsp; '+new Date(vcSigned.at).toLocaleString('en-AU')+'</div></div>';
+  }else{
+    vcSignoffHtml='<button class="vchk-signoff-btn" onclick="signOffVcheck('+vi+')">\u2713 SIGN OFF VEHICLE PRE-CHECK</button>';
+  }
+  var vcGroupsHtml='',groups=getVchkGroups(vid);
+  for(var gi=0;gi<groups.length;gi++)vcGroupsHtml+=renderVchkGroup(vid,groups[gi]);
+  var odoLabel=vid==='floodboat'?'Motor Hours':'Odometer (km)';
+  var odoUnit=vid==='floodboat'?'hrs':'km';
+  var vchkCard='<div class="vchk-card">'+
+    '<div class="vchk-title"><span>\uD83D\uDE9A Vehicle Pre-Check</span>'+vcChip+'</div>'+
+    '<div class="vchk-odo-row"><div class="vchk-odo-wrap"><div class="vchk-odo-label">'+odoLabel+'</div>'+
+    '<input class="vchk-odo-input" id="vchk-odo-'+vid+'" type="number" inputmode="numeric" placeholder="e.g. 123" value="'+escHtml(odoVal)+'" onchange="saveVchkOdo(\''+vid+'\')" onblur="saveVchkOdo(\''+vid+'\')"></div>'+
+    '<div class="vchk-odo-unit">'+odoUnit+'</div></div>'+
+    vcGroupsHtml+
+    '<div class="vchk-status-bar" id="vchk-summary-'+vid+'"></div>'+
+    '<div class="vchk-notes-wrap"><div class="vchk-odo-label" style="margin-top:10px;margin-bottom:5px">Pre-Check Notes</div>'+
+    '<textarea class="ninput" id="vchk-notes-'+vid+'" placeholder="Record any issues..." style="min-height:60px">'+escHtml(vc.notes||'')+'</textarea></div>'+
+    vcSignoffHtml+'</div>';
+  document.getElementById('dashView').innerHTML=
+    '<div class="dash-hdr"><div class="dash-hdr-icon">'+vehicle.icon+'</div><div style="flex:1">'+
+    '<h2>'+vehicle.name+'</h2><p>'+vehicle.sub+' \u00b7 '+vs.yes+'/'+total+' items checked</p>'+
+    '<div class="dash-prog"><div class="dash-prog-fill" style="width:'+pct+'%;background:'+tc+'"></div></div></div></div>'+
+    '<div class="dash-stats"><div class="ds ok"><div class="n">'+vs.yes+'</div><div class="l">Present</div></div>'+
+    '<div class="ds bad"><div class="n">'+vs.no+'</div><div class="l">Missing</div></div>'+
+    '<div class="ds na"><div class="n">'+vs.na+'</div><div class="l">N/A</div></div>'+
+    '<div class="ds pend"><div class="n">'+vs.pending+'</div><div class="l">Pending</div></div></div>'+
+    vchkCard+
+    '<div class="sec-label" style="margin-top:6px">Equipment Lockers</div><div class="locker-grid">'+grid+'</div>';
+  var notesEl=document.getElementById('vchk-notes-'+vid);
+  if(notesEl){notesEl.addEventListener('change',function(){if(!vchecks[vid])vchecks[vid]={};vchecks[vid].notes=notesEl.value;saveAll();});}
+  updateVchkSummary(vid);
+}
+
+// ─── RENDER LOCKER ───────────────────────────────────────────────────────────
+function renderLocker(vehicle,locker){
+  var s=lockerStats(vehicle,locker),pct=s.total>0?Math.round(((s.yes+s.na)/s.total)*100):0;
+  var tc={lsv:'var(--orange)',gpv:'var(--blue2)',trailer:'var(--green)',floodboat:'var(--cyan)'}[vehicle.theme]||'var(--orange)';
+  var lkNote=notes[vehicle.id+':'+locker.id]||'';
+  var so=signoffs[vehicle.id+':'+locker.id];
+  var itemsHtml='';
+  for(var i=0;i<locker.items.length;i++){
+    var item=locker.items[i];
+    if(item.s){itemsHtml+='<div class="sec-hdr">'+item.s+'</div>';continue;}
+    var k=vehicle.id+':'+locker.id+':'+i,cv=checks[k]||'';
+    var cls='icard'+(cv==='yes'?' cyes':cv==='no'?' cno':cv==='na'?' cna':'');
+    var mandBadge=item.mandatory?'<span class="mandatory-badge">MANDATORY</span>':'';
+    itemsHtml+='<div class="'+cls+'" id="icard-'+k.replace(/:/g,'-')+'">'+
+      '<div class="itop"><div class="idot"></div><div class="iinfo">'+
+      '<div class="iname">'+escHtml(item.n)+(item.q&&item.q>1?' <span style="color:var(--muted);font-size:11px">x'+item.q+'</span>':'')+'</div>'+
+      (item.m&&item.m!=='\u2014'?'<div class="imeta">M/N: '+escHtml(item.m)+(item.sn?' &nbsp;&bull;&nbsp; S/N: '+escHtml(item.sn):'')+'</div>':'')+
+      '</div>'+mandBadge+
+      '<div class="iqty">'+(item.q||1)+'</div></div>'+
+      '<div class="ictrls">'+
+      '<button class="cbtn yes'+(cv==='yes'?' active':'')+'" onclick="setCheck(\''+k+'\',\'yes\',this)">\u2713 YES</button>'+
+      '<button class="cbtn no'+(cv==='no'?' active':'')+'" onclick="setCheck(\''+k+'\',\'no\',this)">\u2717 NO</button>'+
+      '<button class="cbtn na'+(cv==='na'?' active':'')+'" onclick="setCheck(\''+k+'\',\'na\',this)">N/A</button>'+
+      '</div></div>';
+  }
+  var soHtml='';
+  if(so){
+    soHtml='<div class="signed-ok">\u2705 Signed off by '+escHtml(so.by)+' at '+new Date(so.at).toLocaleString('en-AU')+'</div>';
+  }else{
+    soHtml='<div class="signoff-box"><div class="signoff-title">\uD83D\uDD8A Sign Off</div>'+
+      '<div class="signoff-info">Checked by: <b>'+escHtml(user?user.first+' '+user.last:'')+'</b><br>'+
+      'Items confirmed: <b>'+s.yes+' present, '+s.no+' missing, '+s.na+' N/A</b><br>'+
+      (s.pending>0?'<span style="color:var(--red)">'+s.pending+' items still pending</span>':'<span style="color:var(--green)">All items reviewed</span>')+'</div>'+
+      '<button class="btn-signoff" onclick="signoffLocker(\''+vehicle.id+'\',\''+locker.id+'\')">\u2713 SIGN OFF THIS LOCKER</button></div>';
+  }
+  document.getElementById('lockerView').innerHTML=
+    '<div class="lk-hdr"><div class="lk-hdr-icon">'+locker.icon+'</div><div style="flex:1">'+
+    '<h2>'+escHtml(locker.name)+'</h2><p>'+escHtml(vehicle.name)+' \u00b7 '+s.yes+'/'+s.total+' items</p>'+
+    '<div class="lk-prog"><div class="lk-prog-fill" style="width:'+pct+'%;background:'+tc+'"></div></div></div></div>'+
+    '<div class="overall-box"><div class="overall-title">Locker Status</div><div class="ov-stats">'+
+    '<div class="ov-stat ok"><div class="n">'+s.yes+'</div><div class="l">Present</div></div>'+
+    '<div class="ov-stat bad"><div class="n">'+s.no+'</div><div class="l">Missing</div></div>'+
+    '<div class="ov-stat na"><div class="n">'+s.na+'</div><div class="l">N/A</div></div>'+
+    '<div class="ov-stat pend"><div class="n">'+s.pending+'</div><div class="l">Pending</div></div></div></div>'+
+    itemsHtml+
+    '<div class="notes-wrap"><div class="nlabel">Notes</div>'+
+    '<textarea class="ninput" id="lockerNotes" placeholder="Record any issues with this locker...">'+escHtml(lkNote)+'</textarea></div>'+
+    soHtml;
+  var notesEl=document.getElementById('lockerNotes');
+  if(notesEl){notesEl.addEventListener('input',function(){notes[vehicle.id+':'+locker.id]=notesEl.value;saveAll();});}
+}
+function setCheck(k,val,btn){
+  var cur=checks[k]||'';
+  if(cur===val)checks[k]='';
+  else checks[k]=val;
+  saveAll();
+  var cardEl=document.getElementById('icard-'+k.replace(/:/g,'-'));
+  if(cardEl){
+    cardEl.className='icard'+(checks[k]==='yes'?' cyes':checks[k]==='no'?' cno':checks[k]==='na'?' cna':'');
+    var dot=cardEl.querySelector('.idot');
+    if(dot)dot.className='idot';
+  }
+  var parent=btn.parentNode;
+  var btns=parent.querySelectorAll('.cbtn');
+  for(var bi=0;bi<btns.length;bi++){btns[bi].classList.remove('active');}
+  if(checks[k])btn.classList.add('active');
+  if(currentVehicle&&currentLocker){
+    var s=lockerStats(currentVehicle,currentLocker);
+    var statEls=document.querySelectorAll('.ov-stat .n');
+    if(statEls.length>=4){statEls[0].textContent=s.yes;statEls[1].textContent=s.no;statEls[2].textContent=s.na;statEls[3].textContent=s.pending;}
+  }
+}
+function signoffLocker(vid,lid){
+  var v=VEHICLES.find(function(x){return x.id===vid;}),l=v?v.lockers.find(function(x){return x.id===lid;}):null;
+  if(!v||!l)return;
+  var s=lockerStats(v,l);
+  if(s.pending>0){
+    openModal('Sign Off \u2014 Items Pending',
+      '<p style="font-size:14px;color:var(--muted);line-height:1.7">'+s.pending+' item(s) have not been checked yet.<br>Sign off anyway?</p>',
+      [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Sign Off Anyway',cls:'confirm',fn:'doSignoffLocker(\''+vid+'\',\''+lid+'\')'}]);
+  }else{doSignoffLocker(vid,lid);}
+}
+function doSignoffLocker(vid,lid){
+  signoffs[vid+':'+lid]={by:user.first+' '+user.last,at:new Date().toISOString()};
+  saveAll();closeModal();showToast('\u2713 Locker signed off');
+  var v=VEHICLES.find(function(x){return x.id===vid;}),l=v?v.lockers.find(function(x){return x.id===lid;}):null;
+  if(v&&l)renderLocker(v,l);
+}
+
+// ─── ADMIN ────────────────────────────────────────────────────────────────────
+function renderAdmin(){
+  var tabs='';
+  if(canReset())tabs+='<button class="atab active" onclick="adminTab(\'checks\',this)">Checks</button>';
+  if(canManageMembers())tabs+='<button class="atab'+(canReset()?'':' active')+'" onclick="adminTab(\'members\',this)">Members</button>';
+  if(canManageVehicles())tabs+='<button class="atab" onclick="adminTab(\'equipment\',this)">Equipment</button>';
+  tabs+='<button class="atab" onclick="adminTab(\'stats\',this)">Stats</button>';
+  var checksPanel=canReset()?
+    '<div class="admin-panel active" id="adminPanel-checks">'+
+    '<div class="admin-section"><div class="admin-section-title">Reset Vehicle Checks</div>'+
+    '<div class="reset-grid">'+VEHICLES.map(function(v,i){return '<button class="btn-reset-v" onclick="resetVehicle('+i+')">Reset '+escHtml(v.name)+'</button>';}).join('')+'</div>'+
+    '<button class="btn-reset-all" onclick="resetAll()">&#9888; RESET ALL VEHICLES</button></div>'+
+    '<div class="admin-section"><div class="admin-section-title">Reset Pre-Checks</div>'+
+    '<div class="reset-grid">'+VEHICLES.map(function(v,i){return '<button class="btn-reset-v" onclick="resetVcheck('+i+')">Reset '+escHtml(v.name)+' Pre-check</button>';}).join('')+'</div></div></div>':'';
+  var membersPanel=canManageMembers()?'<div class="admin-panel" id="adminPanel-members">'+renderMembersPanel()+'</div>':'';
+  var equipPanel=canManageVehicles()?'<div class="admin-panel" id="adminPanel-equipment">'+renderEquipPanel()+'</div>':'';
+  var ov=allStats(),total=ov.yes+ov.no+ov.na+ov.pending;
+  var statsPanel='<div class="admin-panel" id="adminPanel-stats">'+
+    '<div class="admin-section"><div class="admin-section-title">Unit Overview</div>'+
+    '<div class="admin-stat-row"><span>Total Items</span><span class="admin-stat-val">'+total+'</span></div>'+
+    '<div class="admin-stat-row"><span>Checked Present</span><span class="admin-stat-val" style="color:var(--green)">'+ov.yes+'</span></div>'+
+    '<div class="admin-stat-row"><span>Missing</span><span class="admin-stat-val" style="color:var(--red)">'+ov.no+'</span></div>'+
+    '<div class="admin-stat-row"><span>N/A</span><span class="admin-stat-val" style="color:var(--yellow)">'+ov.na+'</span></div>'+
+    '<div class="admin-stat-row"><span>Pending</span><span class="admin-stat-val">'+ov.pending+'</span></div>'+
+    '<div class="admin-stat-row"><span>Members</span><span class="admin-stat-val">'+MEMBERS.length+'</span></div></div>'+
+    VEHICLES.map(function(v){
+      var vs=vehicleStats(v);
+      return '<div class="admin-section"><div class="admin-section-title">'+escHtml(v.name)+' \u2014 '+escHtml(v.sub)+'</div>'+
+        '<div class="admin-stat-row"><span>Present</span><span class="admin-stat-val" style="color:var(--green)">'+vs.yes+'</span></div>'+
+        '<div class="admin-stat-row"><span>Missing</span><span class="admin-stat-val" style="color:var(--red)">'+vs.no+'</span></div>'+
+        '<div class="admin-stat-row"><span>N/A</span><span class="admin-stat-val" style="color:var(--yellow)">'+vs.na+'</span></div>'+
+        '<div class="admin-stat-row"><span>Pending</span><span class="admin-stat-val">'+vs.pending+'</span></div></div>';
+    }).join('')+'</div>';
+  document.getElementById('adminView').innerHTML=
+    '<div class="admin-banner"><h2>&#9881; Admin Panel</h2><p>'+roleLabel(user)+' \u00b7 '+escHtml(user.first+' '+user.last)+'</p></div>'+
+    '<div class="admin-tabs">'+tabs+'</div>'+
+    checksPanel+membersPanel+equipPanel+statsPanel;
+}
+function adminTab(name,btn){
+  document.querySelectorAll('.atab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.admin-panel').forEach(function(p){p.classList.remove('active');});
+  var panel=document.getElementById('adminPanel-'+name);
+  if(panel)panel.classList.add('active');
+}
+function renderMembersPanel(){
+  var sorted=MEMBERS.slice().sort(function(a,b){return(a.last||'').localeCompare(b.last||'');});
+  var rows=sorted.map(function(m){
+    var rl=roleLabel(m),isOwner=m.id===LOCKED_OWNER_ID;
+    var badge=roleOf(m)!=='member'?'<span class="member-admin-badge">'+escHtml(rl)+'</span>':'';
+    var pinStatus=(m.pin==='0000'&&!m.pinChanged)?'<span style="color:var(--red);font-size:10px;font-weight:700">\u26A0 DEFAULT</span>':'<span style="color:var(--green);font-size:10px;font-weight:700">\u2713 SET</span>';
+    var pinBtns=canManageMembers()
+      ?'<button class="btn-del" style="color:#64B5F6;border-color:rgba(100,181,246,.35);background:rgba(100,181,246,.08)" onclick="setPinModal(\''+jsStr(m.id)+'\')">PIN</button>'+
+        '<button class="btn-del" style="color:var(--yellow);border-color:rgba(255,214,0,.35);background:rgba(255,214,0,.08)" onclick="adminResetPin(\''+jsStr(m.id)+'\')">Reset</button>'
+      :'';
+    var delBtn=(!isOwner&&canDeleteMember(m))?'<button class="btn-del" onclick="deleteMember(\''+jsStr(m.id)+'\')">Remove</button>':'';
+    return '<div class="member-row">'+
+      '<div class="member-row-info"><div class="member-row-name">'+escHtml((m.first||'')+' '+(m.last||''))+'</div>'+
+      '<div class="member-row-meta">MID: '+escHtml(m.id)+' &nbsp;&bull;&nbsp; '+pinStatus+'</div></div>'+
+      badge+pinBtns+delBtn+'</div>';
+  }).join('');
+  var addForm='';
+  if(canManageMembers()){
+    addForm='<div class="add-form"><div class="add-form-title">+ Add Member</div>'+
+      '<div class="form-row"><div><div class="flabel">First Name</div><input class="finput" id="newFirst" placeholder="First"></div>'+
+      '<div><div class="flabel">Last Name</div><input class="finput" id="newLast" placeholder="Last"></div></div>'+
+      '<div class="form-full"><div class="flabel">MID</div><input class="finput" id="newMid" type="tel" placeholder="Member number" inputmode="numeric"></div>'+
+      (canManageAdmins()
+        ?'<div class="form-full"><div class="flabel">Role</div><select class="fselect" id="newRole">'+
+          '<option value="member">Member</option>'+
+          '<option value="admin_ops">Admin \u2014 Ops</option>'+
+          '<option value="admin_membership">Admin \u2014 Membership</option>'+
+          '<option value="admin_inventory">Admin \u2014 Inventory</option>'+
+          (hasRole(user,['owner'])?'<option value="commander">Commander</option>':'')+
+          '</select></div>':'')+
+      '<div class="btn-row"><button class="btn-sm" onclick="addMember()">Add Member</button></div>'+
+      '<div style="font-size:11px;color:var(--muted);margin-top:8px">New members receive default PIN 0000 and must change it on first login.</div>'+
+      '</div>';
+  }
+  return addForm+'<div class="member-list">'+rows+'</div>';
+}
+function addMember(){
+  var first=(document.getElementById('newFirst').value||'').trim();
+  var last=(document.getElementById('newLast').value||'').trim();
+  var mid=(document.getElementById('newMid').value||'').trim();
+  var roleEl=document.getElementById('newRole');
+  var role=roleEl?roleEl.value:'member';
+  if(!first||!last||!mid){showToast('Please fill all fields');return;}
+  if(MEMBERS.find(function(m){return m.id===mid;})){showToast('MID already exists');return;}
+  var nm={first:first,last:last,id:mid,pin:'0000',pinChanged:false};
+  if(role==='commander')nm.commander=true;
+  else if(role!=='member')nm.role=role;
+  MEMBERS.push(nm);saveAll();showToast('\u2713 Member added. Default PIN 0000');renderAdmin();
+}
+function deleteMember(mid){
+  if(mid===LOCKED_OWNER_ID){showToast('Owner cannot be removed');return;}
+  var m=MEMBERS.find(function(x){return x.id===mid;});
+  if(!m)return;
+  openModal('Remove Member',
+    '<p style="font-size:14px;color:var(--muted);line-height:1.7">Remove <b style="color:var(--text)">'+escHtml(m.first+' '+m.last)+'</b> from the system?</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Remove',cls:'danger',fn:'doDeleteMember(\''+jsStr(mid)+'\')'}]);
+}
+function doDeleteMember(mid){
+  var m=MEMBERS.find(function(x){return x.id===mid;});
+  if(!m||!canDeleteMember(m)){closeModal();showToast('Delete blocked');return;}
+  MEMBERS=MEMBERS.filter(function(x){return x.id!==mid;});
+  saveAll();closeModal();showToast('\u2713 Member removed');renderAdmin();
+}
+function setPinModal(mid){
+  var m=MEMBERS.find(function(x){return x.id===mid;});if(!m)return;
+  openModal('Set PIN \u2014 '+escHtml(m.first+' '+m.last),
+    '<div class="form-full"><div class="flabel">New 4-Digit PIN</div><input class="finput" id="modal-pin-a" type="tel" inputmode="numeric" maxlength="4" placeholder="Enter new PIN"></div>'+
+    '<div class="form-full"><div class="flabel">Confirm PIN</div><input class="finput" id="modal-pin-b" type="tel" inputmode="numeric" maxlength="4" placeholder="Confirm PIN"></div>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Set PIN',cls:'confirm',fn:'doSetPin(\''+jsStr(mid)+'\')'}]);
+}
+function doSetPin(mid){
+  var a=(document.getElementById('modal-pin-a').value||'').trim();
+  var b=(document.getElementById('modal-pin-b').value||'').trim();
+  if(!a||a.length<4){showToast('PIN must be 4 digits');return;}
+  if(a!==b){showToast('PINs do not match');return;}
+  if(!/^\d{4}$/.test(a)){showToast('PIN must be 4 numbers');return;}
+  var m=MEMBERS.find(function(x){return x.id===mid;});if(!m)return;
+  m.pin=a;m.pinChanged=true;saveAll();closeModal();showToast('\u2713 PIN set for '+m.first);renderAdmin();
+}
+function adminResetPin(mid){
+  var m=MEMBERS.find(function(x){return x.id===mid;});if(!m)return;
+  openModal('Reset PIN \u2014 '+escHtml(m.first+' '+m.last),
+    '<p style="font-size:14px;color:var(--muted);line-height:1.7">Reset <b style="color:var(--text)">'+escHtml(m.first+' '+m.last)+'</b>\'s PIN back to <b style="color:var(--orange)">0000</b>?<br>They will be prompted to change it on next login.</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Reset to 0000',cls:'confirm',fn:'doAdminResetPin(\''+jsStr(mid)+'\')'}]);
+}
+function doAdminResetPin(mid){
+  var m=MEMBERS.find(function(x){return x.id===mid;});if(!m)return;
+  m.pin='0000';m.pinChanged=false;saveAll();closeModal();showToast('\u2713 PIN reset to 0000');renderAdmin();
+}
+function renderEquipPanel(){
+  var vtabs=VEHICLES.map(function(v,i){return '<button class="eq-vtab'+(i===0?' active':'')+'" onclick="eqTab('+i+',this)">'+escHtml(v.name)+'</button>';}).join('');
+  var vpanels=VEHICLES.map(function(v,vi){
+    var lockerSel='<div class="eq-locker-sel"><select class="fselect" id="eq-locker-sel-'+vi+'" onchange="renderEqItems('+vi+')">'+
+      v.lockers.map(function(l,li){return '<option value="'+li+'">'+escHtml(l.name)+'</option>';}).join('')+'</select></div>';
+    return '<div class="admin-panel'+(vi===0?' active':'')+'" id="eq-panel-'+vi+'">'+lockerSel+
+      '<div id="eq-items-'+vi+'"></div>'+
+      (canManageVehicles()?'<div class="add-form"><div class="add-form-title">+ Add Item</div>'+
+        '<div class="form-full"><div class="flabel">Item Name</div><input class="finput" id="eq-name-'+vi+'" placeholder="Item name"></div>'+
+        '<div class="form-row"><div><div class="flabel">Model/Part No.</div><input class="finput" id="eq-model-'+vi+'" placeholder="e.g. 300171"></div>'+
+        '<div><div class="flabel">Qty</div><input class="finput" id="eq-qty-'+vi+'" type="number" value="1" min="1"></div></div>'+
+        '<div class="btn-row"><button class="btn-sm" onclick="addEquipItem('+vi+')">Add Item</button></div></div>':'')+'</div>';
+  }).join('');
+  setTimeout(function(){VEHICLES.forEach(function(v,i){renderEqItems(i);});},50);
+  return '<div class="eq-vehicle-tabs">'+vtabs+'</div>'+vpanels;
+}
+function eqTab(vi,btn){
+  document.querySelectorAll('.eq-vtab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('[id^="eq-panel-"]').forEach(function(p){p.classList.remove('active');});
+  var panel=document.getElementById('eq-panel-'+vi);
+  if(panel)panel.classList.add('active');
+  renderEqItems(vi);
+}
+function renderEqItems(vi){
+  var v=VEHICLES[vi],sel=document.getElementById('eq-locker-sel-'+vi);
+  if(!v||!sel)return;
+  var li=parseInt(sel.value,10)||0,locker=v.lockers[li],el=document.getElementById('eq-items-'+vi);
+  if(!locker||!el)return;
+  var rows='';
+  for(var idx=0;idx<locker.items.length;idx++){
+    var item=locker.items[idx];
+    if(item.s)continue;
+    rows+='<div class="eq-item-row">'+
+      '<div class="eq-item-info"><div class="eq-item-name">'+escHtml(item.n)+'</div>'+
+      '<div class="eq-item-meta">Qty:'+(item.q||1)+(item.m&&item.m!=='\u2014'?' &nbsp;&bull;&nbsp; M/N: '+escHtml(item.m):'')+'</div></div>'+
+      (canManageVehicles()?'<button class="btn-del" onclick="delEquipItem('+vi+','+li+','+idx+')">Del</button>':'')+
+      '</div>';
+  }
+  el.innerHTML='<div class="eq-item-list">'+rows+'</div>';
+}
+function addEquipItem(vi){
+  var v=VEHICLES[vi],sel=document.getElementById('eq-locker-sel-'+vi);
+  if(!v||!sel)return;
+  var li=parseInt(sel.value)||0,locker=v.lockers[li];if(!locker)return;
+  var name=(document.getElementById('eq-name-'+vi).value||'').trim();
+  var model=(document.getElementById('eq-model-'+vi).value||'').trim();
+  var qty=parseInt(document.getElementById('eq-qty-'+vi).value)||1;
+  if(!name){showToast('Please enter an item name');return;}
+  locker.items.push({n:name,m:model||'\u2014',sn:'',q:qty});
+  saveAll();showToast('\u2713 Item added');renderEqItems(vi);
+  document.getElementById('eq-name-'+vi).value='';
+  document.getElementById('eq-model-'+vi).value='';
+}
+function delEquipItem(vi,li,idx){
+  var item=VEHICLES[vi]&&VEHICLES[vi].lockers[li]&&VEHICLES[vi].lockers[li].items[idx];
+  if(!item)return;
+  openModal('Remove Item',
+    '<p style="font-size:14px;color:var(--muted);line-height:1.7">Remove <b style="color:var(--text)">'+escHtml(item.n)+'</b>?</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Remove',cls:'danger',fn:'doDelEquipItem('+vi+','+li+','+idx+')'}]);
+}
+function doDelEquipItem(vi,li,idx){
+  var locker=VEHICLES[vi]&&VEHICLES[vi].lockers[li];
+  if(!locker)return;
+  locker.items.splice(idx,1);
+  saveAll();closeModal();showToast('\u2713 Item removed');renderEqItems(vi);
+}
+function resetVehicle(vi){
+  var v=VEHICLES[vi];
+  openModal('Reset '+v.name,'<p style="font-size:14px;color:var(--muted);line-height:1.7">Clear all check data for <b style="color:var(--text)">'+escHtml(v.name)+'</b>?</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Reset',cls:'danger',fn:'doResetVehicle('+vi+')'}]);
+}
+function doResetVehicle(vi){
+  var v=VEHICLES[vi];
+  Object.keys(checks).forEach(function(k){if(k.startsWith(v.id+':'))delete checks[k];});
+  Object.keys(signoffs).forEach(function(k){if(k.startsWith(v.id+':'))delete signoffs[k];});
+  saveAll();closeModal();showToast('\u2713 '+v.name+' reset');renderAdmin();
+}
+function resetVcheck(vi){
+  var v=VEHICLES[vi];
+  openModal('Reset '+v.name+' Pre-check','<p style="font-size:14px;color:var(--muted);line-height:1.7">Clear pre-check data for <b style="color:var(--text)">'+escHtml(v.name)+'</b>?</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Reset',cls:'danger',fn:'doResetVcheck('+vi+')'}]);
+}
+function doResetVcheck(vi){var v=VEHICLES[vi];delete vchecks[v.id];saveAll();closeModal();showToast('\u2713 Pre-check reset');renderAdmin();}
+function resetAll(){
+  openModal('Reset ALL Vehicles','<p style="font-size:14px;color:var(--muted);line-height:1.7"><b style="color:var(--red)">Warning:</b> This will clear ALL check data for ALL vehicles. This cannot be undone.</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Reset Everything',cls:'danger',fn:'doResetAll()'}]);
+}
+function doResetAll(){checks={};signoffs={};vchecks={};saveAll();closeModal();showToast('\u2713 All data reset');renderAdmin();}
+
+// ─── ORC ─────────────────────────────────────────────────────────────────────
+var ORC_CATEGORIES=[
+  {id:'chainsaw',   label:'Chainsaws',              icon:'\uD83E\uDDF9', color:'var(--orange)'},
+  {id:'power_elec', label:'Electrical Power Tools', icon:'\u26A1',       color:'var(--blue2)'},
+  {id:'lighting',   label:'Lighting',               icon:'\uD83D\uDCA1', color:'var(--yellow)'},
+  {id:'flares',     label:'Flares',                 icon:'\uD83D\uDEA8', color:'#ff6b8a'},
+  {id:'generators', label:'Generators',             icon:'\uD83D\uDD0C', color:'var(--cyan)'},
+  {id:'pumps',      label:'Submersible Pumps',      icon:'\uD83D\uDCA7', color:'#4DD0E1'},
+  {id:'defib',      label:'Defibrillator',          icon:'\u2764\uFE0F', color:'var(--red)'},
+  {id:'firstaid',   label:'First Aid Kits',         icon:'\u2695\uFE0F', color:'var(--green)'}
+];
+var ORC_HARDCODED=[
+  {catId:'chainsaw',name:'CHAINSAW \u2014 STIHL MS194T 12in (LIMBING)',model:'304987',serial:'520483624',vehicle:'CES31',locker:'Locker 4'},
+  {catId:'chainsaw',name:'CHAINSAW \u2014 STIHL MS362 18in (FELLING)',model:'302656',serial:'188113058',vehicle:'CES31',locker:'Locker 4'},
+  {catId:'chainsaw',name:'POLESAW \u2014 STIHL HT103 12in',model:'304065',serial:'523600110',vehicle:'CES31',locker:'Roof'},
+  {catId:'chainsaw',name:'CHAINSAW \u2014 STIHL MS194T 12in',model:'304987',serial:'',vehicle:'CES656',locker:'Locker 6'},
+  {catId:'chainsaw',name:'CHAINSAW \u2014 STIHL MS362 18in',model:'302656',serial:'',vehicle:'CES656',locker:'Locker 6'},
+  {catId:'chainsaw',name:'POLESAW \u2014 STIHL HT103 12in',model:'304065',serial:'',vehicle:'CES656',locker:'Locker 5'},
+  {catId:'power_elec',name:'DRILL \u2014 M18 FUEL 13MM HAMMER DRILL/DRIVER',model:'303851',serial:'',vehicle:'CES31',locker:'Locker 2'},
+  {catId:'power_elec',name:'ANGLE GRINDER \u2014 M18 FUEL 125MM PADDLE',model:'302607',serial:'',vehicle:'CES31',locker:'Locker 2'},
+  {catId:'power_elec',name:'RECIPROCATING SAW \u2014 M18 FUEL',model:'303850',serial:'',vehicle:'CES31',locker:'Locker 2'},
+  {catId:'power_elec',name:'NAIL GUN \u2014 M18 FUEL 90MM FRAMING',model:'304706',serial:'',vehicle:'CES31',locker:'Locker 2'},
+  {catId:'power_elec',name:'STAPLE GUN \u2014 ELECTRIC 6-8MM',model:'302248',serial:'',vehicle:'CES31',locker:'Locker 2'},
+  {catId:'power_elec',name:'ANGLE GRINDER \u2014 M18 125MM FSAG125XPDB',model:'\u2014',serial:'469721000319K2020',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'RECIPROCATING SAW \u2014 M18 CSX',model:'\u2014',serial:'4522675000321J2020',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'DRILL DRIVER \u2014 M18 ONEPD2',model:'\u2014',serial:'452715006257K2018',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'IMPACT DRIVER \u2014 M18 CBLID',model:'10403944',serial:'4691780129J2018',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'BLOWER \u2014 M18BBL',model:'\u2014',serial:'446217001598J2020',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'CIRCULAR SAW \u2014 M18 BLCS66',model:'\u2014',serial:'467920000384K2018',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'FRAME NAILER \u2014 PASLODE B20543P',model:'\u2014',serial:'',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'power_elec',name:'SUBMERSIBLE PUMP \u2014 ELECTRIC 240V',model:'304941',serial:'',vehicle:'CES656',locker:'Locker 7'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (1)',model:'305315',serial:'134531900004511',vehicle:'CES31',locker:'Crew Cabin'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (2)',model:'305315',serial:'134531900004511',vehicle:'CES31',locker:'Crew Cabin'},
+  {catId:'lighting',name:'MILWAUKEE M18 SEARCH LIGHT 1250LM (1)',model:'304519',serial:'10457468',vehicle:'CES31',locker:'Locker 1'},
+  {catId:'lighting',name:'MILWAUKEE M18 SEARCH LIGHT 1250LM (2)',model:'304519',serial:'10443919',vehicle:'CES31',locker:'Locker 1'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (1)',model:'305315',serial:'',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (2)',model:'305315',serial:'',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'lighting',name:'MILWAUKEE M18 ROCKET TOWER LIGHT (1)',model:'304519',serial:'10457439',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'lighting',name:'MILWAUKEE M18 ROCKET TOWER LIGHT (2)',model:'304519',serial:'',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (1)',model:'305315',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (2)',model:'305315',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'lighting',name:'MILWAUKEE M18 SEARCH LIGHT 1250LM (1)',model:'304519',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'lighting',name:'MILWAUKEE M18 SEARCH LIGHT 1250LM (2)',model:'304519',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (1)',model:'305315',serial:'',vehicle:'CES656',locker:'Locker 2'},
+  {catId:'lighting',name:'PELICAN 7600 LED TORCH & WAND (2)',model:'305315',serial:'',vehicle:'CES656',locker:'Locker 2'},
+  {catId:'lighting',name:'MILWAUKEE M18DSAL TOWER LIGHT (1)',model:'304521',serial:'',vehicle:'CES656',locker:'Locker 4'},
+  {catId:'lighting',name:'MILWAUKEE M18DSAL TOWER LIGHT (2)',model:'304521',serial:'',vehicle:'CES656',locker:'Locker 4'},
+  {catId:'lighting',name:'TORCH M18 SLED',model:'\u2014',serial:'458237000872K2020',vehicle:'CES656',locker:'Locker 3'},
+  {catId:'lighting',name:'WATERPROOF TORCH',model:'\u2014',serial:'',vehicle:'CES711',locker:'Vessel'},
+  {catId:'lighting',name:'ADDITIONAL TORCH (SUPPLEMENTARY)',model:'\u2014',serial:'',vehicle:'CES711',locker:'Vessel'},
+  {catId:'flares',name:'RED PARACHUTE ROCKETS x3 (IN DATE)',model:'\u2014',serial:'',vehicle:'CES711',locker:'Safety \u2014 Distress Signals'},
+  {catId:'flares',name:'RED HAND FLARES x2 (IN DATE)',model:'\u2014',serial:'',vehicle:'CES711',locker:'Safety \u2014 Distress Signals'},
+  {catId:'flares',name:'ORANGE SMOKE SIGNAL x1 (IN DATE)',model:'\u2014',serial:'',vehicle:'CES711',locker:'Safety \u2014 Distress Signals'},
+  {catId:'generators',name:'GENERATOR \u2014 BRIGGS & STRATTON P2400',model:'305094',serial:'680224',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'generators',name:'GENERATOR \u2014 BRIGGS & STRATTON P2400',model:'305094',serial:'',vehicle:'CES656',locker:'Locker 8'},
+  {catId:'pumps',name:'SUBMERSIBLE PUMP \u2014 WATER ELECTRIC + 25M HOSE',model:'302832',serial:'800918',vehicle:'CES31',locker:'Locker 6'},
+  {catId:'pumps',name:'SUBMERSIBLE PUMP \u2014 WATER ELECTRIC 240V',model:'304941',serial:'',vehicle:'CES656',locker:'Locker 7'},
+  {catId:'defib',name:'DEFIBRILLATOR \u2014 ZOLL AED PLUS SEMI AUTO',model:'304843',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'firstaid',name:'FIRST AID KIT \u2014 ROLL-OUT SOFT PACK',model:'300048',serial:'',vehicle:'CES56',locker:'Vehicle'},
+  {catId:'firstaid',name:'FIRST AID KIT \u2014 ROLL-OUT SOFT PACK',model:'300048',serial:'',vehicle:'CES656',locker:'Locker 2'},
+  {catId:'firstaid',name:'FIRST AID TRAUMA KIT (FAT)',model:'304951',serial:'',vehicle:'CES656',locker:'Locker 7'},
+  {catId:'firstaid',name:'POINT OF USE TRAUMA KIT (POUT) (1)',model:'304971',serial:'',vehicle:'CES656',locker:'Locker 7'},
+  {catId:'firstaid',name:'POINT OF USE TRAUMA KIT (POUT) (2)',model:'304971',serial:'',vehicle:'CES656',locker:'Locker 7'},
+  {catId:'firstaid',name:'FIRST AID KIT (WATERPROOF)',model:'\u2014',serial:'',vehicle:'CES711',locker:'Vessel'}
+];
+var ORC_DATA={},ORC_CUSTOM=[],ORC_FILTER='all',ORC_YEAR=new Date().getFullYear();
+var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+async function loadORC(){
+  ORC_DATA=await dataLoad('orc',{});
+  ORC_CUSTOM=await dataLoad('orc_custom',[]);
+}
+function saveORC(){
+  dataSave('orc',ORC_DATA);
+  dataSave('orc_custom',ORC_CUSTOM);
+}
+function orcBuildRegister(){
+  var reg=ORC_HARDCODED.map(function(item,idx){return{catId:item.catId,name:item.name,model:item.model||'\u2014',serial:item.serial||'',vehicle:item.vehicle,locker:item.locker,itemKey:'hc:'+idx,isCustom:false};});
+  ORC_CUSTOM.forEach(function(ci,idx){reg.push({catId:ci.catId,name:ci.name,model:ci.model||'\u2014',serial:ci.serial||'',vehicle:ci.vehicle||'General',locker:ci.locker||'Stores',itemKey:'custom:'+idx,isCustom:true,customIdx:idx});});
+  return reg;
+}
+function orcGetCheck(itemKey,year,month){return ORC_DATA[itemKey+':'+year+':'+month]||null;}
+function orcSetCheck(itemKey,year,month,status){
+  var k=itemKey+':'+year+':'+month;
+  if(ORC_DATA[k]&&ORC_DATA[k].status===status)delete ORC_DATA[k];
+  else ORC_DATA[k]={status:status,by:user?user.first+' '+user.last:'Unknown',date:new Date().toISOString()};
+  saveORC();
+  var safeKey=itemKey.replace(/[^a-zA-Z0-9]/g,'_');
+  var el=document.getElementById('orc-cell-'+safeKey+'-'+year+'-'+month);
+  if(el)el.innerHTML=orcCellHtml(itemKey,year,month,orcGetCheck(itemKey,year,month));
+}
+function orcCellHtml(itemKey,year,month,chk){
+  return '<div class="orc-cell-wrap" title="'+(chk?chk.status.toUpperCase()+' \u2014 '+chk.by+' \u2014 '+new Date(chk.date).toLocaleDateString('en-AU'):'')+'">'+ 
+    ['pass','fail','na'].map(function(st){
+      var lbl=st==='pass'?'\u2713':st==='fail'?'\u2717':'N/A';
+      var cls='orc-mini-btn '+(st==='pass'?'orc-pass':st==='fail'?'orc-fail':'orc-na')+(chk&&chk.status===st?' active':'');
+      return '<button class="'+cls+'" onclick="orcSetCheck(\''+itemKey+'\','+year+',\''+month+'\',\''+st+'\')">'+lbl+'</button>';
+    }).join('')+'</div>';
+}
+function orcYearSummary(register,year){
+  var pass=0,fail=0,na=0,pend=0;
+  var now=new Date(),curMonth=now.getMonth(),curYear=now.getFullYear();
+  register.forEach(function(item){
+    MONTHS.forEach(function(month,mi){
+      if(year===curYear&&mi>curMonth)return;
+      var chk=orcGetCheck(item.itemKey,year,month);
+      if(!chk)pend++;else if(chk.status==='pass')pass++;else if(chk.status==='fail')fail++;else if(chk.status==='na')na++;
+    });
+  });
+  return{pass:pass,fail:fail,na:na,pend:pend};
+}
+function renderInventory(){
+  loadORC();
+  var register=orcBuildRegister();
+  var year=ORC_YEAR;
+  var now=new Date(),curMonthIdx=now.getMonth(),curYear=now.getFullYear();
+  var grouped={};ORC_CATEGORIES.forEach(function(cat){grouped[cat.id]=[];});
+  register.forEach(function(item){if(grouped[item.catId])grouped[item.catId].push(item);});
+  var summ=orcYearSummary(register,year);
+  var html='<div style="padding:14px">';
+  html+='<div class="orc-banner">'+
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">'+
+    '<div style="font-size:28px">\u2705</div>'+
+    '<div><div class="orc-banner-title">OPERATIONAL READINESS</div>'+
+    '<div class="orc-banner-sub">Monthly equipment compliance \u00b7 '+escHtml(UNIT_NAME)+'</div></div></div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">'+
+    '<div class="orc-sum ok"><div class="orc-sum-n">'+summ.pass+'</div><div class="orc-sum-l">Pass</div></div>'+
+    '<div class="orc-sum fail"><div class="orc-sum-n">'+summ.fail+'</div><div class="orc-sum-l">Fail</div></div>'+
+    '<div class="orc-sum na"><div class="orc-sum-n">'+summ.na+'</div><div class="orc-sum-l">N/A</div></div>'+
+    '<div class="orc-sum pend"><div class="orc-sum-n">'+summ.pend+'</div><div class="orc-sum-l">Pending</div></div></div>'+
+    '<div style="display:flex;align-items:center;gap:10px">'+
+    '<button class="orc-year-btn" onclick="orcChangeYear(-1)">\u25c4 '+(year-1)+'</button>'+
+    '<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;font-weight:900;color:var(--cyan)">'+year+'</span>'+
+    (year<curYear?'<button class="orc-year-btn" onclick="orcChangeYear(1)">'+(year+1)+' \u25ba</button>':'')+
+    '</div></div>';
+  html+='<div class="orc-cat-tabs">'+
+    '<button class="orc-cat-tab'+(ORC_FILTER==='all'?' active':'')+'" onclick="orcSetFilter(\'all\')">All</button>'+
+    ORC_CATEGORIES.map(function(cat){
+      var isActive=ORC_FILTER===cat.id;
+      return '<button class="orc-cat-tab'+(isActive?' active':'')+'" onclick="orcSetFilter(\''+cat.id+'\')" style="'+(isActive?'border-color:'+cat.color+';color:'+cat.color+';background:'+cat.color+'18':'')+'">'+cat.icon+' '+cat.label+'</button>';
+    }).join('')+'</div>';
+  if(canManageVehicles())html+='<button class="orc-add-btn" onclick="orcOpenAddModal()">+ Add Item to Register</button>';
+  ORC_CATEGORIES.forEach(function(cat){
+    if(ORC_FILTER!=='all'&&ORC_FILTER!==cat.id)return;
+    var items=grouped[cat.id];
+    html+='<div class="orc-cat-section"><div class="orc-cat-header" style="border-left:4px solid '+cat.color+'">'+
+      '<span class="orc-cat-icon">'+cat.icon+'</span><span class="orc-cat-title">'+cat.label+'</span>'+
+      '<span class="orc-cat-count">'+items.length+' item'+(items.length===1?'':'s')+'</span></div>';
+    if(items.length===0){html+='<div class="orc-empty">No items in this category</div>';}
+    else{
+      items.forEach(function(item){
+        var safeKey=item.itemKey.replace(/[^a-zA-Z0-9]/g,'_');
+        var itemPass=0,itemFail=0,itemPend=0;
+        MONTHS.forEach(function(month,mi){
+          if(year===curYear&&mi>curMonthIdx)return;
+          var chk=orcGetCheck(item.itemKey,year,month);
+          if(!chk)itemPend++;else if(chk.status==='pass')itemPass++;else if(chk.status==='fail')itemFail++;
+        });
+        var statusCls=itemFail>0?'orc-item-fail':(itemPend===0&&(itemPass+itemFail)>0?'orc-item-pass':'');
+        html+='<div class="orc-item-card '+statusCls+'"><div class="orc-item-header">'+
+          '<div class="orc-item-name">'+escHtml(item.name)+'</div>'+
+          '<div class="orc-item-meta">'+
+          '<span class="orc-meta-chip">\uD83D\uDE92 '+escHtml(item.vehicle)+'</span>'+
+          '<span class="orc-meta-chip">\uD83D\uDD12 '+escHtml(item.locker)+'</span>'+
+          (item.model&&item.model!=='\u2014'?'<span class="orc-meta-chip">M/N: '+escHtml(item.model)+'</span>':'')+
+          (item.serial?'<span class="orc-meta-chip">S/N: '+escHtml(item.serial)+'</span>':'')+
+          '</div></div><div class="orc-month-grid">';
+        MONTHS.forEach(function(month,mi){
+          var isFuture=year===curYear&&mi>curMonthIdx;
+          var isCurrent=year===curYear&&mi===curMonthIdx;
+          var chk=orcGetCheck(item.itemKey,year,month);
+          var cellId='orc-cell-'+safeKey+'-'+year+'-'+month;
+          html+='<div class="orc-month-col"><div class="orc-month-label'+(isCurrent?' orc-current-month':'')+'">'+month+'</div>'+
+            '<div class="orc-cell'+(isFuture?' orc-cell-future':'')+'" id="'+cellId+'">';
+          html+=isFuture?'<div class="orc-future-dash">\u2014</div>':orcCellHtml(item.itemKey,year,month,chk);
+          html+='</div></div>';
+        });
+        html+='</div>';
+        var noteKey='note:'+item.itemKey+':'+year;
+        var noteVal=ORC_DATA[noteKey]?ORC_DATA[noteKey].text:'';
+        html+='<div class="orc-notes-row">'+
+          '<input class="orc-note-input" placeholder="Notes ..." value="'+escHtml(noteVal)+'" onchange="orcSaveNote(\''+item.itemKey+'\','+year+',this.value)">'+
+          (item.isCustom&&canManageVehicles()?'<button class="orc-del-btn" onclick="orcDeleteCustom('+item.customIdx+')">Del</button>':'')+
+          '</div></div>';
+      });
+    }
+    html+='</div>';
+  });
+  html+='</div>';
+  document.getElementById('inventoryView').innerHTML=html;
+}
+function orcSaveNote(itemKey,year,val){ORC_DATA['note:'+itemKey+':'+year]={text:val};saveORC();}
+function orcChangeYear(delta){var now=new Date();ORC_YEAR=Math.max(now.getFullYear()-1,Math.min(now.getFullYear(),ORC_YEAR+delta));renderInventory();}
+function orcSetFilter(f){ORC_FILTER=f;renderInventory();}
+function orcOpenAddModal(){
+  var catOptions=ORC_CATEGORIES.map(function(c){return'<option value="'+c.id+'">'+c.label+'</option>';}).join('');
+  var vOptions=VEHICLES.map(function(v){return'<option>'+v.name+'</option>';}).join('');
+  var body='<div class="form-full"><div class="flabel">Category</div><select class="fselect" id="orc-add-cat">'+catOptions+'</select></div>'+
+    '<div class="form-full"><div class="flabel">Item Name</div><input class="finput" id="orc-add-name" placeholder="e.g. Milwaukee Rotary Hammer"></div>'+
+    '<div class="form-row"><div><div class="flabel">Model/Part No.</div><input class="finput" id="orc-add-model" placeholder="Optional"></div>'+
+    '<div><div class="flabel">Serial No.</div><input class="finput" id="orc-add-serial" placeholder="Optional"></div></div>'+
+    '<div class="form-row"><div><div class="flabel">Vehicle</div><select class="fselect" id="orc-add-vehicle">'+vOptions+'<option value="General">General Stores</option></select></div>'+
+    '<div><div class="flabel">Locker / Location</div><input class="finput" id="orc-add-locker" placeholder="e.g. Locker 2"></div></div>';
+  openModal('Add to Readiness Register',body,[{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Add Item',cls:'confirm',fn:'orcDoAddCustom()'}]);
+}
+function orcDoAddCustom(){
+  var name=(document.getElementById('orc-add-name').value||'').trim();
+  if(!name){showToast('Enter an item name');return;}
+  ORC_CUSTOM.push({catId:document.getElementById('orc-add-cat').value,name:name,model:document.getElementById('orc-add-model').value.trim(),serial:document.getElementById('orc-add-serial').value.trim(),vehicle:document.getElementById('orc-add-vehicle').value,locker:(document.getElementById('orc-add-locker').value||'').trim()||'Stores'});
+  saveORC();closeModal();showToast('\u2713 Item added');renderInventory();
+}
+function orcDeleteCustom(idx){
+  openModal('Remove Item','<p style="font-size:14px;color:var(--muted)">Remove <b style="color:var(--text)">'+escHtml(ORC_CUSTOM[idx].name)+'</b>?</p>',
+    [{label:'Cancel',cls:'cancel',fn:'closeModal()'},{label:'Remove',cls:'danger',fn:'doOrcDeleteCustom('+idx+')'}]);
+}
+function doOrcDeleteCustom(idx){ORC_CUSTOM.splice(idx,1);saveORC();closeModal();showToast('\u2713 Removed');renderInventory();}
+
+// ─── PRINT ────────────────────────────────────────────────────────────────────
+function doPrint(){
+  var scope=printScope();
+  if(scope==='none'){showToast('No print access');return;}
+  var html=buildPrintReport(scope);
+  var w=window.open('','_blank');
+  if(!w){showToast('Popup blocked \u2014 allow popups to print');return;}
+  w.document.open();w.document.write(html);w.document.close();
+  setTimeout(function(){w.focus();w.print();},300);
+}
+function buildPrintReport(scope){
+  var now=new Date().toLocaleString('en-AU');
+  var body='<h1>SES Equipment Check Report</h1>'+
+    '<div class="meta"><b>Unit:</b> '+escHtml(UNIT_NAME)+'<br><b>Printed:</b> '+now+'<br><b>By:</b> '+escHtml(user.first+' '+user.last)+' \u2014 '+escHtml(roleLabel(user))+'</div>';
+  if(scope==='all'||scope==='vehicles'){
+    VEHICLES.forEach(function(v){
+      var vs=vehicleStats(v);
+      body+='<h2>'+escHtml(v.name)+' \u2014 '+escHtml(v.sub)+'</h2>'+
+        '<div class="summary">Present: '+vs.yes+' | Missing: '+vs.no+' | N/A: '+vs.na+' | Pending: '+vs.pending+'</div>';
+      var vc=vchecks[v.id]||{};
+      if(vc.signoff)body+='<p><b>Pre-check signed:</b> '+escHtml(vc.signoff.by)+' \u2014 '+new Date(vc.signoff.at).toLocaleString('en-AU')+'</p>';
+      v.lockers.forEach(function(l){
+        var ls=lockerStats(v,l);
+        body+='<h3>'+escHtml(l.name)+'</h3>'+
+          '<div class="summary">Present: '+ls.yes+' | Missing: '+ls.no+' | N/A: '+ls.na+' | Pending: '+ls.pending+'</div>'+
+          '<table><thead><tr><th>Item</th><th>Model</th><th>Serial</th><th>Qty</th><th>Status</th><th>Mandatory</th></tr></thead><tbody>';
+        for(var i=0;i<l.items.length;i++){
+          var item=l.items[i];
+          if(item.s){body+='<tr class="sec"><td colspan="6">'+escHtml(item.s)+'</td></tr>';continue;}
+          var k=v.id+':'+l.id+':'+i;
+          body+='<tr><td>'+escHtml(item.n)+'</td><td>'+escHtml(item.m||'')+'</td><td>'+escHtml(item.sn||'')+'</td><td>'+(item.q||1)+'</td><td>'+escHtml(checks[k]||'pending')+'</td><td>'+(item.mandatory?'Yes':'')+'</td></tr>';
+        }
+        body+='</tbody></table>';
+        var note=notes[v.id+':'+l.id];
+        if(note)body+='<p><b>Notes:</b> '+escHtml(note)+'</p>';
+        var so=signoffs[v.id+':'+l.id];
+        if(so)body+='<p><b>Signed off:</b> '+escHtml(so.by)+' \u2014 '+new Date(so.at).toLocaleString('en-AU')+'</p>';
+      });
+    });
+  }
+  if(scope==='all'||scope==='members'){
+    body+='<h2>Members</h2><table><thead><tr><th>Name</th><th>MID</th><th>Role</th><th>PIN</th></tr></thead><tbody>';
+    MEMBERS.slice().sort(function(a,b){return(a.last||'').localeCompare(b.last||'');}).forEach(function(m){
+      body+='<tr><td>'+escHtml((m.first||'')+' '+(m.last||''))+'</td><td>'+escHtml(m.id)+'</td><td>'+escHtml(roleLabel(m))+'</td><td>'+((m.pin==='0000'&&!m.pinChanged)?'Default':'Set')+'</td></tr>';
+    });
+    body+='</tbody></table>';
+  }
+  if(scope==='all'||scope==='inventory'){
+    body+='<h2>Operational Readiness Register</h2>'+
+      '<table><thead><tr><th>Category</th><th>Item</th><th>Vehicle</th><th>Location</th><th>Model</th><th>Serial</th></tr></thead><tbody>';
+    var cats={};ORC_CATEGORIES.forEach(function(c){cats[c.id]=c.label;});
+    orcBuildRegister().forEach(function(i){
+      body+='<tr><td>'+escHtml(cats[i.catId]||i.catId)+'</td><td>'+escHtml(i.name)+'</td><td>'+escHtml(i.vehicle)+'</td><td>'+escHtml(i.locker)+'</td><td>'+escHtml(i.model)+'</td><td>'+escHtml(i.serial)+'</td></tr>';
+    });
+    body+='</tbody></table>';
+  }
+  return'<!DOCTYPE html><html><head><meta charset="UTF-8"><title>SES Report</title>'+
+    '<style>body{font-family:Arial,sans-serif;color:#111;padding:24px}h1{font-size:22px;margin:0 0 10px}h2{font-size:17px;margin:22px 0 7px;border-bottom:2px solid #111;padding-bottom:3px}h3{font-size:14px;margin:14px 0 5px}.meta,.summary,p{font-size:12px;margin:5px 0 8px}table{width:100%;border-collapse:collapse;margin:6px 0 14px;font-size:11px}th,td{border:1px solid #999;padding:4px;text-align:left;vertical-align:top}th{background:#eee}.sec td{background:#ddd;font-weight:bold}@media print{body{padding:0}}</style>'+
+    '</head><body>'+body+'</body></html>';
+}
+
+// ─── MODAL & TOAST ────────────────────────────────────────────────────────────
+function openModal(title,body,btns){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalBody').innerHTML=body;
+  document.getElementById('modalBtns').innerHTML=btns.map(function(b){
+    return'<button class="modal-btn '+b.cls+'" onclick="'+b.fn+'">'+escHtml(b.label)+'</button>';
+  }).join('');
+  document.getElementById('modalBackdrop').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modalBackdrop').classList.add('hidden');}
+var toastTimer=null;
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){t.classList.remove('show');},2800);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function doSetupSave(){
+  var url=(document.getElementById('setupUrl').value||'').trim().replace(/\/+$/,'');
+  var err=document.getElementById('setupErr');
+  err.textContent='';
+  if(!url||!url.startsWith('http')){err.textContent='Please enter a valid URL.';return;}
+  err.textContent='Testing connection…';
+  try{
+    var r=await fetch(url+'/_api/web/title',{headers:{Accept:'application/json;odata=verbose'},credentials:'include'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    localStorage.setItem('ses_sp_url',url);
+    doSetupSkip();
+  }catch(e){
+    err.textContent='Could not connect. Check the URL and that you are signed in to Microsoft 365.';
+  }
+}
+
+function doSetupSkip(){
+  localStorage.setItem('ses_sp_skip','1');
+  var s=document.getElementById('setupScreen');if(s)s.classList.remove('show');
+  bootApp();
+}
+
+async function bootApp(){
+  SP_SITE_URL=localStorage.getItem('ses_sp_url')||'';
+  if(SP_SITE_URL){
+    USE_SHAREPOINT=true;
+    var tMsg=document.getElementById('tMsg');
+    if(tMsg)tMsg.textContent='CONNECTING TO SHAREPOINT…';
+    try{
+      await spRequest('GET',SP_SITE_URL+'/_api/web/title',null);
+      var lists=['members','vehicles','checks','notes','signoffs','vchecks','orc','orc_custom'];
+      for(var i=0;i<lists.length;i++){
+        if(tMsg)tMsg.textContent='SETTING UP: '+lists[i].toUpperCase()+'…';
+        await spEnsureList('SESEquip_'+lists[i]);
+      }
+    }catch(e){
+      USE_SHAREPOINT=false;
+      showSyncBadge('⚠ SharePoint offline — local only',true);
+    }
+  }
+  var tMsg=document.getElementById('tMsg');if(tMsg)tMsg.textContent='LOADING DATA…';
+  await loadAll();
+  var ov=document.getElementById('teamsOverlay');if(ov)ov.classList.add('hidden');
+  var ls=document.getElementById('loginScreen');if(ls)ls.classList.remove('hidden');
+}
+
+// Expose handlers for inline onclick attributes and Teams webview contexts.
+window.doLogin=doLogin;
+window.doChangePinOnLogin=doChangePinOnLogin;
+window.doLogout=doLogout;
+window.showAdmin=showAdmin;
+window.showInventory=showInventory;
+window.doPrint=doPrint;
+window.goBack=goBack;
+window.doSetupSave=doSetupSave;
+window.doSetupSkip=doSetupSkip;
+
+// Start
+// Default to local-only boot so GitHub Pages / Teams Website Tab opens straight to login.
+// SharePoint List sync remains optional via doSetupSave(), but no setup screen blocks first load.
+(function(){
+  var ls=document.getElementById('loginScreen');
+  if(ls)ls.classList.add('hidden');
+  bootApp();
+})();
+
+</script>
+</body>
+</html>
