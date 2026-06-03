@@ -1,1 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSW SES — Cessnock City Unit</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --navy:   #0a1628;
+    --navy2:  #0f1e38;
+    --navy3:  #162847;
+    --orange: #f07020;
+    --orange2:#e05a10;
+    --amber:  #f5a623;
+    --white:  #ffffff;
+    --muted:  #8fa3bf;
+    --card:   #111e33;
+    --border: rgba(240,112,32,0.18);
+    --red:    #e74c3c;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(240,112,32,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 100%, rgba(15,30,56,0.9) 0%, transparent 70%),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.018) 60px),
+      repeating-linear-gradient(0deg,  transparent, transparent 59px, rgba(255,255,255,0.018) 60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── LOGIN SCREEN ─── */
+  #loginScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(240,112,32,0.08) 0%, transparent 60%),
+      var(--navy);
+    padding: 20px;
+  }
+
+  .login-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .login-badge {
+    width: 56px;
+    height: 56px;
+    background: var(--orange);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1.1;
+    margin: 0 auto 20px;
+  }
+
+  .login-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .login-sub {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 28px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .field-group { margin-bottom: 16px; }
+
+  .login-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(240,112,32,0.25);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .login-input:focus {
+    border-color: var(--orange);
+    background: rgba(240,112,32,0.06);
+  }
+
+  .pin-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  .login-btn {
+    width: 100%;
+    background: var(--orange);
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .login-btn:hover  { background: var(--orange2); }
+  .login-btn:active { transform: scale(0.98); }
+
+  .login-error {
+    background: rgba(231,76,60,0.12);
+    border: 1px solid rgba(231,76,60,0.35);
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #e74c3c;
+    margin-top: 14px;
+    display: none;
+    text-align: center;
+  }
+
+  .login-access-note {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: rgba(143,163,191,0.5);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ─── DASHBOARD ─── */
+  #dashboard { display: none; position: relative; z-index: 1; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  header {
+    padding: 36px 0 0;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+  }
+
+  .ses-badge {
+    width: 68px;
+    height: 68px;
+    background: var(--orange);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1.1;
+    animation: pulse-badge 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-badge {
+    0%,100% { box-shadow: 0 0 0 0 rgba(240,112,32,0); }
+    50%      { box-shadow: 0 0 24px 6px rgba(240,112,32,0.25); }
+  }
+
+  .header-text { flex: 1; }
+
+  .unit-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  h1 span { color: var(--orange); }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .meta-pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    display: inline-block;
+  }
+
+  .meta-pill.user-pill::before { background: #2ecc71; }
+
+  .clock {
+    margin-left: auto;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .logout-btn {
+    background: rgba(231,76,60,0.12);
+    border: 1px solid rgba(231,76,60,0.3);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #e74c3c;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .logout-btn:hover { background: rgba(231,76,60,0.22); }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: flex;
+    gap: 12px;
+    margin: 24px 0 0;
+    animation: fadeDown 0.6s 0.1s ease both;
+    flex-wrap: wrap;
+  }
+
+  .status-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #2ecc71;
+    box-shadow: 0 0 8px rgba(46,204,113,0.6);
+    flex-shrink: 0;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .status-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,166,35,0.6); }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  .status-chip strong { color: var(--white); font-weight: 500; }
+
+  /* SECTION HEAD */
+  .section-head {
+    margin: 40px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-head h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    white-space: nowrap;
+  }
+
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* APP GRID */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .app-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .app-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), var(--amber));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .app-card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(240,112,32,0.2); }
+  .app-card:hover::before { opacity: 1; }
+
+  .app-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--navy3) 0%, var(--card) 60%);
+    border-color: rgba(240,112,32,0.3);
+  }
+
+  @media (max-width: 680px) {
+    .app-card.featured { grid-column: span 1; }
+  }
+
+  .app-card:nth-child(1) { animation-delay: 0.15s; }
+  .app-card:nth-child(2) { animation-delay: 0.22s; }
+  .app-card:nth-child(3) { animation-delay: 0.29s; }
+  .app-card:nth-child(4) { animation-delay: 0.36s; }
+  .app-card:nth-child(5) { animation-delay: 0.43s; }
+
+  .app-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    background: rgba(240,112,32,0.12);
+    border: 1px solid rgba(240,112,32,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 22px;
+    transition: background 0.2s;
+  }
+
+  .app-card:hover .app-icon { background: rgba(240,112,32,0.22); }
+
+  .app-info { flex: 1; min-width: 0; }
+
+  .app-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .app-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .app-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(240,112,32,0.1);
+    color: var(--orange);
+    border: 1px solid rgba(240,112,32,0.2);
+  }
+
+  .tag.green  { background: rgba(46,204,113,0.1);  color: #2ecc71;     border-color: rgba(46,204,113,0.2); }
+  .tag.amber  { background: rgba(245,166,35,0.1);  color: var(--amber); border-color: rgba(245,166,35,0.2); }
+  .tag.muted  { background: rgba(143,163,191,0.1); color: var(--muted); border-color: rgba(143,163,191,0.15); }
+
+  .app-arrow {
+    color: var(--orange);
+    font-size: 18px;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s, transform 0.2s;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .app-card:hover .app-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ROLE BADGE */
+  .role-badge {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(240,112,32,0.15);
+    color: var(--orange);
+    border: 1px solid rgba(240,112,32,0.3);
+    margin-left: 8px;
+  }
+
+  /* FOOTER */
+  footer {
+    margin: 48px 0 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+
+  .footer-left { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .footer-left strong { color: var(--white); }
+  .footer-right { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(143,163,191,0.5); }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp   { from { opacity: 0; transform: translateY(12px);  } to { opacity: 1; transform: translateY(0); } }
+
+  #loginScreen.fade-out { animation: fadeOut 0.35s ease forwards; }
+  @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN SCREEN ═══════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-badge">NSW<br>SES</div>
+    <div class="login-title">Cessnock City Unit</div>
+    <div class="login-sub">Server Administration — Restricted Access</div>
+
+    <div class="field-group">
+      <label class="field-label" for="loginMid">Member ID (MID)</label>
+      <input class="login-input" id="loginMid" type="text" inputmode="numeric" maxlength="8" placeholder="40XXXXXX" autocomplete="off">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="loginPin">PIN</label>
+      <input class="login-input" id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="off">
+      <div class="pin-hint">Owner / Commander: 6-digit &nbsp;·&nbsp; Admin: 5-digit</div>
+    </div>
+
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="loginError">Invalid MID or PIN. Access denied.</div>
+
+    <div class="login-access-note">
+      NSW SES Cessnock City Unit — Internal Server<br>
+      Authorised personnel only. MID 40055691 · cessnock-ses.local
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div id="dashboard">
+<div class="wrap">
+
+  <header>
+    <div class="header-inner">
+      <div class="ses-badge">NSW<br>SES</div>
+      <div class="header-text">
+        <div class="unit-label">New South Wales State Emergency Service</div>
+        <h1>Cessnock <span>City</span> Unit</h1>
+        <div class="header-meta">
+          <span class="meta-pill">MID 40055691</span>
+          <span class="meta-pill">Unit Intranet</span>
+          <span class="meta-pill user-pill" id="sessionPill">Signed in</span>
+        </div>
+      </div>
+      <div class="clock" id="clock">--:--</div>
+      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-chip">
+      <div class="status-dot"></div>
+      <div><strong>Server Online</strong> — cessnock-ses.local</div>
+    </div>
+    <div class="status-chip">
+      <div class="status-dot"></div>
+      <div><strong>Network</strong> — Unit WiFi</div>
+    </div>
+    <div class="status-chip">
+      <div class="status-dot amber"></div>
+      <div><strong id="datestr">--</strong></div>
+    </div>
+  </div>
+
+  <!-- OPERATIONS -->
+  <div class="section-head">
+    <h2>Operations</h2>
+  </div>
+
+  <div class="app-grid">
+    <a class="app-card featured" href="/equipment-check">
+      <div class="app-icon">🚒</div>
+      <div class="app-info">
+        <div class="app-name">Equipment Check</div>
+        <div class="app-desc">Vehicle readiness checks across CES31, CES56, CES656, CES711 flood boat, FLT56 and General Purpose Trailer. Role-based PIN authentication with 12 ORC categories.</div>
+        <div class="app-tags">
+          <span class="tag green">Live</span>
+          <span class="tag">12 ORC Categories</span>
+          <span class="tag">6 Vehicles</span>
+          <span class="tag amber">Auth Required</span>
+        </div>
+      </div>
+      <div class="app-arrow">→</div>
+    </a>
+
+    <a class="app-card" href="/operational-readiness">
+      <div class="app-icon">✅</div>
+      <div class="app-info">
+        <div class="app-name">Operational Readiness</div>
+        <div class="app-desc">Weekly Yes/No/N/A readiness checks across all vehicles and equipment. Missed check alerts to Ops Admin and Commander.</div>
+        <div class="app-tags">
+          <span class="tag green">Live</span>
+          <span class="tag">Weekly Checks</span>
+          <span class="tag amber">Auth Required</span>
+        </div>
+      </div>
+      <div class="app-arrow">→</div>
+    </a>
+
+    <a class="app-card" href="/stores">
+      <div class="app-icon">📦</div>
+      <div class="app-info">
+        <div class="app-name">Stores &amp; Inventory</div>
+        <div class="app-desc">Stock register, expiry tracking and audit log for unit consumables and supplies.</div>
+        <div class="app-tags">
+          <span class="tag green">Live</span>
+          <span class="tag amber">Auth Required</span>
+        </div>
+      </div>
+      <div class="app-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- TRAINING & ADMIN -->
+  <div class="section-head">
+    <h2>Training &amp; Admin</h2>
+  </div>
+
+  <div class="app-grid">
+    <a class="app-card" href="/training">
+      <div class="app-icon">📅</div>
+      <div class="app-info">
+        <div class="app-name">Training Calendar</div>
+        <div class="app-desc">2026 Tuesday-night training schedule — 31 sessions with colour-coded modules and attendance tracker.</div>
+        <div class="app-tags">
+          <span class="tag green">Live</span>
+          <span class="tag">31 Sessions</span>
+        </div>
+      </div>
+      <div class="app-arrow">→</div>
+    </a>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <strong>NSW SES Cessnock City Unit</strong> — Authorised Personnel Only<br>
+      This system is hosted locally and is not accessible outside the unit network.
+    </div>
+    <div class="footer-right">cessnock-ses.local</div>
+  </footer>
+
+</div><!-- /wrap -->
+</div><!-- /dashboard -->
+
+<script>
+  // ── AUTH DATA ──
+  // Mirrors the equipment check role hierarchy exactly.
+  // PIN values must be set to match the equipment check app's stored PINs.
+  // Owner/Commander: 6-digit · Admin: 5-digit
+  const ADMIN_USERS = [
+    { mid: '40055691', pinLen: 6, role: 'Owner · Admin Membership · Training Coordinator', name: 'Linz Bawden' },
+    { mid: '40044693', pinLen: 6, role: 'Commander',        name: 'Jennifer Ehmsen' },
+    { mid: '40061774', pinLen: 5, role: 'Admin Ops',        name: 'Jonathon Hart' },
+    { mid: '40057003', pinLen: 5, role: 'Admin Inventory',  name: 'Casie Metz' },
+  ];
+
+  // PINs are stored hashed in localStorage under key 'ses_server_pins'
+  // On first login, default PINs are set (matching equipment check defaults):
+  //   Owner/Commander default: '000000' (6 zeros)
+  //   Admin default:           '00000'  (5 zeros)
+  // Users must change these on first use — same forced-change logic as equipment check.
+
+  function getPins() {
+    try { return JSON.parse(localStorage.getItem('ses_server_pins') || '{}'); }
+    catch { return {}; }
+  }
+
+  function savePins(obj) {
+    localStorage.setItem('ses_server_pins', JSON.stringify(obj));
+  }
+
+  function defaultPin(user) {
+    return '0'.repeat(user.pinLen);
+  }
+
+  let currentUser = null;
+
+  function doLogin() {
+    const mid = document.getElementById('loginMid').value.trim();
+    const pin = document.getElementById('loginPin').value.trim();
+    const err = document.getElementById('loginError');
+    err.style.display = 'none';
+
+    const user = ADMIN_USERS.find(u => u.mid === mid);
+    if (!user) { showError(); return; }
+
+    const pins = getPins();
+    const storedPin = pins[mid] !== undefined ? pins[mid] : defaultPin(user);
+
+    if (pin !== storedPin) { showError(); return; }
+
+    currentUser = user;
+    document.getElementById('sessionPill').textContent = user.name + ' — ' + user.role;
+
+    // Force PIN change if still on default
+    if (pin === defaultPin(user)) {
+      setTimeout(() => {
+        const np = promptNewPin(user.pinLen);
+        if (np) {
+          const p = getPins();
+          p[mid] = np;
+          savePins(p);
+          alert('PIN updated successfully.');
+        }
+      }, 400);
+    }
+
+    // Show dashboard
+    const ls = document.getElementById('loginScreen');
+    ls.classList.add('fade-out');
+    setTimeout(() => { ls.style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; }, 340);
+  }
+
+  function promptNewPin(len) {
+    let np = null;
+    while (true) {
+      np = prompt('Your PIN is still set to the default.\nPlease enter a new ' + len + '-digit PIN:');
+      if (np === null) break; // cancelled — allow for now, will prompt again next login
+      if (/^\d+$/.test(np) && np.length === len) break;
+      alert('PIN must be exactly ' + len + ' digits.');
+    }
+    return np;
+  }
+
+  function showError() {
+    const err = document.getElementById('loginError');
+    err.style.display = 'block';
+    document.getElementById('loginPin').value = '';
+    document.getElementById('loginPin').focus();
+  }
+
+  function doLogout() {
+    currentUser = null;
+    document.getElementById('dashboard').style.display = 'none';
+    const ls = document.getElementById('loginScreen');
+    ls.style.display = 'flex';
+    ls.classList.remove('fade-out');
+    document.getElementById('loginMid').value = '';
+    document.getElementById('loginPin').value = '';
+    document.getElementById('loginError').style.display = 'none';
+  }
+
+  // Enter key triggers login
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') {
+      doLogin();
+    }
+  });
+
+  // ── CLOCK ──
+  function tick() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent = h + ':' + m;
+    const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('datestr').textContent =
+      days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  }
+  tick();
+  setInterval(tick, 10000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSW SES Cessnock — Membership</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --navy:   #0a1628;
+  --navy2:  #0f1e38;
+  --navy3:  #162847;
+  --orange: #f07020;
+  --orange2:#d45e10;
+  --amber:  #f5a623;
+  --green:  #2ecc71;
+  --red:    #e74c3c;
+  --white:  #ffffff;
+  --muted:  #8fa3bf;
+  --card:   #111e33;
+  --card2:  #0d1a2e;
+  --border: rgba(240,112,32,0.18);
+  --border2:rgba(255,255,255,0.06);
+}
+
+html,body{height:100%;background:var(--navy);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%,rgba(240,112,32,0.07) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 70% at 85% 100%,rgba(15,30,56,0.8) 0%,transparent 65%),
+    repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.016) 60px),
+    repeating-linear-gradient(0deg, transparent,transparent 59px,rgba(255,255,255,0.016) 60px);
+}
+
+/* ══════════════ LOGIN ══════════════ */
+#loginScreen{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(240,112,32,0.08) 0%,transparent 60%),var(--navy);
+  padding:20px;
+}
+.login-box{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:40px 36px;width:100%;max-width:400px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.6);animation:fadeUp 0.5s ease both;
+}
+.login-badge{
+  width:56px;height:56px;background:var(--orange);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:11px;
+  color:var(--navy);text-align:center;line-height:1.1;margin:0 auto 20px;
+}
+.login-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;text-align:center;color:var(--white);margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:28px;letter-spacing:.06em;text-transform:uppercase}
+.field-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:6px;display:block}
+.field-group{margin-bottom:16px}
+.login-input{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(240,112,32,0.25);
+  border-radius:8px;padding:12px 14px;font-family:'Barlow Condensed',sans-serif;
+  font-size:18px;font-weight:600;color:var(--white);letter-spacing:.1em;outline:none;
+  transition:border-color .2s,background .2s;
+}
+.login-input:focus{border-color:var(--orange);background:rgba(240,112,32,0.06)}
+.pin-hint{font-size:11px;color:var(--muted);margin-top:5px}
+.login-btn{
+  width:100%;background:var(--orange);border:none;border-radius:8px;padding:14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--navy);cursor:pointer;
+  margin-top:8px;transition:background .2s,transform .1s;
+}
+.login-btn:hover{background:var(--orange2)}.login-btn:active{transform:scale(.98)}
+.login-error{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.35);border-radius:7px;padding:10px 14px;font-size:13px;color:var(--red);margin-top:14px;display:none;text-align:center}
+.login-access-note{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:11px;color:rgba(143,163,191,.5);text-align:center;line-height:1.6}
+
+/* ══════════════ SHELL ══════════════ */
+#app{display:none;position:relative;z-index:1;min-height:100vh}
+
+/* TOP BAR */
+.topbar{
+  background:var(--card2);border-bottom:1px solid var(--border);
+  padding:0 28px;display:flex;align-items:center;gap:16px;height:58px;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-badge{
+  width:32px;height:32px;background:var(--orange);flex-shrink:0;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:7px;color:var(--navy);text-align:center;line-height:1.1;
+}
+.topbar-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.topbar-title span{color:var(--orange)}
+.topbar-session{margin-left:auto;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.topbar-session strong{color:var(--white)}
+.session-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(46,204,113,.6);animation:blink 2s infinite}
+.logout-btn{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:6px;padding:6px 13px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);cursor:pointer;transition:background .2s;flex-shrink:0}
+.logout-btn:hover{background:rgba(231,76,60,.22)}
+
+/* NAV TABS */
+.nav-tabs{background:var(--card2);border-bottom:1px solid var(--border);padding:0 28px;display:flex;gap:0}
+.nav-tab{
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  padding:14px 20px;cursor:pointer;border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;white-space:nowrap;
+}
+.nav-tab:hover{color:var(--white)}
+.nav-tab.active{color:var(--orange);border-bottom-color:var(--orange)}
+
+/* MAIN CONTENT */
+.main{max-width:1200px;margin:0 auto;padding:32px 28px 60px}
+
+/* SECTION HEAD */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.sec-head h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.sec-head h2 span{color:var(--orange)}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--orange);line-height:1}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.search-input{
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:9px 14px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);
+  outline:none;transition:border-color .2s;flex:1;min-width:200px;
+}
+.search-input::placeholder{color:var(--muted)}
+.search-input:focus{border-color:var(--orange)}
+.btn{
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;border:none;border-radius:8px;
+  padding:9px 18px;cursor:pointer;transition:background .2s,transform .1s;white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--orange);color:var(--navy)}
+.btn-primary:hover{background:var(--orange2)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border2)}
+.btn-ghost:hover{background:rgba(255,255,255,0.1)}
+.btn-danger{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.25)}
+.btn-danger:hover{background:rgba(231,76,60,.22)}
+.btn-sm{padding:6px 12px;font-size:11px}
+
+/* MEMBER TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--card2);border-bottom:1px solid var(--border)}
+th{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:12px 16px;text-align:left;white-space:nowrap}
+td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+.mid-cell{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+.name-cell{font-weight:500;color:var(--white)}
+.rank-cell{font-size:12px;color:var(--muted)}
+
+/* ROLE BADGE */
+.role-badge{
+  display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:10px;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;
+  border-radius:20px;white-space:nowrap;
+}
+.role-owner   {background:rgba(240,112,32,.18);color:var(--orange);border:1px solid rgba(240,112,32,.3)}
+.role-commander{background:rgba(245,166,35,.15);color:var(--amber);border:1px solid rgba(245,166,35,.3)}
+.role-admin   {background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.25)}
+.role-member  {background:rgba(143,163,191,.1);color:var(--muted);border:1px solid rgba(143,163,191,.2)}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.status-dot-sm{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.s-active  .status-dot-sm{background:var(--green);box-shadow:0 0 5px rgba(46,204,113,.5)}
+.s-inactive .status-dot-sm{background:var(--muted)}
+.s-active  {color:var(--green)}.s-inactive{color:var(--muted)}
+
+/* ACTION ROW */
+.action-row{display:flex;gap:6px}
+
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.6);animation:fadeUp .3s ease both}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.modal-title span{color:var(--orange)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.full{grid-template-columns:1fr}
+.form-field label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:6px;display:block}
+.form-field input,.form-field select,.form-field textarea{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(240,112,32,.22);
+  border-radius:7px;padding:10px 12px;font-family:'Barlow',sans-serif;font-size:13px;
+  color:var(--white);outline:none;transition:border-color .2s;
+}
+.form-field select option{background:var(--navy2);color:var(--white)}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--orange)}
+.form-field textarea{resize:vertical;min-height:70px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:18px;border-top:1px solid var(--border)}
+
+/* ACTIVITY LOG */
+.activity-filters{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.filter-select{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none}
+.filter-select option{background:var(--navy2)}
+.activity-list{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.activity-entry{
+  display:grid;grid-template-columns:90px 1fr 140px;gap:12px;
+  padding:12px 18px;border-bottom:1px solid var(--border2);align-items:center;
+  transition:background .15s;
+}
+.activity-entry:last-child{border-bottom:none}
+.activity-entry:hover{background:rgba(255,255,255,0.02)}
+.act-time{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.act-body{font-size:13px;line-height:1.4}
+.act-body strong{color:var(--white);font-weight:600}
+.act-body .act-detail{color:var(--muted);font-size:12px;margin-top:1px}
+.act-app-tag{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;
+  text-align:center;white-space:nowrap;justify-self:end;
+}
+.app-equipment  {background:rgba(240,112,32,.12);color:var(--orange);border:1px solid rgba(240,112,32,.25)}
+.app-stores     {background:rgba(46,204,113,.1);color:var(--green);border:1px solid rgba(46,204,113,.2)}
+.app-membership {background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.25)}
+.app-readiness  {background:rgba(143,163,191,.1);color:var(--muted);border:1px solid rgba(143,163,191,.2)}
+.app-training   {background:rgba(100,180,255,.1);color:#64b4ff;border:1px solid rgba(100,180,255,.2)}
+.app-dashboard  {background:rgba(200,150,255,.1);color:#c896ff;border:1px solid rgba(200,150,255,.2)}
+.empty-state{padding:48px;text-align:center;color:var(--muted);font-size:14px}
+
+/* APP LINKS */
+.app-links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.app-link-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:20px;text-decoration:none;color:inherit;display:flex;gap:14px;
+  align-items:center;transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.app-link-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--amber));opacity:0;transition:opacity .2s}
+.app-link-card:hover{border-color:var(--orange);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.app-link-card:hover::before{opacity:1}
+.link-icon{width:42px;height:42px;border-radius:9px;background:rgba(240,112,32,.12);border:1px solid rgba(240,112,32,.22);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.link-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--white)}
+.link-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.link-arrow{margin-left:auto;color:var(--orange);font-size:16px;opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s;flex-shrink:0}
+.app-link-card:hover .link-arrow{opacity:1;transform:translateX(0)}
+
+/* PIN RESET MODAL extras */
+.pin-display{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;letter-spacing:.2em;color:var(--orange);text-align:center;padding:18px;background:rgba(240,112,32,.06);border:1px solid rgba(240,112,32,.2);border-radius:8px;margin:16px 0}
+
+/* CONFIRM MODAL */
+.confirm-msg{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.confirm-msg strong{color:var(--white)}
+
+/* PAGINATION */
+.pag-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:8px}
+.pag-info{font-size:12px;color:var(--muted)}
+.pag-btns{display:flex;gap:6px}
+
+@keyframes fadeUp  {from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)}}
+@keyframes blink   {0%,100%{opacity:1}50%{opacity:.4}}
+#loginScreen.fade-out{animation:fadeOutAnim .35s ease forwards}
+@keyframes fadeOutAnim{to{opacity:0;pointer-events:none}}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-badge">NSW<br>SES</div>
+    <div class="login-title">Membership Portal</div>
+    <div class="login-sub">Cessnock City Unit — Restricted</div>
+    <div class="field-group">
+      <label class="field-label" for="lMid">Member ID (MID)</label>
+      <input class="login-input" id="lMid" type="text" inputmode="numeric" maxlength="8" placeholder="40XXXXXX" autocomplete="off">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="lPin">PIN</label>
+      <input class="login-input" id="lPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="off">
+      <div class="pin-hint">Owner / Commander: 6-digit &nbsp;·&nbsp; Admin Membership: 5-digit</div>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="loginError">Invalid MID or PIN. Access denied.</div>
+    <div class="login-access-note">NSW SES Cessnock City Unit · MID 40055691<br>Authorised personnel only · cessnock-ses.local/membership</div>
+  </div>
+</div>
+
+<!-- ══ APP SHELL ══ -->
+<div id="app">
+
+  <div class="topbar">
+    <div class="topbar-badge">NSW<br>SES</div>
+    <div class="topbar-title">Cessnock <span>Membership</span></div>
+    <div class="topbar-session">
+      <div class="session-dot"></div>
+      <span><strong id="sessionName">—</strong> <span id="sessionRole" style="color:var(--muted)"></span></span>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+  </div>
+
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showTab('members')">Members</div>
+    <div class="nav-tab" onclick="showTab('activity')">Activity Log</div>
+    <div class="nav-tab" onclick="showTab('apps')">App Links</div>
+  </div>
+
+  <div class="main">
+
+    <!-- ══ MEMBERS TAB ══ -->
+    <div id="tab-members">
+      <div class="stat-row" id="statRow"></div>
+      <div class="sec-head">
+        <h2>Member <span>Directory</span></h2>
+        <button class="btn btn-primary" onclick="openAddMember()">+ Add Member</button>
+      </div>
+      <div class="toolbar">
+        <input class="search-input" id="searchInput" type="text" placeholder="Search by name, MID or role…" oninput="renderTable()">
+        <select class="search-input" id="filterRole" style="flex:0;min-width:160px" onchange="renderTable()">
+          <option value="">All Roles</option>
+          <option value="owner">Owner</option>
+          <option value="commander">Commander</option>
+          <option value="admin_ops">Admin Ops</option>
+          <option value="admin_membership">Admin Membership</option>
+          <option value="admin_inventory">Admin Inventory</option>
+          <option value="member">Member</option>
+        </select>
+        <select class="search-input" id="filterStatus" style="flex:0;min-width:130px" onchange="renderTable()">
+          <option value="">All Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>MID</th>
+              <th>Name</th>
+              <th>Rank / Notes</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="memberTbody"></tbody>
+        </table>
+      </div>
+      <div class="pag-row">
+        <div class="pag-info" id="pagInfo"></div>
+        <div class="pag-btns" id="pagBtns"></div>
+      </div>
+    </div>
+
+    <!-- ══ ACTIVITY TAB ══ -->
+    <div id="tab-activity" style="display:none">
+      <div class="sec-head">
+        <h2>Activity <span>Log</span></h2>
+        <div style="display:flex;gap:8px" id="clearBtnWrap"></div>
+      </div>
+      <div class="activity-filters">
+        <select class="filter-select" id="actFilterApp" onchange="renderActivity()">
+          <option value="">All Apps</option>
+          <option value="Equipment Check">Equipment Check</option>
+          <option value="Stores">Stores & Inventory</option>
+          <option value="Operational Readiness">Operational Readiness</option>
+          <option value="Training Calendar">Training Calendar</option>
+          <option value="Membership">Membership</option>
+          <option value="Dashboard">Dashboard</option>
+        </select>
+        <select class="filter-select" id="actFilterMember" onchange="renderActivity()">
+          <option value="">All Members</option>
+        </select>
+        <input class="search-input" id="actSearch" style="max-width:260px" type="text" placeholder="Search actions…" oninput="renderActivity()">
+      </div>
+      <div id="activityList"></div>
+    </div>
+
+    <!-- ══ APPS TAB ══ -->
+    <div id="tab-apps" style="display:none">
+      <div class="sec-head">
+        <h2>Unit <span>Applications</span></h2>
+      </div>
+      <div class="app-links-grid">
+        <a class="app-link-card" href="/">
+          <div class="link-icon">🖥️</div>
+          <div><div class="link-name">Server Dashboard</div><div class="link-desc">Unit intranet homepage</div></div>
+          <div class="link-arrow">→</div>
+        </a>
+        <a class="app-link-card" href="/equipment-check">
+          <div class="link-icon">🚒</div>
+          <div><div class="link-name">Equipment Check</div><div class="link-desc">Vehicle readiness · 6 vehicles · 12 ORC categories</div></div>
+          <div class="link-arrow">→</div>
+        </a>
+        <a class="app-link-card" href="/operational-readiness">
+          <div class="link-icon">✅</div>
+          <div><div class="link-name">Operational Readiness</div><div class="link-desc">Weekly Yes/No/N/A vehicle checks</div></div>
+          <div class="link-arrow">→</div>
+        </a>
+        <a class="app-link-card" href="/stores">
+          <div class="link-icon">📦</div>
+          <div><div class="link-name">Stores & Inventory</div><div class="link-desc">Stock register · expiry tracking · audit log</div></div>
+          <div class="link-arrow">→</div>
+        </a>
+        <a class="app-link-card" href="/training">
+          <div class="link-icon">📅</div>
+          <div><div class="link-name">Training Calendar</div><div class="link-desc">2026 Tuesday-night schedule · 31 sessions</div></div>
+          <div class="link-arrow">→</div>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══ MEMBER MODAL ══ -->
+<div class="modal-overlay" id="memberModal">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Add <span>Member</span></div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Member ID (MID)</label>
+        <input type="text" id="fMid" inputmode="numeric" maxlength="8" placeholder="40XXXXXX">
+      </div>
+      <div class="form-field">
+        <label>Status</label>
+        <select id="fStatus">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>First Name</label>
+        <input type="text" id="fFirst" placeholder="First name">
+      </div>
+      <div class="form-field">
+        <label>Last Name</label>
+        <input type="text" id="fLast" placeholder="Last name">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Role</label>
+        <select id="fRole">
+          <option value="member">Member</option>
+          <option value="admin_ops">Admin Ops</option>
+          <option value="admin_membership">Admin Membership</option>
+          <option value="admin_inventory">Admin Inventory</option>
+          <option value="commander">Commander</option>
+          <option value="owner">Owner</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Rank</label>
+        <input type="text" id="fRank" placeholder="e.g. Senior Member">
+      </div>
+    </div>
+    <div class="form-row full">
+      <div class="form-field">
+        <label>Notes</label>
+        <textarea id="fNotes" placeholder="Optional notes…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('memberModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMember()">Save Member</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PIN MODAL ══ -->
+<div class="modal-overlay" id="pinModal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">Reset <span>PIN</span></div>
+    <div id="pinModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('pinModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmPinReset()">Reset PIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM MODAL ══ -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">Confirm <span>Action</span></div>
+    <div id="confirmModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  CONSTANTS & STORAGE KEYS
+// ══════════════════════════════════════════
+const STORAGE_MEMBERS  = 'ses_members';
+const STORAGE_PINS     = 'ses_membership_pins';
+const STORAGE_ACTIVITY = 'ses_activity';
+const ACTIVITY_MAX_DAYS = 30;
+const PAGE_SIZE = 15;
+
+// Auth — Owner, Commander, Admin Membership only
+const AUTH_USERS = [
+  { mid:'40055691', pinLen:6, role:'owner',            name:'Linz Bawden' },
+  { mid:'40044693', pinLen:6, role:'commander',        name:'Jennifer Ehmsen' },
+  // Admin Membership role — currently held by owner, kept as separate entry
+  // so a future dedicated admin can be added here without code changes
+];
+
+// Role display helpers
+const ROLE_LABELS = {
+  owner:            'Owner',
+  commander:        'Commander',
+  admin_ops:        'Admin Ops',
+  admin_membership: 'Admin Membership',
+  admin_inventory:  'Admin Inventory',
+  member:           'Member',
+};
+const ROLE_CLASS = {
+  owner:'role-owner', commander:'role-commander',
+  admin_ops:'role-admin', admin_membership:'role-admin', admin_inventory:'role-admin',
+  member:'role-member',
+};
+const APP_TAG_CLASS = {
+  'Equipment Check':'app-equipment','Stores':'app-stores',
+  'Membership':'app-membership','Operational Readiness':'app-readiness',
+  'Training Calendar':'app-training','Dashboard':'app-dashboard',
+};
+
+// ══════════════════════════════════════════
+//  DEFAULTS
+// ══════════════════════════════════════════
+const DEFAULT_MEMBERS = [
+  { mid:'40055691', first:'Linz',     last:'Bawden',  role:'owner',            rank:'Owner',             status:'active', notes:'Unit Owner & Super Admin. Admin Membership. Training Coordinator.' },
+  { mid:'40044693', first:'Jennifer', last:'Ehmsen',  role:'commander',        rank:'Commander',         status:'active', notes:'' },
+  { mid:'40061774', first:'Jonathon', last:'Hart',    role:'admin_ops',        rank:'Admin Ops',         status:'active', notes:'' },
+  { mid:'40057003', first:'Casie',    last:'Metz',    role:'admin_inventory',  rank:'Admin Inventory',   status:'active', notes:'' },
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let currentUser = null;
+let editingMid  = null;
+let pinResetTarget = null;
+let currentPage = 1;
+let confirmCallback = null;
+
+// ══════════════════════════════════════════
+//  STORAGE HELPERS
+// ══════════════════════════════════════════
+function getMembers() {
+  try {
+    const raw = localStorage.getItem(STORAGE_MEMBERS);
+    return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+  } catch { return JSON.parse(JSON.stringify(DEFAULT_MEMBERS)); }
+}
+function saveMembers(m) { localStorage.setItem(STORAGE_MEMBERS, JSON.stringify(m)); }
+
+function getPins() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_PINS) || '{}'); }
+  catch { return {}; }
+}
+function savePins(p) { localStorage.setItem(STORAGE_PINS, JSON.stringify(p)); }
+
+function defaultPin(pinLen) { return '0'.repeat(pinLen); }
+function pinLenForRole(role) { return (role==='owner'||role==='commander') ? 6 : (role.startsWith('admin') ? 5 : 4); }
+
+function getActivity() {
+  try {
+    const raw = localStorage.getItem(STORAGE_ACTIVITY);
+    const all = raw ? JSON.parse(raw) : [];
+    // Prune entries older than 30 days
+    const cutoff = Date.now() - ACTIVITY_MAX_DAYS * 86400000;
+    return all.filter(e => e.ts >= cutoff);
+  } catch { return []; }
+}
+function saveActivity(a) { localStorage.setItem(STORAGE_ACTIVITY, JSON.stringify(a)); }
+
+function logActivity(app, action, detail) {
+  if (!currentUser) return;
+  const entries = getActivity();
+  entries.unshift({
+    mid:    currentUser.mid,
+    name:   currentUser.name,
+    role:   currentUser.role,
+    app,
+    action,
+    detail: detail || '',
+    ts:     Date.now(),
+  });
+  // Keep max 500 entries
+  saveActivity(entries.slice(0, 500));
+}
+
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
+function doLogin() {
+  const mid = document.getElementById('lMid').value.trim();
+  const pin = document.getElementById('lPin').value.trim();
+  const err = document.getElementById('loginError');
+  err.style.display = 'none';
+
+  // Check against members with owner/commander/admin_membership role
+  const members = getMembers();
+  const member = members.find(m => m.mid === mid &&
+    (m.role === 'owner' || m.role === 'commander' || m.role === 'admin_membership'));
+  if (!member) { showLoginError(); return; }
+
+  const pins = getPins();
+  const pinLen = pinLenForRole(member.role);
+  const stored = pins[mid] !== undefined ? pins[mid] : defaultPin(pinLen);
+  if (pin !== stored) { showLoginError(); return; }
+
+  currentUser = { mid, name: member.first + ' ' + member.last, role: member.role };
+  document.getElementById('sessionName').textContent = currentUser.name;
+  document.getElementById('sessionRole').textContent = '— ' + ROLE_LABELS[currentUser.role];
+
+  if (pin === defaultPin(pinLen)) {
+    setTimeout(() => forceChangePinFor(mid, pinLen), 400);
+  }
+
+  logActivity('Membership', 'Login', 'Signed in to Membership portal');
+
+  const ls = document.getElementById('loginScreen');
+  ls.classList.add('fade-out');
+  setTimeout(() => { ls.style.display = 'none'; initApp(); }, 340);
+}
+
+function showLoginError() {
+  document.getElementById('loginError').style.display = 'block';
+  document.getElementById('lPin').value = '';
+  document.getElementById('lPin').focus();
+}
+
+function doLogout() {
+  logActivity('Membership', 'Logout', 'Signed out of Membership portal');
+  currentUser = null;
+  document.getElementById('app').style.display = 'none';
+  const ls = document.getElementById('loginScreen');
+  ls.style.display = 'flex'; ls.classList.remove('fade-out');
+  document.getElementById('lMid').value = '';
+  document.getElementById('lPin').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+function forceChangePinFor(mid, pinLen) {
+  let np;
+  while (true) {
+    np = prompt('PIN is still default. Enter a new ' + pinLen + '-digit PIN:');
+    if (np === null) break;
+    if (/^\d+$/.test(np) && np.length === pinLen) break;
+    alert('Must be exactly ' + pinLen + ' digits.');
+  }
+  if (np) {
+    const p = getPins(); p[mid] = np; savePins(p);
+    alert('PIN updated.');
+    logActivity('Membership', 'PIN Changed', 'Changed own PIN');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin();
+});
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+function initApp() {
+  document.getElementById('app').style.display = 'block';
+  // Show clear log button for owner/commander only
+  if (currentUser.role === 'owner' || currentUser.role === 'commander') {
+    document.getElementById('clearBtnWrap').innerHTML =
+      '<button class="btn btn-danger btn-sm" onclick="clearActivity()">Clear Log</button>';
+  }
+  renderStats();
+  renderTable();
+  renderActivityMemberFilter();
+}
+
+// ══════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════
+function showTab(tab) {
+  ['members','activity','apps'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-tab').forEach((el,i) => {
+    el.classList.toggle('active', ['members','activity','apps'][i] === tab);
+  });
+  if (tab === 'activity') renderActivity();
+}
+
+// ══════════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════════
+function renderStats() {
+  const members = getMembers();
+  const active = members.filter(m => m.status === 'active').length;
+  const admins = members.filter(m => m.role !== 'member').length;
+  document.getElementById('statRow').innerHTML = `
+    <div class="stat-card"><div class="stat-val">${members.length}</div><div class="stat-lbl">Total Members</div></div>
+    <div class="stat-card"><div class="stat-val">${active}</div><div class="stat-lbl">Active</div></div>
+    <div class="stat-card"><div class="stat-val">${members.length - active}</div><div class="stat-lbl">Inactive</div></div>
+    <div class="stat-card"><div class="stat-val">${admins}</div><div class="stat-lbl">Admin & Above</div></div>
+  `;
+}
+
+// ══════════════════════════════════════════
+//  MEMBER TABLE
+// ══════════════════════════════════════════
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const role = document.getElementById('filterRole').value;
+  const status = document.getElementById('filterStatus').value;
+  return getMembers().filter(m => {
+    const name = (m.first + ' ' + m.last).toLowerCase();
+    if (q && !name.includes(q) && !m.mid.includes(q) && !(m.role||'').includes(q)) return false;
+    if (role && m.role !== role) return false;
+    if (status && m.status !== status) return false;
+    return true;
+  });
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const pages = Math.ceil(total / PAGE_SIZE) || 1;
+  if (currentPage > pages) currentPage = 1;
+  const slice = filtered.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
+
+  const tbody = document.getElementById('memberTbody');
+  if (!slice.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state">No members found.</div></td></tr>';
+  } else {
+    tbody.innerHTML = slice.map(m => `
+      <tr>
+        <td class="mid-cell">${escHtml(m.mid)}</td>
+        <td class="name-cell">${escHtml(m.first)} ${escHtml(m.last)}</td>
+        <td class="rank-cell">${escHtml(m.rank||'')}${m.notes ? '<br><span style="font-size:11px;color:var(--muted)">' + escHtml(m.notes.substring(0,60)) + (m.notes.length>60?'…':'') + '</span>' : ''}</td>
+        <td><span class="role-badge ${ROLE_CLASS[m.role]||'role-member'}">${ROLE_LABELS[m.role]||m.role}</span></td>
+        <td><span class="status-badge ${m.status==='active'?'s-active':'s-inactive'}"><span class="status-dot-sm"></span>${m.status==='active'?'Active':'Inactive'}</span></td>
+        <td>
+          <div class="action-row">
+            <button class="btn btn-ghost btn-sm" onclick="openEditMember('${escHtml(m.mid)}')">Edit</button>
+            <button class="btn btn-ghost btn-sm" onclick="openPinReset('${escHtml(m.mid)}')">PIN</button>
+            ${m.mid !== currentUser.mid && m.role !== 'owner' ? `<button class="btn btn-danger btn-sm" onclick="confirmRemove('${escHtml(m.mid)}')">Remove</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  document.getElementById('pagInfo').textContent = `Showing ${slice.length} of ${total} member${total!==1?'s':''}`;
+  const pagBtns = document.getElementById('pagBtns');
+  pagBtns.innerHTML = '';
+  for (let i=1; i<=pages; i++) {
+    const b = document.createElement('button');
+    b.className = 'btn btn-sm ' + (i===currentPage ? 'btn-primary' : 'btn-ghost');
+    b.textContent = i;
+    b.onclick = () => { currentPage = i; renderTable(); };
+    pagBtns.appendChild(b);
+  }
+}
+
+// ══════════════════════════════════════════
+//  ADD / EDIT MEMBER
+// ══════════════════════════════════════════
+function openAddMember() {
+  editingMid = null;
+  document.getElementById('modalTitle').innerHTML = 'Add <span>Member</span>';
+  document.getElementById('fMid').value = '';
+  document.getElementById('fMid').disabled = false;
+  document.getElementById('fFirst').value = '';
+  document.getElementById('fLast').value = '';
+  document.getElementById('fRole').value = 'member';
+  document.getElementById('fRank').value = '';
+  document.getElementById('fStatus').value = 'active';
+  document.getElementById('fNotes').value = '';
+  openModal('memberModal');
+}
+
+function openEditMember(mid) {
+  const members = getMembers();
+  const m = members.find(x => x.mid === mid);
+  if (!m) return;
+  editingMid = mid;
+  document.getElementById('modalTitle').innerHTML = 'Edit <span>Member</span>';
+  document.getElementById('fMid').value = m.mid;
+  document.getElementById('fMid').disabled = true;
+  document.getElementById('fFirst').value = m.first;
+  document.getElementById('fLast').value = m.last;
+  document.getElementById('fRole').value = m.role;
+  document.getElementById('fRank').value = m.rank || '';
+  document.getElementById('fStatus').value = m.status || 'active';
+  document.getElementById('fNotes').value = m.notes || '';
+  openModal('memberModal');
+}
+
+function saveMember() {
+  const mid   = document.getElementById('fMid').value.trim();
+  const first = document.getElementById('fFirst').value.trim();
+  const last  = document.getElementById('fLast').value.trim();
+  const role  = document.getElementById('fRole').value;
+  const rank  = document.getElementById('fRank').value.trim();
+  const status= document.getElementById('fStatus').value;
+  const notes = document.getElementById('fNotes').value.trim();
+
+  if (!mid || !first || !last) { alert('MID, first name and last name are required.'); return; }
+  if (!/^\d{8}$/.test(mid)) { alert('MID must be 8 digits.'); return; }
+
+  const members = getMembers();
+  if (editingMid) {
+    const idx = members.findIndex(m => m.mid === editingMid);
+    if (idx > -1) members[idx] = { ...members[idx], first, last, role, rank, status, notes };
+    logActivity('Membership', 'Edit Member', `Edited ${first} ${last} (${editingMid})`);
+  } else {
+    if (members.find(m => m.mid === mid)) { alert('A member with this MID already exists.'); return; }
+    members.push({ mid, first, last, role, rank, status, notes });
+    // Set default PIN
+    const pins = getPins();
+    if (pins[mid] === undefined) { pins[mid] = defaultPin(pinLenForRole(role)); savePins(pins); }
+    logActivity('Membership', 'Add Member', `Added ${first} ${last} (${mid})`);
+  }
+  saveMembers(members);
+  closeModal('memberModal');
+  renderStats();
+  renderTable();
+  renderActivityMemberFilter();
+}
+
+// ══════════════════════════════════════════
+//  REMOVE MEMBER
+// ══════════════════════════════════════════
+function confirmRemove(mid) {
+  const m = getMembers().find(x => x.mid === mid);
+  if (!m) return;
+  document.getElementById('confirmModalBody').innerHTML =
+    `<p class="confirm-msg">Remove <strong>${escHtml(m.first)} ${escHtml(m.last)}</strong> (MID: ${escHtml(mid)}) from the unit?<br><br>This will delete their member record and PIN. Activity log entries are retained.</p>`;
+  confirmCallback = () => {
+    const members = getMembers().filter(x => x.mid !== mid);
+    saveMembers(members);
+    const pins = getPins(); delete pins[mid]; savePins(pins);
+    logActivity('Membership', 'Remove Member', `Removed ${m.first} ${m.last} (${mid})`);
+    renderStats(); renderTable(); renderActivityMemberFilter();
+  };
+  document.getElementById('confirmOkBtn').onclick = () => { confirmCallback && confirmCallback(); closeModal('confirmModal'); };
+  openModal('confirmModal');
+}
+
+// ══════════════════════════════════════════
+//  PIN RESET
+// ══════════════════════════════════════════
+function openPinReset(mid) {
+  const m = getMembers().find(x => x.mid === mid);
+  if (!m) return;
+  pinResetTarget = mid;
+  const pinLen = pinLenForRole(m.role);
+  const defPin = defaultPin(pinLen);
+  document.getElementById('pinModalBody').innerHTML = `
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px">
+      Reset PIN for <strong style="color:var(--white)">${escHtml(m.first)} ${escHtml(m.last)}</strong> (${escHtml(mid)})<br>
+      Role: <span class="role-badge ${ROLE_CLASS[m.role]||'role-member'}">${ROLE_LABELS[m.role]}</span>
+    </p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:6px">PIN will be reset to default:</p>
+    <div class="pin-display">${defPin}</div>
+    <p style="font-size:11px;color:var(--muted)">Member will be prompted to change on next login (${pinLen}-digit PIN required).</p>
+  `;
+  openModal('pinModal');
+}
+
+function confirmPinReset() {
+  if (!pinResetTarget) return;
+  const m = getMembers().find(x => x.mid === pinResetTarget);
+  if (!m) return;
+  const pins = getPins();
+  pins[pinResetTarget] = defaultPin(pinLenForRole(m.role));
+  savePins(pins);
+  logActivity('Membership', 'PIN Reset', `Reset PIN for ${m.first} ${m.last} (${pinResetTarget})`);
+  closeModal('pinModal');
+  alert('PIN reset to default for ' + m.first + ' ' + m.last + '.');
+}
+
+// ══════════════════════════════════════════
+//  ACTIVITY LOG
+// ══════════════════════════════════════════
+function renderActivityMemberFilter() {
+  const sel = document.getElementById('actFilterMember');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Members</option>';
+  const members = getMembers();
+  members.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.mid;
+    o.textContent = m.first + ' ' + m.last;
+    if (m.mid === cur) o.selected = true;
+    sel.appendChild(o);
+  });
+}
+
+function renderActivity() {
+  const appF    = document.getElementById('actFilterApp').value;
+  const memberF = document.getElementById('actFilterMember').value;
+  const search  = document.getElementById('actSearch').value.toLowerCase();
+  let entries = getActivity();
+  if (appF)    entries = entries.filter(e => e.app === appF);
+  if (memberF) entries = entries.filter(e => e.mid === memberF);
+  if (search)  entries = entries.filter(e =>
+    (e.name||'').toLowerCase().includes(search) ||
+    (e.action||'').toLowerCase().includes(search) ||
+    (e.detail||'').toLowerCase().includes(search)
+  );
+
+  const list = document.getElementById('activityList');
+  if (!entries.length) {
+    list.innerHTML = '<div class="activity-list"><div class="empty-state">No activity entries found.</div></div>';
+    return;
+  }
+
+  list.innerHTML = '<div class="activity-list">' + entries.map(e => {
+    const d = new Date(e.ts);
+    const timeStr = d.toLocaleDateString('en-AU',{day:'numeric',month:'short'}) + ' ' +
+                    d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+    const tagClass = APP_TAG_CLASS[e.app] || 'app-dashboard';
+    return `
+      <div class="activity-entry">
+        <div class="act-time">${timeStr}</div>
+        <div class="act-body">
+          <strong>${escHtml(e.name||e.mid)}</strong> — ${escHtml(e.action)}
+          ${e.detail ? `<div class="act-detail">${escHtml(e.detail)}</div>` : ''}
+        </div>
+        <span class="act-app-tag ${tagClass}">${escHtml(e.app)}</span>
+      </div>
+    `;
+  }).join('') + '</div>';
+}
+
+function clearActivity() {
+  if (!currentUser || (currentUser.role !== 'owner' && currentUser.role !== 'commander')) return;
+  document.getElementById('confirmModalBody').innerHTML =
+    '<p class="confirm-msg">Clear the entire activity log?<br><br>This cannot be undone.</p>';
+  confirmCallback = () => {
+    saveActivity([]);
+    logActivity('Membership', 'Log Cleared', 'Activity log manually cleared');
+    renderActivity();
+  };
+  document.getElementById('confirmOkBtn').onclick = () => { confirmCallback && confirmCallback(); closeModal('confirmModal'); };
+  openModal('confirmModal');
+}
+
+// ══════════════════════════════════════════
+//  MODAL HELPERS
+// ══════════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o =>
+  o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); })
+);
+
+// ══════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══════════════════════════════════════════
+//  SHARED ACTIVITY WRITE API
+//  Other apps call window.SES_LOG(app, action, detail) after including
+//  this pattern in their own scripts (they write directly to ses_activity)
+// ══════════════════════════════════════════
+window.SES_LOG = function(app, action, detail, memberMid, memberName, memberRole) {
+  try {
+    const raw = localStorage.getItem(STORAGE_ACTIVITY);
+    const all = raw ? JSON.parse(raw) : [];
+    const cutoff = Date.now() - ACTIVITY_MAX_DAYS * 86400000;
+    const pruned = all.filter(e => e.ts >= cutoff);
+    pruned.unshift({ mid: memberMid||'', name: memberName||'', role: memberRole||'', app, action, detail: detail||'', ts: Date.now() });
+    localStorage.setItem(STORAGE_ACTIVITY, JSON.stringify(pruned.slice(0,500)));
+  } catch(e) { console.warn('SES_LOG error', e); }
+};
+</script>
+</body>
+</html>
